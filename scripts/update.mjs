@@ -71,7 +71,24 @@ function parseMarkdown(body) {
   return sections;
 }
 
-function simplifyText(text) {
+function parseModuleLabel(modulePart) {
+  if (!modulePart) return "";
+  const parts = modulePart.split("/").map((part) => part.trim()).filter(Boolean);
+  if (!parts.length) return "";
+  if (parts.length === 1) return parts[0];
+  return `${parts[0]}（${parts.slice(1).join("/")}）`;
+}
+
+function splitSteps(text) {
+  const raw = text.trim();
+  const parts = raw
+    .split(/;\s+|,\s+and\s+|,\s+with\s+|,\s+including\s+/i)
+    .map((part) => part.trim())
+    .filter(Boolean);
+  return parts.length > 1 ? parts : [raw];
+}
+
+function simplifyText(text, sectionTitle) {
   const raw = text.trim();
   let clean = raw
     .replace(/\s*\([^)]*#\d+[^)]*\)\s*/g, " ")
@@ -90,14 +107,34 @@ function simplifyText(text) {
     detailPart = clean.slice(colonIndex + 1).trim();
   }
 
-  let plain = "";
-  if (modulePart) {
-    plain = `这条在“${modulePart}”这块做了这些改动：${detailPart}`;
-  } else {
-    plain = `这条做了这些改动：${detailPart}`;
-  }
+  const moduleLabel = parseModuleLabel(modulePart);
+  const isFix = /fix/i.test(sectionTitle || "");
+  const steps = splitSteps(detailPart);
 
-  return { raw, plain };
+  const summary = isFix
+    ? moduleLabel
+      ? `这条是在修复 ${moduleLabel} 相关的问题。`
+      : "这条是在修复一个问题。"
+    : moduleLabel
+      ? `这条是 ${moduleLabel} 相关的功能改动/优化。`
+      : "这条是功能改动/优化。";
+
+  const detailLine = `原文内容拆开说就是：${detailPart}`;
+  const impact = moduleLabel
+    ? `影响范围：主要影响 ${moduleLabel} 相关功能或流程。`
+    : "影响范围：主要影响对应功能或流程。";
+  const action = moduleLabel
+    ? `需要你做什么：一般不需要额外操作；如果你在用 ${moduleLabel}，更新后留意变化即可。`
+    : "需要你做什么：一般不需要额外操作，更新后生效。";
+
+  return {
+    raw,
+    summary,
+    detailLine,
+    steps,
+    impact,
+    action,
+  };
 }
 
 function renderRelease(release) {
@@ -109,11 +146,25 @@ function renderRelease(release) {
     .map((section) => {
       const items = section.items
         .map((item) => {
-          const { raw, plain } = simplifyText(item);
+          const { raw, summary, detailLine, steps, impact, action } =
+            simplifyText(item, section.title);
+          const stepList =
+            steps.length > 1
+              ? `<ul class="steps">${steps
+                  .map((step) => `<li>${escapeHtml(step)}</li>`)
+                  .join("")}</ul>`
+              : "";
           return `
             <li class="item">
               <div class="raw">原文：${escapeHtml(raw)}</div>
-              <div class="plain">通俗说法：${escapeHtml(plain)}</div>
+              <div class="plain">
+                <div class="plain-title">通俗解释</div>
+                <div class="plain-text">${escapeHtml(summary)}</div>
+                <div class="plain-text">${escapeHtml(detailLine)}</div>
+                ${stepList}
+                <div class="plain-meta">${escapeHtml(impact)}</div>
+                <div class="plain-meta">${escapeHtml(action)}</div>
+              </div>
             </li>
           `;
         })
@@ -121,11 +172,25 @@ function renderRelease(release) {
 
       const notes = section.notes
         .map((note) => {
-          const { raw, plain } = simplifyText(note);
+          const { raw, summary, detailLine, steps, impact, action } =
+            simplifyText(note, section.title);
+          const stepList =
+            steps.length > 1
+              ? `<ul class="steps">${steps
+                  .map((step) => `<li>${escapeHtml(step)}</li>`)
+                  .join("")}</ul>`
+              : "";
           return `
             <div class="note">
               <div class="raw">原文：${escapeHtml(raw)}</div>
-              <div class="plain">通俗说法：${escapeHtml(plain)}</div>
+              <div class="plain">
+                <div class="plain-title">通俗解释</div>
+                <div class="plain-text">${escapeHtml(summary)}</div>
+                <div class="plain-text">${escapeHtml(detailLine)}</div>
+                ${stepList}
+                <div class="plain-meta">${escapeHtml(impact)}</div>
+                <div class="plain-meta">${escapeHtml(action)}</div>
+              </div>
             </div>
           `;
         })
@@ -519,9 +584,39 @@ p {
 }
 
 .plain {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px dashed rgba(96, 88, 79, 0.2);
   font-size: 13px;
   color: var(--muted);
   line-height: 1.6;
+}
+
+.plain-title {
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+
+.plain-text {
+  margin-bottom: 6px;
+}
+
+.plain-meta {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 6px;
+}
+
+.steps {
+  list-style: decimal;
+  padding-left: 20px;
+  margin: 6px 0 6px;
+  color: var(--muted);
+}
+
+.steps li {
+  margin-bottom: 4px;
 }
 
 .empty {
