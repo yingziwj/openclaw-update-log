@@ -1,0 +1,11 @@
+[
+  {
+    "name": "openclaw 2026.3.13",
+    "tag_name": "v2026.3.13",
+    "html_url": "https://github.com/openclaw/openclaw/releases/tag/v2026.3.13",
+    "published_at": "2026-03-14T05:19:00Z",
+    "prerelease": false,
+    "draft": false,
+    "body": "## Changes\n- Make email, webhook, and tasks data sources handle more tool variations.\n- Make sql tool output handle table structures.\n- Load slack comment_block objects as .text.\n- Add Slack data source conversation name.\n- Make airbyte OCR handle FileObject content.\n- Add sec scrape workflow to web scraper.\n- Deduplicate warnings in CLI.\n- Add `custom_node` (code component) support in workflow.\n\n## Fixes\n- Fix pagerduty schedule timezone conversion.\n- Fix max results issue in data sources.\n- Fix datetime naive conversion in dumps to db."
+  }
+]

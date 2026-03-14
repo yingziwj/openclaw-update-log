@@ -11,6 +11,7 @@ const SITE_URL =
   process.env.SITE_URL || "https://openclaw-update-log.pages.dev";
 const REPO = "openclaw/openclaw";
 const PER_PAGE = 100;
+const DEFAULT_OFFLINE_PATH = path.join(__dirname, "offline-releases.json");
 
 const HEADERS = {
   "User-Agent": "openclaw-update-log-generator",
@@ -197,13 +198,35 @@ async function fetchAllReleases() {
   return releases.filter((release) => !release.draft);
 }
 
+async function loadOfflineReleases() {
+  const offlinePath = process.env.OFFLINE_RELEASES_PATH || DEFAULT_OFFLINE_PATH;
+  try {
+    const data = await fs.readFile(offlinePath, "utf-8");
+    return JSON.parse(data);
+  } catch (error) {
+    return null;
+  }
+}
+
 async function writeFile(filePath, content) {
   await fs.mkdir(path.dirname(filePath), { recursive: true });
   await fs.writeFile(filePath, content);
 }
 
 async function buildSite() {
-  const releases = await fetchAllReleases();
+  let releases = [];
+  try {
+    releases = await fetchAllReleases();
+  } catch (error) {
+    const offline = await loadOfflineReleases();
+    if (!offline) {
+      throw error;
+    }
+    console.warn(
+      "GitHub API unavailable. Using offline releases data for local preview."
+    );
+    releases = offline;
+  }
 
   const html = `
 <!doctype html>
