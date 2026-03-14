@@ -1,0 +1,8 @@
+{
+  "name": "openclaw-update-log",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/update.mjs"
+  }
+}
