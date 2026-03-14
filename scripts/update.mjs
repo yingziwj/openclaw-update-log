@@ -113,18 +113,21 @@ function simplifyText(text, sectionTitle) {
 
   const summary = isFix
     ? moduleLabel
-      ? `这条是在修复 ${moduleLabel} 相关的问题。`
-      : "这条是在修复一个问题。"
+      ? `一句话结论：这是在修复 ${moduleLabel} 相关的问题。`
+      : "一句话结论：这是在修复一个问题。"
     : moduleLabel
-      ? `这条是 ${moduleLabel} 相关的功能改动/优化。`
-      : "这条是功能改动/优化。";
+      ? `一句话结论：这是 ${moduleLabel} 相关的功能改动或优化。`
+      : "一句话结论：这是功能改动或优化。";
 
-  const detailLine = `原文内容拆开说就是：${detailPart}`;
+  const detailLine = `原文拆解：${detailPart}`;
   const impact = moduleLabel
-    ? `影响范围：主要影响 ${moduleLabel} 相关功能或流程。`
-    : "影响范围：主要影响对应功能或流程。";
+    ? `影响对象：主要影响 ${moduleLabel} 相关功能或流程。`
+    : "影响对象：主要影响对应功能或流程。";
+  const benefit = isFix
+    ? "可能的好处：更稳定，减少出错。"
+    : "可能的好处：更好用、更清楚或更省事。";
   const action = moduleLabel
-    ? `需要你做什么：一般不需要额外操作；如果你在用 ${moduleLabel}，更新后留意变化即可。`
+    ? `需要你做什么：一般不需要额外操作；如果你正在使用 ${moduleLabel}，更新后留意变化即可。`
     : "需要你做什么：一般不需要额外操作，更新后生效。";
 
   return {
@@ -133,6 +136,7 @@ function simplifyText(text, sectionTitle) {
     detailLine,
     steps,
     impact,
+    benefit,
     action,
   };
 }
@@ -146,7 +150,7 @@ function renderRelease(release) {
     .map((section) => {
       const items = section.items
         .map((item) => {
-          const { raw, summary, detailLine, steps, impact, action } =
+          const { raw, summary, detailLine, steps, impact, benefit, action } =
             simplifyText(item, section.title);
           const stepList =
             steps.length > 1
@@ -163,6 +167,7 @@ function renderRelease(release) {
                 <div class="plain-text">${escapeHtml(detailLine)}</div>
                 ${stepList}
                 <div class="plain-meta">${escapeHtml(impact)}</div>
+                <div class="plain-meta">${escapeHtml(benefit)}</div>
                 <div class="plain-meta">${escapeHtml(action)}</div>
               </div>
             </li>
@@ -172,7 +177,7 @@ function renderRelease(release) {
 
       const notes = section.notes
         .map((note) => {
-          const { raw, summary, detailLine, steps, impact, action } =
+          const { raw, summary, detailLine, steps, impact, benefit, action } =
             simplifyText(note, section.title);
           const stepList =
             steps.length > 1
@@ -189,6 +194,7 @@ function renderRelease(release) {
                 <div class="plain-text">${escapeHtml(detailLine)}</div>
                 ${stepList}
                 <div class="plain-meta">${escapeHtml(impact)}</div>
+                <div class="plain-meta">${escapeHtml(benefit)}</div>
                 <div class="plain-meta">${escapeHtml(action)}</div>
               </div>
             </div>
@@ -414,6 +420,7 @@ body {
   color: var(--ink);
   background: linear-gradient(120deg, var(--bg-1), var(--bg-2));
   min-height: 100vh;
+  font-size: 16.5px;
 }
 
 .bg {
@@ -462,7 +469,7 @@ main {
 
 h1 {
   margin: 16px 0 12px;
-  font-size: clamp(28px, 4vw, 40px);
+  font-size: clamp(30px, 4.2vw, 42px);
 }
 
 p {
@@ -475,7 +482,7 @@ p {
   display: flex;
   flex-wrap: wrap;
   gap: 12px 20px;
-  font-size: 12px;
+  font-size: 13px;
   color: var(--muted);
 }
 
@@ -489,7 +496,7 @@ p {
 }
 
 .ad-title {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--accent);
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -497,7 +504,7 @@ p {
 }
 
 .ad-box {
-  font-size: 14px;
+  font-size: 15px;
   color: var(--muted);
 }
 
@@ -538,17 +545,17 @@ p {
 
 .release-header h3 {
   margin: 0 0 6px;
-  font-size: 22px;
+  font-size: 24px;
 }
 
 .meta {
   margin: 0;
   color: var(--muted);
-  font-size: 12px;
+  font-size: 13px;
 }
 
 .source {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--accent);
   text-decoration: none;
   border: 1px solid rgba(199, 111, 43, 0.4);
@@ -558,7 +565,7 @@ p {
 
 .section h4 {
   margin: 16px 0 8px;
-  font-size: 16px;
+  font-size: 17px;
 }
 
 .list {
@@ -578,7 +585,7 @@ p {
 }
 
 .raw {
-  font-size: 13px;
+  font-size: 14px;
   color: var(--ink);
   margin-bottom: 6px;
 }
@@ -587,7 +594,7 @@ p {
   margin-top: 8px;
   padding-top: 8px;
   border-top: 1px dashed rgba(96, 88, 79, 0.2);
-  font-size: 13px;
+  font-size: 14px;
   color: var(--muted);
   line-height: 1.6;
 }
@@ -603,7 +610,7 @@ p {
 }
 
 .plain-meta {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--muted);
   margin-top: 6px;
 }
@@ -621,7 +628,7 @@ p {
 
 .empty {
   color: var(--muted);
-  font-size: 13px;
+  font-size: 14px;
 }
 
 @keyframes fadeUp {
