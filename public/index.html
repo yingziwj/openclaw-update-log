@@ -1,0 +1,1487 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>OpenClaw 更新日志中文解读</title>
+    <meta name="description" content="结合 GitHub Release、PR 和 Issue 上下文，把 OpenClaw 更新日志解释成清楚、通俗的中文。" />
+    <meta name="keywords" content="OpenClaw, 更新日志, 中文解读, GitHub Release, Issue, PR" />
+    <link rel="canonical" href="https://openclaw-update-log.pages.dev" />
+    <meta property="og:title" content="OpenClaw 更新日志中文解读" />
+    <meta property="og:description" content="不只是翻译 release 文本，还结合 Issue 和 PR 上下文解释这次为什么改、改完有什么用。" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://openclaw-update-log.pages.dev" />
+    <meta name="twitter:card" content="summary" />
+    <link rel="stylesheet" href="/style.css" />
+    <script type="application/ld+json">
+      {"@context":"https://schema.org","@type":"WebSite","name":"OpenClaw 更新日志中文解读","url":"https://openclaw-update-log.pages.dev","description":"结合 GitHub Release、PR 和 Issue 上下文，把 OpenClaw 更新日志解释成清楚、通俗的中文。","inLanguage":"zh-CN"}
+    </script>
+  </head>
+  <body>
+    <main class="page">
+      <header class="page-header">
+        <div class="page-title">OpenClaw 更新日志中文解读</div>
+        <p class="page-intro">
+          这个站不只是翻译 release 原文，而是尽量去看每条更新后面的 PR、Issue 和修复背景，
+          再告诉你：原来哪里有问题、这次加了什么、对你到底有什么影响。
+        </p>
+        <div class="page-facts">
+          <span>全球可访问</span>
+          <span>Cloudflare Pages 免费部署</span>
+          <span>支持每日自动同步</span>
+          <span>预留 Google AdSense</span>
+          <span>最后生成：2026-03-16 15:15 UTC</span>
+        </div>
+      </header>
+
+      <section class="notice">
+        <strong>说明：</strong>当 GitHub API 可访问时，页面会自动补充 PR/Issue 上下文；如果暂时访问不到，
+        就退回到离线样本或 release 原文本身。
+      </section>
+
+      <section class="release-list">
+        
+    <article class="release-card" id="v2026.3.13">
+      <header class="release-header">
+        <div>
+          <div class="release-kicker">Release</div>
+          <h2>openclaw 2026.3.13</h2>
+          <p class="release-headline">这版一共 64 条更新，重点集中在 通用功能、聊天设置、Android 端。</p>
+          <div class="release-facts">
+            <span>发布时间：2026-03-14</span>
+            <span>修复：14</span>
+            <span>新增：38</span>
+            <span>升级：5</span>
+          </div>
+        </div>
+        <a class="release-link" href="https://github.com/openclaw/openclaw/releases/tag/v2026.3.13" target="_blank" rel="noopener">查看原始 Release</a>
+      </header>
+      
+    <section class="release-section">
+      <h3>Changes</h3>
+      <ul class="entry-list">
+        
+    <li class="entry">
+      <div class="entry-main">
+        <div class="entry-header">
+          <span class="entry-kind kind-feature">通用功能</span>
+          <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/4019" target="_blank" rel="noopener">#4019</a>
+        </div>
+        <p class="entry-summary">这条新增不是凭空冒出来的，结合提交上下文“Improve quick actions when tapping list items in tables”来看，官方是在给 通用功能 补一个更完整的使用路径。</p>
+        <div class="entry-meta">
+          <div><strong>这为什么重要：</strong>通用功能 的路径会更完整，用户少猜一步。</div>
+          <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
+        </div>
+        <details class="entry-details">
+          <summary>看原始上下文</summary>
+          <div class="entry-context">
+            <div><strong>Release 原文：</strong>Select on table when list items are tapped to allow hovering table items for quick actions</div>
+            <div><strong>对应 PR/Issue：</strong>Improve quick actions when tapping list items in tables</div>
+            
+          </div>
+        </details>
+      </div>
+    </li>
+  
+    <li class="entry">
+      <div class="entry-main">
+        <div class="entry-header">
+          <span class="entry-kind kind-feature">聊天设置</span>
+          <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/4018" target="_blank" rel="noopener">#4018</a>
+        </div>
+        <p class="entry-summary">这条新增不是凭空冒出来的，结合提交上下文“Show Connections and Voice pages inside Chat settings”来看，官方是在给 聊天设置 补一个更完整的使用路径。</p>
+        <div class="entry-meta">
+          <div><strong>这为什么重要：</strong>聊天设置 的路径会更完整，用户少猜一步。</div>
+          <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
+        </div>
+        <details class="entry-details">
+          <summary>看原始上下文</summary>
+          <div class="entry-context">
+            <div><strong>Release 原文：</strong>Show `Connections` and `Voice` pages within Chat settings to show help information for chat</div>
+            <div><strong>对应 PR/Issue：</strong>Show Connections and Voice pages inside Chat settings</div>
+            
+          </div>
+        </details>
+      </div>
+    </li>
+  
+    <li class="entry">
+      <div class="entry-main">
+        <div class="entry-header">
+          <span class="entry-kind kind-improve">聊天设置</span>
+          <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/4016" target="_blank" rel="noopener">#4016</a>
+        </div>
+        <p class="entry-summary">这条不是大改版，而是把 聊天设置 的用法理顺，减少绕路和找不到入口的情况。</p>
+        <div class="entry-meta">
+          <div><strong>这为什么重要：</strong>聊天设置 会更顺手，理解成本会更低。</div>
+          <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
+        </div>
+        <details class="entry-details">
+          <summary>看原始上下文</summary>
+          <div class="entry-context">
+            <div><strong>Release 原文：</strong>Make `Keyboard` section in Chat settings collapsible for small screens</div>
+            
+            
+          </div>
+        </details>
+      </div>
+    </li>
+  
+    <li class="entry">
+      <div class="entry-main">
+        <div class="entry-header">
+          <span class="entry-kind kind-feature">聊天设置</span>
+          <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/4014" target="_blank" rel="noopener">#4014</a>
+        </div>
+        <p class="entry-summary">这条是在 聊天设置 增加入口、说明或能力，目的就是让原来难做的事情更容易完成。</p>
+        <div class="entry-meta">
+          <div><strong>这为什么重要：</strong>聊天设置 的路径会更完整，用户少猜一步。</div>
+          <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
+        </div>
+        <details class="entry-details">
+          <summary>看原始上下文</summary>
+          <div class="entry-context">
+            <div><strong>Release 原文：</strong>Add `Current state` section to chat settings to show information about current connection and voice</div>
+            
+            
+          </div>
+        </details>
+      </div>
+    </li>
+  
+    <li class="entry">
+      <div class="entry-main">
+        <div class="entry-header">
+          <span class="entry-kind kind-feature">聊天设置</span>
+          <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/4012" target="_blank" rel="noopener">#4012</a>
+        </div>
+        <p class="entry-summary">这条是在 聊天设置 增加入口、说明或能力，目的就是让原来难做的事情更容易完成。</p>
+        <div class="entry-meta">
+          <div><strong>这为什么重要：</strong>聊天设置 的路径会更完整，用户少猜一步。</div>
+          <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
+        </div>
+        <details class="entry-details">
+          <summary>看原始上下文</summary>
+          <div class="entry-context">
+            <div><strong>Release 原文：</strong>Add `Setups` grouping to Chat settings to organize settings</div>
+            
+            
+          </div>
+        </details>
+      </div>
+    </li>
+  
+    <li class="entry">
+      <div class="entry-main">
+        <div class="entry-header">
+          <span class="entry-kind kind-feature">聊天设置</span>
+          <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/4011" target="_blank" rel="noopener">#4011</a>
+        </div>
+        <p class="entry-summary">这条是在 聊天设置 增加入口、说明或能力，目的就是让原来难做的事情更容易完成。</p>
+        <div class="entry-meta">
+          <div><strong>这为什么重要：</strong>聊天设置 的路径会更完整，用户少猜一步。</div>
+          <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
+        </div>
+        <details class="entry-details">
+          <summary>看原始上下文</summary>
+          <div class="entry-context">
+            <div><strong>Release 原文：</strong>Add `Configure` grouping to Chat settings</div>
+            
+            
+          </div>
+        </details>
+      </div>
+    </li>
+  
+    <li class="entry">
+      <div class="entry-main">
+        <div class="entry-header">
+          <span class="entry-kind kind-feature">Android 端</span>
+          <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/4006" target="_blank" rel="noopener">#4006</a>
+        </div>
+        <p class="entry-summary">这条是在 Android 端 增加入口、说明或能力，目的就是让原来难做的事情更容易完成。</p>
+        <div class="entry-meta">
+          <div><strong>这为什么重要：</strong>Android 端 的路径会更完整，用户少猜一步。</div>
+          <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
+        </div>
+        <details class="entry-details">
+          <summary>看原始上下文</summary>
+          <div class="entry-context">
+            <div><strong>Release 原文：</strong>Add new `Settings` page to a configure in Android app and reorganize existing settings</div>
+            
+            
+          </div>
+        </details>
+      </div>
+    </li>
+  
+    <li class="entry">
+      <div class="entry-main">
+        <div class="entry-header">
+          <span class="entry-kind kind-feature">Android 端</span>
+          <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/4001" target="_blank" rel="noopener">#4001</a>
+        </div>
+        <p class="entry-summary">这条新增不是凭空冒出来的，结合提交上下文“Add web view component for Android update alerts”来看，官方是在给 Android 端 补一个更完整的使用路径。</p>
+        <div class="entry-meta">
+          <div><strong>这为什么重要：</strong>Android 端 的路径会更完整，用户少猜一步。</div>
+          <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
+        </div>
+        <details class="entry-details">
+          <summary>看原始上下文</summary>
+          <div class="entry-context">
+            <div><strong>Release 原文：</strong>Add web view component and use it for update alert in Android</div>
+            <div><strong>对应 PR/Issue：</strong>Add web view component for Android update alerts</div>
+            
+          </div>
+        </details>
+      </div>
+    </li>
+  
+    <li class="entry">
+      <div class="entry-main">
+        <div class="entry-header">
+          <span class="entry-kind kind-feature">Android 端</span>
+          <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/3996" target="_blank" rel="noopener">#3996</a>
+        </div>
+        <p class="entry-summary">这条是在 Android 端 增加入口、说明或能力，目的就是让原来难做的事情更容易完成。</p>
+        <div class="entry-meta">
+          <div><strong>这为什么重要：</strong>Android 端 的路径会更完整，用户少猜一步。</div>
+          <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
+        </div>
+        <details class="entry-details">
+          <summary>看原始上下文</summary>
+          <div class="entry-context">
+            <div><strong>Release 原文：</strong>Add Android button for resetting local storage</div>
+            
+            
+          </div>
+        </details>
+      </div>
+    </li>
+  
+    <li class="entry">
+      <div class="entry-main">
+        <div class="entry-header">
+          <span class="entry-kind kind-feature">Android 端</span>
+          <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/3997" target="_blank" rel="noopener">#3997</a>
+        </div>
+        <p class="entry-summary">这条是在 Android 端 增加入口、说明或能力，目的就是让原来难做的事情更容易完成。</p>
+        <div class="entry-meta">
+          <div><strong>这为什么重要：</strong>Android 端 的路径会更完整，用户少猜一步。</div>
+          <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
+        </div>
+        <details class="entry-details">
+          <summary>看原始上下文</summary>
+          <div class="entry-context">
+            <div><strong>Release 原文：</strong>Add built in profile for Chat settings and profile for Automation settings and update layout with a compacted view for mobile</div>
+            
+            
+          </div>
+        </details>
+      </div>
+    </li>
+  
+    <li class="entry">
+      <div class="entry-main">
+        <div class="entry-header">
+          <span class="entry-kind kind-feature">聊天设置</span>
+          <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/3994" target="_blank" rel="noopener">#3994</a>
+        </div>
+        <p class="entry-summary">这条是在 聊天设置 增加入口、说明或能力，目的就是让原来难做的事情更容易完成。</p>
+        <div class="entry-meta">
+          <div><strong>这为什么重要：</strong>聊天设置 的路径会更完整，用户少猜一步。</div>
+          <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
+        </div>
+        <details class="entry-details">
+          <summary>看原始上下文</summary>
+          <div class="entry-context">
+            <div><strong>Release 原文：</strong>Add `Database` section in Chat settings for SQLite specific settings</div>
+            
+            
+          </div>
+        </details>
+      </div>
+    </li>
+  
+    <li class="entry">
+      <div class="entry-main">
+        <div class="entry-header">
+          <span class="entry-kind kind-feature">聊天设置</span>
+          <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/3993" target="_blank" rel="noopener">#3993</a>
+        </div>
+        <p class="entry-summary">这条是在 聊天设置 增加入口、说明或能力，目的就是让原来难做的事情更容易完成。</p>
+        <div class="entry-meta">
+          <div><strong>这为什么重要：</strong>聊天设置 的路径会更完整，用户少猜一步。</div>
+          <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
+        </div>
+        <details class="entry-details">
+          <summary>看原始上下文</summary>
+          <div class="entry-context">
+            <div><strong>Release 原文：</strong>Add `Auto connect` section for Chat settings</div>
+            
+            
+          </div>
+        </details>
+      </div>
+    </li>
+  
+    <li class="entry">
+      <div class="entry-main">
+        <div class="entry-header">
+          <span class="entry-kind kind-upgrade">通用功能</span>
+          <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/4013" target="_blank" rel="noopener">#4013</a>
+        </div>
+        <p class="entry-summary">把 boto3 从 1.37.7 升到 1.37.9。这类改动一般是补稳定性或兼容性，普通用户通常不用操作。</p>
+        <div class="entry-meta">
+          <div><strong>这为什么重要：</strong>表面上不明显，但底层兼容性和稳定性通常会更好。</div>
+          <div><strong>你要不要管：</strong>通常不用你手动处理。</div>
+        </div>
+        <details class="entry-details">
+          <summary>看原始上下文</summary>
+          <div class="entry-context">
+            <div><strong>Release 原文：</strong>Bump `boto3` from 1.37.7 to 1.37.9</div>
+            
+            
+          </div>
+        </details>
+      </div>
+    </li>
+  
+    <li class="entry">
+      <div class="entry-main">
+        <div class="entry-header">
+          <span class="entry-kind kind-upgrade">通用功能</span>
+          <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/4002" target="_blank" rel="noopener">#4002</a>
+        </div>
+        <p class="entry-summary">把 boto3 从 1.37.6 升到 1.37.7。这类改动一般是补稳定性或兼容性，普通用户通常不用操作。</p>
+        <div class="entry-meta">
+          <div><strong>这为什么重要：</strong>表面上不明显，但底层兼容性和稳定性通常会更好。</div>
+          <div><strong>你要不要管：</strong>通常不用你手动处理。</div>
+        </div>
+        <details class="entry-details">
+          <summary>看原始上下文</summary>
+          <div class="entry-context">
+            <div><strong>Release 原文：</strong>Bump `boto3` from 1.37.6 to 1.37.7</div>
+            
+            
+          </div>
+        </details>
+      </div>
+    </li>
+  
+    <li class="entry">
+      <div class="entry-main">
+        <div class="entry-header">
+          <span class="entry-kind kind-upgrade">通用功能</span>
+          <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/3998" target="_blank" rel="noopener">#3998</a>
+        </div>
+        <p class="entry-summary">把 boto3 从 1.37.5 升到 1.37.6。这类改动一般是补稳定性或兼容性，普通用户通常不用操作。</p>
+        <div class="entry-meta">
+          <div><strong>这为什么重要：</strong>表面上不明显，但底层兼容性和稳定性通常会更好。</div>
+          <div><strong>你要不要管：</strong>通常不用你手动处理。</div>
+        </div>
+        <details class="entry-details">
+          <summary>看原始上下文</summary>
+          <div class="entry-context">
+            <div><strong>Release 原文：</strong>Bump `boto3` from 1.37.5 to 1.37.6</div>
+            
+            
+          </div>
+        </details>
+      </div>
+    </li>
+  
+    <li class="entry">
+      <div class="entry-main">
+        <div class="entry-header">
+          <span class="entry-kind kind-upgrade">通用功能</span>
+          <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/3995" target="_blank" rel="noopener">#3995</a>
+        </div>
+        <p class="entry-summary">把 boto3 从 1.37.4 升到 1.37.5。这类改动一般是补稳定性或兼容性，普通用户通常不用操作。</p>
+        <div class="entry-meta">
+          <div><strong>这为什么重要：</strong>表面上不明显，但底层兼容性和稳定性通常会更好。</div>
+          <div><strong>你要不要管：</strong>通常不用你手动处理。</div>
+        </div>
+        <details class="entry-details">
+          <summary>看原始上下文</summary>
+          <div class="entry-context">
+            <div><strong>Release 原文：</strong>Bump `boto3` from 1.37.4 to 1.37.5</div>
+            
+            
+          </div>
+        </details>
+      </div>
+    </li>
+  
+    <li class="entry">
+      <div class="entry-main">
+        <div class="entry-header">
+          <span class="entry-kind kind-upgrade">通用功能</span>
+          <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/3987" target="_blank" rel="noopener">#3987</a>
+        </div>
+        <p class="entry-summary">把 boto3 从 1.37.2 升到 1.37.4。这类改动一般是补稳定性或兼容性，普通用户通常不用操作。</p>
+        <div class="entry-meta">
+          <div><strong>这为什么重要：</strong>表面上不明显，但底层兼容性和稳定性通常会更好。</div>
+          <div><strong>你要不要管：</strong>通常不用你手动处理。</div>
+        </div>
+        <details class="entry-details">
+          <summary>看原始上下文</summary>
+          <div class="entry-context">
+            <div><strong>Release 原文：</strong>Bump `boto3` from 1.37.2 to 1.37.4</div>
+            
+            
+          </div>
+        </details>
+      </div>
+    </li>
+  
+    <li class="entry">
+      <div class="entry-main">
+        <div class="entry-header">
+          <span class="entry-kind kind-feature">通用功能</span>
+          <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/4020" target="_blank" rel="noopener">#4020</a>
+        </div>
+        <p class="entry-summary">这条是在 通用功能 增加入口、说明或能力，目的就是让原来难做的事情更容易完成。</p>
+        <div class="entry-meta">
+          <div><strong>这为什么重要：</strong>通用功能 的路径会更完整，用户少猜一步。</div>
+          <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
+        </div>
+        <details class="entry-details">
+          <summary>看原始上下文</summary>
+          <div class="entry-context">
+            <div><strong>Release 原文：</strong>Allow setting development instance of team for Pipedrive datasource</div>
+            
+            
+          </div>
+        </details>
+      </div>
+    </li>
+  
+    <li class="entry">
+      <div class="entry-main">
+        <div class="entry-header">
+          <span class="entry-kind kind-improve">Webhook</span>
+          <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/4024" target="_blank" rel="noopener">#4024</a>
+        </div>
+        <p class="entry-summary">这条不是大改版，而是把 Webhook 的用法理顺，减少绕路和找不到入口的情况。</p>
+        <div class="entry-meta">
+          <div><strong>这为什么重要：</strong>Webhook 会更顺手，理解成本会更低。</div>
+          <div><strong>你要不要管：</strong>如果你管 Webhook 配置，更新后最好顺手检查一遍相关页面或对接流程。</div>
+        </div>
+        <details class="entry-details">
+          <summary>看原始上下文</summary>
+          <div class="entry-context">
+            <div><strong>Release 原文：</strong>Update resend webhooks if display updated, not on creating resend integration</div>
+            
+            
+          </div>
+        </details>
+      </div>
+    </li>
+  
+    <li class="entry">
+      <div class="entry-main">
+        <div class="entry-header">
+          <span class="entry-kind kind-feature">工作流</span>
+          <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/4022" target="_blank" rel="noopener">#4022</a>
+        </div>
+        <p class="entry-summary">这条是在 工作流 增加入口、说明或能力，目的就是让原来难做的事情更容易完成。</p>
+        <div class="entry-meta">
+          <div><strong>这为什么重要：</strong>工作流 的路径会更完整，用户少猜一步。</div>
+          <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
+        </div>
+        <details class="entry-details">
+          <summary>看原始上下文</summary>
+          <div class="entry-context">
+            <div><strong>Release 原文：</strong>Always load workflow input metadata</div>
+            
+            
+          </div>
+        </details>
+      </div>
+    </li>
+  
+    <li class="entry">
+      <div class="entry-main">
+        <div class="entry-header">
+          <span class="entry-kind kind-feature">模块列表</span>
+          <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/4021" target="_blank" rel="noopener">#4021</a>
+        </div>
+        <p class="entry-summary">这条是在 模块列表 增加入口、说明或能力，目的就是让原来难做的事情更容易完成。</p>
+        <div class="entry-meta">
+          <div><strong>这为什么重要：</strong>模块列表 的路径会更完整，用户少猜一步。</div>
+          <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
+        </div>
+        <details class="entry-details">
+          <summary>看原始上下文</summary>
+          <div class="entry-context">
+            <div><strong>Release 原文：</strong>Load module attributes separately and categorize and order module entries</div>
+            
+            
+          </div>
+        </details>
+      </div>
+    </li>
+  
+    <li class="entry">
+      <div class="entry-main">
+        <div class="entry-header">
+          <span class="entry-kind kind-feature">搜索和筛选</span>
+          <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/4017" target="_blank" rel="noopener">#4017</a>
+        </div>
+        <p class="entry-summary">这条是在 搜索和筛选 增加入口、说明或能力，目的就是让原来难做的事情更容易完成。</p>
+        <div class="entry-meta">
+          <div><strong>这为什么重要：</strong>搜索和筛选 的路径会更完整，用户少猜一步。</div>
+          <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
+        </div>
+        <details class="entry-details">
+          <summary>看原始上下文</summary>
+          <div class="entry-context">
+            <div><strong>Release 原文：</strong>Add hotkey to clear filter or search if there is no matching option</div>
+            
+            
+          </div>
+        </details>
+      </div>
+    </li>
+  
+    <li class="entry">
+      <div class="entry-main">
+        <div class="entry-header">
+          <span class="entry-kind kind-feature">通用功能</span>
+          <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/4005" target="_blank" rel="noopener">#4005</a>
+        </div>
+        <p class="entry-summary">这条是在 通用功能 增加入口、说明或能力，目的就是让原来难做的事情更容易完成。</p>
+        <div class="entry-meta">
+          <div><strong>这为什么重要：</strong>通用功能 的路径会更完整，用户少猜一步。</div>
+          <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
+        </div>
+        <details class="entry-details">
+          <summary>看原始上下文</summary>
+          <div class="entry-context">
+            <div><strong>Release 原文：</strong>Add tooltip for &quot;When closing app, remember choice&quot;</div>
+            
+            
+          </div>
+        </details>
+      </div>
+    </li>
+  
+    <li class="entry">
+      <div class="entry-main">
+        <div class="entry-header">
+          <span class="entry-kind kind-feature">工作流</span>
+          <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/4007" target="_blank" rel="noopener">#4007</a>
+        </div>
+        <p class="entry-summary">这条是在 工作流 增加入口、说明或能力，目的就是让原来难做的事情更容易完成。</p>
+        <div class="entry-meta">
+          <div><strong>这为什么重要：</strong>工作流 的路径会更完整，用户少猜一步。</div>
+          <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
+        </div>
+        <details class="entry-details">
+          <summary>看原始上下文</summary>
+          <div class="entry-context">
+            <div><strong>Release 原文：</strong>Stop allowing access of shared workflows by orgs without access</div>
+            
+            
+          </div>
+        </details>
+      </div>
+    </li>
+  
+    <li class="entry">
+      <div class="entry-main">
+        <div class="entry-header">
+          <span class="entry-kind kind-feature">工作流</span>
+          <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/4008" target="_blank" rel="noopener">#4008</a>
+        </div>
+        <p class="entry-summary">这条是在 工作流 增加入口、说明或能力，目的就是让原来难做的事情更容易完成。</p>
+        <div class="entry-meta">
+          <div><strong>这为什么重要：</strong>工作流 的路径会更完整，用户少猜一步。</div>
+          <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
+        </div>
+        <details class="entry-details">
+          <summary>看原始上下文</summary>
+          <div class="entry-context">
+            <div><strong>Release 原文：</strong>Add support for storing StateManagementBehavior in workflow definition</div>
+            
+            
+          </div>
+        </details>
+      </div>
+    </li>
+  
+    <li class="entry">
+      <div class="entry-main">
+        <div class="entry-header">
+          <span class="entry-kind kind-change">通用功能</span>
+          <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/4004" target="_blank" rel="noopener">#4004</a>
+        </div>
+        <p class="entry-summary">这是一次 通用功能 相关调整，核心是让现有流程更清楚。</p>
+        <div class="entry-meta">
+          <div><strong>这为什么重要：</strong>通用功能 会更顺手，理解成本会更低。</div>
+          <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
+        </div>
+        <details class="entry-details">
+          <summary>看原始上下文</summary>
+          <div class="entry-context">
+            <div><strong>Release 原文：</strong>Ensure users can input spaces in prompts for &quot;Summarize list&quot; in the AI Dialog to get wider input box</div>
+            
+            
+          </div>
+        </details>
+      </div>
+    </li>
+  
+    <li class="entry">
+      <div class="entry-main">
+        <div class="entry-header">
+          <span class="entry-kind kind-feature">Google 授权</span>
+          <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/4003" target="_blank" rel="noopener">#4003</a>
+        </div>
+        <p class="entry-summary">这条是在 Google 授权 增加入口、说明或能力，目的就是让原来难做的事情更容易完成。</p>
+        <div class="entry-meta">
+          <div><strong>这为什么重要：</strong>Google 授权 的路径会更完整，用户少猜一步。</div>
+          <div><strong>你要不要管：</strong>如果你管 Google 授权 配置，更新后最好顺手检查一遍相关页面或对接流程。</div>
+        </div>
+        <details class="entry-details">
+          <summary>看原始上下文</summary>
+          <div class="entry-context">
+            <div><strong>Release 原文：</strong>Add note to google OAuth page to mention max 50 scopes</div>
+            
+            
+          </div>
+        </details>
+      </div>
+    </li>
+  
+    <li class="entry">
+      <div class="entry-main">
+        <div class="entry-header">
+          <span class="entry-kind kind-feature">工作流</span>
+          <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/3992" target="_blank" rel="noopener">#3992</a>
+        </div>
+        <p class="entry-summary">这条新增不是凭空冒出来的，结合提交上下文“Add pagination support for reading and writing workflows”来看，官方是在给 工作流 补一个更完整的使用路径。</p>
+        <div class="entry-meta">
+          <div><strong>这为什么重要：</strong>工作流 的路径会更完整，用户少猜一步。</div>
+          <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
+        </div>
+        <details class="entry-details">
+          <summary>看原始上下文</summary>
+          <div class="entry-context">
+            <div><strong>Release 原文：</strong>Add support for pagination on backend for reading and writing workflows</div>
+            <div><strong>对应 PR/Issue：</strong>Add pagination support for reading and writing workflows</div>
+            
+          </div>
+        </details>
+      </div>
+    </li>
+  
+    <li class="entry">
+      <div class="entry-main">
+        <div class="entry-header">
+          <span class="entry-kind kind-feature">通用功能</span>
+          <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/3991" target="_blank" rel="noopener">#3991</a>
+        </div>
+        <p class="entry-summary">这条是在 通用功能 增加入口、说明或能力，目的就是让原来难做的事情更容易完成。</p>
+        <div class="entry-meta">
+          <div><strong>这为什么重要：</strong>通用功能 的路径会更完整，用户少猜一步。</div>
+          <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
+        </div>
+        <details class="entry-details">
+          <summary>看原始上下文</summary>
+          <div class="entry-context">
+            <div><strong>Release 原文：</strong>Add new category for data sources that have no group</div>
+            
+            
+          </div>
+        </details>
+      </div>
+    </li>
+  
+    <li class="entry">
+      <div class="entry-main">
+        <div class="entry-header">
+          <span class="entry-kind kind-feature">通用功能</span>
+          <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/3990" target="_blank" rel="noopener">#3990</a>
+        </div>
+        <p class="entry-summary">这条是在 通用功能 增加入口、说明或能力，目的就是让原来难做的事情更容易完成。</p>
+        <div class="entry-meta">
+          <div><strong>这为什么重要：</strong>通用功能 的路径会更完整，用户少猜一步。</div>
+          <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
+        </div>
+        <details class="entry-details">
+          <summary>看原始上下文</summary>
+          <div class="entry-context">
+            <div><strong>Release 原文：</strong>Add support to fetch up to 30 data sources for background jobs</div>
+            
+            
+          </div>
+        </details>
+      </div>
+    </li>
+  
+    <li class="entry">
+      <div class="entry-main">
+        <div class="entry-header">
+          <span class="entry-kind kind-feature">通用功能</span>
+          <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/3989" target="_blank" rel="noopener">#3989</a>
+        </div>
+        <p class="entry-summary">这条是在 通用功能 增加入口、说明或能力，目的就是让原来难做的事情更容易完成。</p>
+        <div class="entry-meta">
+          <div><strong>这为什么重要：</strong>通用功能 的路径会更完整，用户少猜一步。</div>
+          <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
+        </div>
+        <details class="entry-details">
+          <summary>看原始上下文</summary>
+          <div class="entry-context">
+            <div><strong>Release 原文：</strong>Add metadata text for sequence sorts</div>
+            
+            
+          </div>
+        </details>
+      </div>
+    </li>
+  
+    <li class="entry">
+      <div class="entry-main">
+        <div class="entry-header">
+          <span class="entry-kind kind-feature">模块列表</span>
+          <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/3988" target="_blank" rel="noopener">#3988</a>
+        </div>
+        <p class="entry-summary">这条是在 模块列表 增加入口、说明或能力，目的就是让原来难做的事情更容易完成。</p>
+        <div class="entry-meta">
+          <div><strong>这为什么重要：</strong>模块列表 的路径会更完整，用户少猜一步。</div>
+          <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
+        </div>
+        <details class="entry-details">
+          <summary>看原始上下文</summary>
+          <div class="entry-context">
+            <div><strong>Release 原文：</strong>Update help text in module list to explain &quot;Read data from another service&quot;</div>
+            
+            
+          </div>
+        </details>
+      </div>
+    </li>
+  
+    <li class="entry">
+      <div class="entry-main">
+        <div class="entry-header">
+          <span class="entry-kind kind-feature">工作流</span>
+          <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/3986" target="_blank" rel="noopener">#3986</a>
+        </div>
+        <p class="entry-summary">这条是在 工作流 增加入口、说明或能力，目的就是让原来难做的事情更容易完成。</p>
+        <div class="entry-meta">
+          <div><strong>这为什么重要：</strong>工作流 的路径会更完整，用户少猜一步。</div>
+          <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
+        </div>
+        <details class="entry-details">
+          <summary>看原始上下文</summary>
+          <div class="entry-context">
+            <div><strong>Release 原文：</strong>Add display text for schedule automation in API list view</div>
+            
+            
+          </div>
+        </details>
+      </div>
+    </li>
+  
+    <li class="entry">
+      <div class="entry-main">
+        <div class="entry-header">
+          <span class="entry-kind kind-feature">工作流</span>
+          <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/3983" target="_blank" rel="noopener">#3983</a>
+        </div>
+        <p class="entry-summary">这条是在 工作流 增加入口、说明或能力，目的就是让原来难做的事情更容易完成。</p>
+        <div class="entry-meta">
+          <div><strong>这为什么重要：</strong>工作流 的路径会更完整，用户少猜一步。</div>
+          <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
+        </div>
+        <details class="entry-details">
+          <summary>看原始上下文</summary>
+          <div class="entry-context">
+            <div><strong>Release 原文：</strong>Load more module data for AI App workflows</div>
+            
+            
+          </div>
+        </details>
+      </div>
+    </li>
+  
+    <li class="entry">
+      <div class="entry-main">
+        <div class="entry-header">
+          <span class="entry-kind kind-improve">模块列表</span>
+          <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/3982" target="_blank" rel="noopener">#3982</a>
+        </div>
+        <p class="entry-summary">这条不是大改版，而是把 模块列表 的用法理顺，减少绕路和找不到入口的情况。</p>
+        <div class="entry-meta">
+          <div><strong>这为什么重要：</strong>模块列表 会更顺手，理解成本会更低。</div>
+          <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
+        </div>
+        <details class="entry-details">
+          <summary>看原始上下文</summary>
+          <div class="entry-context">
+            <div><strong>Release 原文：</strong>Update help text in AI App modules to explain no group</div>
+            
+            
+          </div>
+        </details>
+      </div>
+    </li>
+  
+    <li class="entry">
+      <div class="entry-main">
+        <div class="entry-header">
+          <span class="entry-kind kind-feature">通用功能</span>
+          <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/3980" target="_blank" rel="noopener">#3980</a>
+        </div>
+        <p class="entry-summary">这条是在 通用功能 增加入口、说明或能力，目的就是让原来难做的事情更容易完成。</p>
+        <div class="entry-meta">
+          <div><strong>这为什么重要：</strong>通用功能 的路径会更完整，用户少猜一步。</div>
+          <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
+        </div>
+        <details class="entry-details">
+          <summary>看原始上下文</summary>
+          <div class="entry-context">
+            <div><strong>Release 原文：</strong>Add app info to discovery and webview about access from org after launching</div>
+            
+            
+          </div>
+        </details>
+      </div>
+    </li>
+  
+    <li class="entry">
+      <div class="entry-main">
+        <div class="entry-header">
+          <span class="entry-kind kind-feature">通用功能</span>
+          <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/3981" target="_blank" rel="noopener">#3981</a>
+        </div>
+        <p class="entry-summary">这条是在 通用功能 增加入口、说明或能力，目的就是让原来难做的事情更容易完成。</p>
+        <div class="entry-meta">
+          <div><strong>这为什么重要：</strong>通用功能 的路径会更完整，用户少猜一步。</div>
+          <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
+        </div>
+        <details class="entry-details">
+          <summary>看原始上下文</summary>
+          <div class="entry-context">
+            <div><strong>Release 原文：</strong>Add more checks for financial tools in workspace metadata</div>
+            
+            
+          </div>
+        </details>
+      </div>
+    </li>
+  
+    <li class="entry">
+      <div class="entry-main">
+        <div class="entry-header">
+          <span class="entry-kind kind-improve">通用功能</span>
+          <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/3978" target="_blank" rel="noopener">#3978</a>
+        </div>
+        <p class="entry-summary">这条不是大改版，而是把 通用功能 的用法理顺，减少绕路和找不到入口的情况。</p>
+        <div class="entry-meta">
+          <div><strong>这为什么重要：</strong>通用功能 会更顺手，理解成本会更低。</div>
+          <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
+        </div>
+        <details class="entry-details">
+          <summary>看原始上下文</summary>
+          <div class="entry-context">
+            <div><strong>Release 原文：</strong>Update tooltip for schema formatting options</div>
+            
+            
+          </div>
+        </details>
+      </div>
+    </li>
+  
+    <li class="entry">
+      <div class="entry-main">
+        <div class="entry-header">
+          <span class="entry-kind kind-improve">Webhook</span>
+          <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/3999" target="_blank" rel="noopener">#3999</a>
+        </div>
+        <p class="entry-summary">这条不是大改版，而是把 Webhook 的用法理顺，减少绕路和找不到入口的情况。</p>
+        <div class="entry-meta">
+          <div><strong>这为什么重要：</strong>Webhook 会更顺手，理解成本会更低。</div>
+          <div><strong>你要不要管：</strong>如果你管 Webhook 配置，更新后最好顺手检查一遍相关页面或对接流程。</div>
+        </div>
+        <details class="entry-details">
+          <summary>看原始上下文</summary>
+          <div class="entry-context">
+            <div><strong>Release 原文：</strong>Update stripe webhook help text for usage record requirements</div>
+            
+            
+          </div>
+        </details>
+      </div>
+    </li>
+  
+    <li class="entry">
+      <div class="entry-main">
+        <div class="entry-header">
+          <span class="entry-kind kind-feature">通用功能</span>
+          <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/4000" target="_blank" rel="noopener">#4000</a>
+        </div>
+        <p class="entry-summary">这条是在 通用功能 增加入口、说明或能力，目的就是让原来难做的事情更容易完成。</p>
+        <div class="entry-meta">
+          <div><strong>这为什么重要：</strong>通用功能 的路径会更完整，用户少猜一步。</div>
+          <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
+        </div>
+        <details class="entry-details">
+          <summary>看原始上下文</summary>
+          <div class="entry-context">
+            <div><strong>Release 原文：</strong>Add display text for advanced &quot;When closing app&quot; options</div>
+            
+            
+          </div>
+        </details>
+      </div>
+    </li>
+  
+    <li class="entry">
+      <div class="entry-main">
+        <div class="entry-header">
+          <span class="entry-kind kind-feature">工作流</span>
+          <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/3993" target="_blank" rel="noopener">#3993</a>
+        </div>
+        <p class="entry-summary">这条是在 工作流 增加入口、说明或能力，目的就是让原来难做的事情更容易完成。</p>
+        <div class="entry-meta">
+          <div><strong>这为什么重要：</strong>工作流 的路径会更完整，用户少猜一步。</div>
+          <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
+        </div>
+        <details class="entry-details">
+          <summary>看原始上下文</summary>
+          <div class="entry-context">
+            <div><strong>Release 原文：</strong>Load filters and search for AI App workflow list</div>
+            
+            
+          </div>
+        </details>
+      </div>
+    </li>
+  
+    <li class="entry">
+      <div class="entry-main">
+        <div class="entry-header">
+          <span class="entry-kind kind-fix">连接配置</span>
+          <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/3993" target="_blank" rel="noopener">#3993</a>
+        </div>
+        <p class="entry-summary">连接配置 之前这里有个问题，这次官方已经补上，重点是让它少出错、更稳定。</p>
+        <div class="entry-meta">
+          <div><strong>这为什么重要：</strong>连接配置 更稳，少报错，少出现“明明设置了却不生效”的情况。</div>
+          <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
+        </div>
+        <details class="entry-details">
+          <summary>看原始上下文</summary>
+          <div class="entry-context">
+            <div><strong>Release 原文：</strong>Update websocket connection errors to say connection names instead of IDs</div>
+            
+            
+          </div>
+        </details>
+      </div>
+    </li>
+  
+    <li class="entry">
+      <div class="entry-main">
+        <div class="entry-header">
+          <span class="entry-kind kind-feature">工作流</span>
+          <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/3993" target="_blank" rel="noopener">#3993</a>
+        </div>
+        <p class="entry-summary">这条是在 工作流 增加入口、说明或能力，目的就是让原来难做的事情更容易完成。</p>
+        <div class="entry-meta">
+          <div><strong>这为什么重要：</strong>工作流 的路径会更完整，用户少猜一步。</div>
+          <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
+        </div>
+        <details class="entry-details">
+          <summary>看原始上下文</summary>
+          <div class="entry-context">
+            <div><strong>Release 原文：</strong>Update settings help text for workflow history and add context on retention time</div>
+            
+            
+          </div>
+        </details>
+      </div>
+    </li>
+  
+    <li class="entry">
+      <div class="entry-main">
+        <div class="entry-header">
+          <span class="entry-kind kind-feature">接口和后台</span>
+          <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/3993" target="_blank" rel="noopener">#3993</a>
+        </div>
+        <p class="entry-summary">这条是在 接口和后台 增加入口、说明或能力，目的就是让原来难做的事情更容易完成。</p>
+        <div class="entry-meta">
+          <div><strong>这为什么重要：</strong>接口和后台 的路径会更完整，用户少猜一步。</div>
+          <div><strong>你要不要管：</strong>如果你管 接口和后台 配置，更新后最好顺手检查一遍相关页面或对接流程。</div>
+        </div>
+        <details class="entry-details">
+          <summary>看原始上下文</summary>
+          <div class="entry-context">
+            <div><strong>Release 原文：</strong>Load API settings modal inputs into corresponding sections for display</div>
+            
+            
+          </div>
+        </details>
+      </div>
+    </li>
+  
+    <li class="entry">
+      <div class="entry-main">
+        <div class="entry-header">
+          <span class="entry-kind kind-improve">通用功能</span>
+          <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/3984" target="_blank" rel="noopener">#3984</a>
+        </div>
+        <p class="entry-summary">这条不是大改版，而是把 通用功能 的用法理顺，减少绕路和找不到入口的情况。</p>
+        <div class="entry-meta">
+          <div><strong>这为什么重要：</strong>通用功能 会更顺手，理解成本会更低。</div>
+          <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
+        </div>
+        <details class="entry-details">
+          <summary>看原始上下文</summary>
+          <div class="entry-context">
+            <div><strong>Release 原文：</strong>Switch release note link to new release note tag format</div>
+            
+            
+          </div>
+        </details>
+      </div>
+    </li>
+  
+    <li class="entry">
+      <div class="entry-main">
+        <div class="entry-header">
+          <span class="entry-kind kind-feature">工作流</span>
+          <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/3985" target="_blank" rel="noopener">#3985</a>
+        </div>
+        <p class="entry-summary">这条是在 工作流 增加入口、说明或能力，目的就是让原来难做的事情更容易完成。</p>
+        <div class="entry-meta">
+          <div><strong>这为什么重要：</strong>工作流 的路径会更完整，用户少猜一步。</div>
+          <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
+        </div>
+        <details class="entry-details">
+          <summary>看原始上下文</summary>
+          <div class="entry-context">
+            <div><strong>Release 原文：</strong>Read more module names for workflows on backend</div>
+            
+            
+          </div>
+        </details>
+      </div>
+    </li>
+  
+    <li class="entry">
+      <div class="entry-main">
+        <div class="entry-header">
+          <span class="entry-kind kind-feature">接口和后台</span>
+          <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/3976" target="_blank" rel="noopener">#3976</a>
+        </div>
+        <p class="entry-summary">这条是在 接口和后台 增加入口、说明或能力，目的就是让原来难做的事情更容易完成。</p>
+        <div class="entry-meta">
+          <div><strong>这为什么重要：</strong>接口和后台 的路径会更完整，用户少猜一步。</div>
+          <div><strong>你要不要管：</strong>如果你管 接口和后台 配置，更新后最好顺手检查一遍相关页面或对接流程。</div>
+        </div>
+        <details class="entry-details">
+          <summary>看原始上下文</summary>
+          <div class="entry-context">
+            <div><strong>Release 原文：</strong>Add App scripts to endpoint view for API</div>
+            
+            
+          </div>
+        </details>
+      </div>
+    </li>
+  
+    <li class="entry">
+      <div class="entry-main">
+        <div class="entry-header">
+          <span class="entry-kind kind-feature">工作流</span>
+          <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/3977" target="_blank" rel="noopener">#3977</a>
+        </div>
+        <p class="entry-summary">这条是在 工作流 增加入口、说明或能力，目的就是让原来难做的事情更容易完成。</p>
+        <div class="entry-meta">
+          <div><strong>这为什么重要：</strong>工作流 的路径会更完整，用户少猜一步。</div>
+          <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
+        </div>
+        <details class="entry-details">
+          <summary>看原始上下文</summary>
+          <div class="entry-context">
+            <div><strong>Release 原文：</strong>Add filters for basic/advanced if can be configured for AI App workflows</div>
+            
+            
+          </div>
+        </details>
+      </div>
+    </li>
+  
+    <li class="entry">
+      <div class="entry-main">
+        <div class="entry-header">
+          <span class="entry-kind kind-feature">搜索和筛选</span>
+          <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/3974" target="_blank" rel="noopener">#3974</a>
+        </div>
+        <p class="entry-summary">这条是在 搜索和筛选 增加入口、说明或能力，目的就是让原来难做的事情更容易完成。</p>
+        <div class="entry-meta">
+          <div><strong>这为什么重要：</strong>搜索和筛选 的路径会更完整，用户少猜一步。</div>
+          <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
+        </div>
+        <details class="entry-details">
+          <summary>看原始上下文</summary>
+          <div class="entry-context">
+            <div><strong>Release 原文：</strong>Add tooltip to explain search inclusion settings</div>
+            
+            
+          </div>
+        </details>
+      </div>
+    </li>
+  
+    <li class="entry">
+      <div class="entry-main">
+        <div class="entry-header">
+          <span class="entry-kind kind-feature">接口和后台</span>
+          <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/3973" target="_blank" rel="noopener">#3973</a>
+        </div>
+        <p class="entry-summary">这条是在 接口和后台 增加入口、说明或能力，目的就是让原来难做的事情更容易完成。</p>
+        <div class="entry-meta">
+          <div><strong>这为什么重要：</strong>接口和后台 的路径会更完整，用户少猜一步。</div>
+          <div><strong>你要不要管：</strong>如果你管 接口和后台 配置，更新后最好顺手检查一遍相关页面或对接流程。</div>
+        </div>
+        <details class="entry-details">
+          <summary>看原始上下文</summary>
+          <div class="entry-context">
+            <div><strong>Release 原文：</strong>Add dummy text on new API for add &quot;share with&quot;</div>
+            
+            
+          </div>
+        </details>
+      </div>
+    </li>
+  
+    <li class="entry">
+      <div class="entry-main">
+        <div class="entry-header">
+          <span class="entry-kind kind-feature">聊天设置</span>
+          <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/3972" target="_blank" rel="noopener">#3972</a>
+        </div>
+        <p class="entry-summary">这条新增不是凭空冒出来的，结合提交上下文“Allow selecting chat settings section from tablet view”来看，官方是在给 聊天设置 补一个更完整的使用路径。</p>
+        <div class="entry-meta">
+          <div><strong>这为什么重要：</strong>聊天设置 的路径会更完整，用户少猜一步。</div>
+          <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
+        </div>
+        <details class="entry-details">
+          <summary>看原始上下文</summary>
+          <div class="entry-context">
+            <div><strong>Release 原文：</strong>Allow selecting chat settings section to select from in tablet view</div>
+            <div><strong>对应 PR/Issue：</strong>Allow selecting chat settings section from tablet view</div>
+            
+          </div>
+        </details>
+      </div>
+    </li>
+  
+      </ul>
+    </section>
+  
+    <section class="release-section">
+      <h3>Fixes</h3>
+      <ul class="entry-list">
+        
+    <li class="entry">
+      <div class="entry-main">
+        <div class="entry-header">
+          <span class="entry-kind kind-fix">通用功能</span>
+          <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/4025" target="_blank" rel="noopener">#4025</a>
+        </div>
+        <p class="entry-summary">原来 通用功能 这里有人反馈“LegacyModel provider triggers do not start workflows”。这次对应的修复说明是“Fix triggers for LegacyModel providers”，也就是把那个具体问题补上，避免用户继续踩坑。</p>
+        <div class="entry-meta">
+          <div><strong>这为什么重要：</strong>因为已经有人在真实使用里遇到这个问题，所以这次不是“顺手优化”，而是在补真实痛点。</div>
+          <div><strong>你要不要管：</strong>如果你之前正好遇到过这个问题，可以优先验证这次更新是否已经解决。</div>
+        </div>
+        <details class="entry-details">
+          <summary>看原始上下文</summary>
+          <div class="entry-context">
+            <div><strong>Release 原文：</strong>Fix triggers for LegacyModel providers</div>
+            <div><strong>对应 PR/Issue：</strong>Fix triggers for LegacyModel providers</div>
+            <div><strong>关联问题：</strong>LegacyModel provider triggers do not start workflows</div>
+          </div>
+        </details>
+      </div>
+    </li>
+  
+    <li class="entry">
+      <div class="entry-main">
+        <div class="entry-header">
+          <span class="entry-kind kind-fix">Slack</span>
+          <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/4023" target="_blank" rel="noopener">#4023</a>
+        </div>
+        <p class="entry-summary">原来 Slack 这里有人反馈“Slack schedule page does not show action name clearly”。这次对应的修复说明是“Fix Slack action label on schedule edit page”，也就是把那个具体问题补上，避免用户继续踩坑。</p>
+        <div class="entry-meta">
+          <div><strong>这为什么重要：</strong>因为已经有人在真实使用里遇到这个问题，所以这次不是“顺手优化”，而是在补真实痛点。</div>
+          <div><strong>你要不要管：</strong>如果你之前正好遇到过这个问题，可以优先验证这次更新是否已经解决。</div>
+        </div>
+        <details class="entry-details">
+          <summary>看原始上下文</summary>
+          <div class="entry-context">
+            <div><strong>Release 原文：</strong>Fix Slack action label on schedule edit page and add warning for unsupported action with missing label</div>
+            <div><strong>对应 PR/Issue：</strong>Fix Slack action label on schedule edit page</div>
+            <div><strong>关联问题：</strong>Slack schedule page does not show action name clearly</div>
+          </div>
+        </details>
+      </div>
+    </li>
+  
+    <li class="entry">
+      <div class="entry-main">
+        <div class="entry-header">
+          <span class="entry-kind kind-fix">工作流</span>
+          <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/4015" target="_blank" rel="noopener">#4015</a>
+        </div>
+        <p class="entry-summary">原来 工作流 这里有人反馈“Workflow search still shows old results after editing”。这次对应的修复说明是“Fix workflow search keywords not updating”，也就是把那个具体问题补上，避免用户继续踩坑。</p>
+        <div class="entry-meta">
+          <div><strong>这为什么重要：</strong>因为已经有人在真实使用里遇到这个问题，所以这次不是“顺手优化”，而是在补真实痛点。</div>
+          <div><strong>你要不要管：</strong>如果你之前正好遇到过这个问题，可以优先验证这次更新是否已经解决。</div>
+        </div>
+        <details class="entry-details">
+          <summary>看原始上下文</summary>
+          <div class="entry-context">
+            <div><strong>Release 原文：</strong>Fix search keywords not updated for workflows</div>
+            <div><strong>对应 PR/Issue：</strong>Fix workflow search keywords not updating</div>
+            <div><strong>关联问题：</strong>Workflow search still shows old results after editing</div>
+          </div>
+        </details>
+      </div>
+    </li>
+  
+    <li class="entry">
+      <div class="entry-main">
+        <div class="entry-header">
+          <span class="entry-kind kind-fix">模块列表</span>
+          <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/4010" target="_blank" rel="noopener">#4010</a>
+        </div>
+        <p class="entry-summary">模块列表 之前这里有个问题，这次官方已经补上，重点是让它少出错、更稳定。</p>
+        <div class="entry-meta">
+          <div><strong>这为什么重要：</strong>模块列表 更稳，少报错，少出现“明明设置了却不生效”的情况。</div>
+          <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
+        </div>
+        <details class="entry-details">
+          <summary>看原始上下文</summary>
+          <div class="entry-context">
+            <div><strong>Release 原文：</strong>Fix interface not reading custom category for modules</div>
+            
+            
+          </div>
+        </details>
+      </div>
+    </li>
+  
+    <li class="entry">
+      <div class="entry-main">
+        <div class="entry-header">
+          <span class="entry-kind kind-fix">Slack</span>
+          <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/4009" target="_blank" rel="noopener">#4009</a>
+        </div>
+        <p class="entry-summary">Slack 之前这里有个问题，这次官方已经补上，重点是让它少出错、更稳定。</p>
+        <div class="entry-meta">
+          <div><strong>这为什么重要：</strong>Slack 更稳，少报错，少出现“明明设置了却不生效”的情况。</div>
+          <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
+        </div>
+        <details class="entry-details">
+          <summary>看原始上下文</summary>
+          <div class="entry-context">
+            <div><strong>Release 原文：</strong>Fix slack log action in data source history</div>
+            
+            
+          </div>
+        </details>
+      </div>
+    </li>
+  
+    <li class="entry">
+      <div class="entry-main">
+        <div class="entry-header">
+          <span class="entry-kind kind-fix">通用功能</span>
+          <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/3993" target="_blank" rel="noopener">#3993</a>
+        </div>
+        <p class="entry-summary">通用功能 之前这里有个问题，这次官方已经补上，重点是让它少出错、更稳定。</p>
+        <div class="entry-meta">
+          <div><strong>这为什么重要：</strong>通用功能 更稳，少报错，少出现“明明设置了却不生效”的情况。</div>
+          <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
+        </div>
+        <details class="entry-details">
+          <summary>看原始上下文</summary>
+          <div class="entry-context">
+            <div><strong>Release 原文：</strong>Fix missing &quot;Gather&quot; in AI App discovery if feature flags disabled</div>
+            
+            
+          </div>
+        </details>
+      </div>
+    </li>
+  
+    <li class="entry">
+      <div class="entry-main">
+        <div class="entry-header">
+          <span class="entry-kind kind-fix">通用功能</span>
+          <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/3993" target="_blank" rel="noopener">#3993</a>
+        </div>
+        <p class="entry-summary">通用功能 之前这里有个问题，这次官方已经补上，重点是让它少出错、更稳定。</p>
+        <div class="entry-meta">
+          <div><strong>这为什么重要：</strong>通用功能 更稳，少报错，少出现“明明设置了却不生效”的情况。</div>
+          <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
+        </div>
+        <details class="entry-details">
+          <summary>看原始上下文</summary>
+          <div class="entry-context">
+            <div><strong>Release 原文：</strong>Fix AI App access data not updating during load</div>
+            
+            
+          </div>
+        </details>
+      </div>
+    </li>
+  
+    <li class="entry">
+      <div class="entry-main">
+        <div class="entry-header">
+          <span class="entry-kind kind-fix">模块列表</span>
+          <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/3993" target="_blank" rel="noopener">#3993</a>
+        </div>
+        <p class="entry-summary">模块列表 之前这里有个问题，这次官方已经补上，重点是让它少出错、更稳定。</p>
+        <div class="entry-meta">
+          <div><strong>这为什么重要：</strong>模块列表 更稳，少报错，少出现“明明设置了却不生效”的情况。</div>
+          <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
+        </div>
+        <details class="entry-details">
+          <summary>看原始上下文</summary>
+          <div class="entry-context">
+            <div><strong>Release 原文：</strong>Fix no actions shown in UI for list types in AI App modules</div>
+            
+            
+          </div>
+        </details>
+      </div>
+    </li>
+  
+    <li class="entry">
+      <div class="entry-main">
+        <div class="entry-header">
+          <span class="entry-kind kind-fix">搜索和筛选</span>
+          <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/3993" target="_blank" rel="noopener">#3993</a>
+        </div>
+        <p class="entry-summary">搜索和筛选 之前这里有个问题，这次官方已经补上，重点是让它少出错、更稳定。</p>
+        <div class="entry-meta">
+          <div><strong>这为什么重要：</strong>搜索和筛选 更稳，少报错，少出现“明明设置了却不生效”的情况。</div>
+          <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
+        </div>
+        <details class="entry-details">
+          <summary>看原始上下文</summary>
+          <div class="entry-context">
+            <div><strong>Release 原文：</strong>Fix search values not updating when loading app list</div>
+            
+            
+          </div>
+        </details>
+      </div>
+    </li>
+  
+    <li class="entry">
+      <div class="entry-main">
+        <div class="entry-header">
+          <span class="entry-kind kind-fix">工作流</span>
+          <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/3993" target="_blank" rel="noopener">#3993</a>
+        </div>
+        <p class="entry-summary">工作流 之前这里有个问题，这次官方已经补上，重点是让它少出错、更稳定。</p>
+        <div class="entry-meta">
+          <div><strong>这为什么重要：</strong>工作流 更稳，少报错，少出现“明明设置了却不生效”的情况。</div>
+          <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
+        </div>
+        <details class="entry-details">
+          <summary>看原始上下文</summary>
+          <div class="entry-context">
+            <div><strong>Release 原文：</strong>Fix error for schedule automation pagination for extremely long schedules</div>
+            
+            
+          </div>
+        </details>
+      </div>
+    </li>
+  
+    <li class="entry">
+      <div class="entry-main">
+        <div class="entry-header">
+          <span class="entry-kind kind-fix">翻页</span>
+          <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/3993" target="_blank" rel="noopener">#3993</a>
+        </div>
+        <p class="entry-summary">翻页 之前这里有个问题，这次官方已经补上，重点是让它少出错、更稳定。</p>
+        <div class="entry-meta">
+          <div><strong>这为什么重要：</strong>翻页 更稳，少报错，少出现“明明设置了却不生效”的情况。</div>
+          <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
+        </div>
+        <details class="entry-details">
+          <summary>看原始上下文</summary>
+          <div class="entry-context">
+            <div><strong>Release 原文：</strong>Fix pagination errors on module list</div>
+            
+            
+          </div>
+        </details>
+      </div>
+    </li>
+  
+    <li class="entry">
+      <div class="entry-main">
+        <div class="entry-header">
+          <span class="entry-kind kind-fix">通用功能</span>
+          <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/3993" target="_blank" rel="noopener">#3993</a>
+        </div>
+        <p class="entry-summary">通用功能 之前这里有个问题，这次官方已经补上，重点是让它少出错、更稳定。</p>
+        <div class="entry-meta">
+          <div><strong>这为什么重要：</strong>通用功能 更稳，少报错，少出现“明明设置了却不生效”的情况。</div>
+          <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
+        </div>
+        <details class="entry-details">
+          <summary>看原始上下文</summary>
+          <div class="entry-context">
+            <div><strong>Release 原文：</strong>Fix data source help text for dependent on parent source</div>
+            
+            
+          </div>
+        </details>
+      </div>
+    </li>
+  
+    <li class="entry">
+      <div class="entry-main">
+        <div class="entry-header">
+          <span class="entry-kind kind-fix">工作流</span>
+          <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/3993" target="_blank" rel="noopener">#3993</a>
+        </div>
+        <p class="entry-summary">工作流 之前这里有个问题，这次官方已经补上，重点是让它少出错、更稳定。</p>
+        <div class="entry-meta">
+          <div><strong>这为什么重要：</strong>工作流 更稳，少报错，少出现“明明设置了却不生效”的情况。</div>
+          <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
+        </div>
+        <details class="entry-details">
+          <summary>看原始上下文</summary>
+          <div class="entry-context">
+            <div><strong>Release 原文：</strong>Fix AI App webhook list actions to show name of workflow</div>
+            
+            
+          </div>
+        </details>
+      </div>
+    </li>
+  
+      </ul>
+    </section>
+  
+    </article>
+  
+      </section>
+    </main>
+  </body>
+</html>

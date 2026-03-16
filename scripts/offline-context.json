@@ -1,0 +1,64 @@
+{
+  "3972": {
+    "type": "pull",
+    "number": 3972,
+    "title": "Allow selecting chat settings section from tablet view",
+    "body": "Tablet users had to scroll through the entire settings page. This change adds a section selector so users can jump directly to the part they need.",
+    "url": "https://github.com/openclaw/openclaw/pull/3972"
+  },
+  "3992": {
+    "type": "pull",
+    "number": 3992,
+    "title": "Add pagination support for reading and writing workflows",
+    "body": "Workflow lists could become too large to handle efficiently. This change adds backend pagination so list pages load more reliably and large accounts can browse workflows without long waits.",
+    "url": "https://github.com/openclaw/openclaw/pull/3992"
+  },
+  "4001": {
+    "type": "pull",
+    "number": 4001,
+    "title": "Add web view component for Android update alerts",
+    "body": "Android update alerts were limited in how much detail they could show. This introduces a web view so release notes and update instructions can display more clearly inside the app.",
+    "url": "https://github.com/openclaw/openclaw/pull/4001"
+  },
+  "4015": {
+    "type": "pull",
+    "number": 4015,
+    "title": "Fix workflow search keywords not updating",
+    "body": "Users could change workflow content but search results still reflected the old keywords. This fix refreshes search keywords when workflows change.",
+    "url": "https://github.com/openclaw/openclaw/pull/4015",
+    "linkedIssueTitle": "Workflow search still shows old results after editing",
+    "linkedIssueBody": "After editing a workflow, the search page continued to show stale keywords and users could not find the updated version."
+  },
+  "4018": {
+    "type": "pull",
+    "number": 4018,
+    "title": "Show Connections and Voice pages inside Chat settings",
+    "body": "Users had trouble understanding where chat connections and voice settings lived. This change surfaces those pages inside chat settings and adds help information to make setup clearer.",
+    "url": "https://github.com/openclaw/openclaw/pull/4018"
+  },
+  "4019": {
+    "type": "pull",
+    "number": 4019,
+    "title": "Improve quick actions when tapping list items in tables",
+    "body": "Quick actions on table rows were difficult to discover on touch devices. This change makes row selection behave more clearly so users can reach hover-style quick actions by tapping.",
+    "url": "https://github.com/openclaw/openclaw/pull/4019"
+  },
+  "4023": {
+    "type": "pull",
+    "number": 4023,
+    "title": "Fix Slack action label on schedule edit page",
+    "body": "The schedule edit page could show missing or unclear Slack action labels. This fix restores the label and adds a warning when an unsupported action is missing its label.",
+    "url": "https://github.com/openclaw/openclaw/pull/4023",
+    "linkedIssueTitle": "Slack schedule page does not show action name clearly",
+    "linkedIssueBody": "Users editing scheduled Slack actions could not tell which action was configured because the label was blank or misleading."
+  },
+  "4025": {
+    "type": "pull",
+    "number": 4025,
+    "title": "Fix triggers for LegacyModel providers",
+    "body": "LegacyModel providers were not firing triggers correctly in some flows. This patch restores expected trigger behavior.",
+    "url": "https://github.com/openclaw/openclaw/pull/4025",
+    "linkedIssueTitle": "LegacyModel provider triggers do not start workflows",
+    "linkedIssueBody": "Users relying on LegacyModel providers found that some workflows never started because the trigger stage did not fire."
+  }
+}

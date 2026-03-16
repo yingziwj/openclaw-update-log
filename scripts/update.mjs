@@ -6,7 +6,8 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
 const PUBLIC_DIR = path.join(ROOT, "public");
 const DATA_DIR = path.join(PUBLIC_DIR, "data");
-const DEFAULT_OFFLINE_PATH = path.join(__dirname, "offline-releases.json");
+const DEFAULT_OFFLINE_RELEASES_PATH = path.join(__dirname, "offline-releases.json");
+const DEFAULT_OFFLINE_CONTEXT_PATH = path.join(__dirname, "offline-context.json");
 
 const SITE_URL =
   process.env.SITE_URL || "https://openclaw-update-log.pages.dev";
@@ -21,26 +22,6 @@ const HEADERS = {
 if (process.env.GITHUB_TOKEN) {
   HEADERS.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
 }
-
-const MODULE_RULES = [
-  [/table|list items?|quick actions?/i, "列表与表格操作", "经常点列表和看表格的人"],
-  [/android|mobile/i, "Android app", "手机端用户"],
-  [/chat settings?|chat/i, "聊天设置", "正在调整聊天设置的用户"],
-  [/settings?/i, "设置页面", "经常改设置的人"],
-  [/workflow|automation/i, "工作流与自动化", "配置流程和自动化的人"],
-  [/api/i, "接口与后台", "开发者或管理员"],
-  [/slack/i, "Slack 集成", "接 Slack 的团队"],
-  [/google oauth/i, "Google 登录与授权", "管理员"],
-  [/webhook/i, "Webhook 通知", "做系统对接的人"],
-  [/data source/i, "数据源", "接数据源的人"],
-  [/module/i, "模块列表", "经常找模块的人"],
-  [/search|filter/i, "搜索与筛选", "需要快速找内容的人"],
-  [/pagination/i, "翻页机制", "数据量大的用户"],
-  [/boto3|dependabot/i, "底层依赖", "普通用户基本无感"],
-  [/sqlite|database/i, "数据库设置", "需要本地数据库配置的人"],
-  [/voice/i, "语音能力", "使用语音功能的人"],
-  [/connection/i, "连接配置", "管理连接的人"],
-];
 
 function escapeHtml(text) {
   return String(text)
@@ -60,38 +41,32 @@ function formatDate(iso) {
 function formatDateTime(iso) {
   const date = new Date(iso);
   if (Number.isNaN(date.getTime())) return iso;
-  return `${date.toISOString().slice(0, 10)} ${date
-    .toISOString()
-    .slice(11, 16)} UTC`;
+  return `${date.toISOString().slice(0, 10)} ${date.toISOString().slice(11, 16)} UTC`;
 }
 
 function normalizeText(text) {
   return (text || "")
-    .replace(/\([^)]*#\d+[^)]*\)/g, " ")
     .replace(/\(Thanks\s+@[\w-]+\)\.?/gi, " ")
     .replace(/\bThanks\s+@[\w-]+\.?/gi, " ")
     .replace(/\s+/g, " ")
     .trim();
 }
 
-function splitMeaningPoints(text) {
-  const placeholders = [];
-  const protectedText = text.replace(/`[^`]+`/g, (match) => {
-    const token = `__TOKEN_${placeholders.length}__`;
-    placeholders.push(match);
-    return token;
-  });
+function cleanBody(text) {
+  return (text || "")
+    .replace(/<!--[\s\S]*?-->/g, " ")
+    .replace(/\r\n/g, "\n")
+    .replace(/```[\s\S]*?```/g, " ")
+    .replace(/`([^`]+)`/g, "$1")
+    .replace(/\[(.*?)\]\((.*?)\)/g, "$1")
+    .replace(/[*_>#-]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
 
-  const parts = protectedText
-    .split(/\s*;\s*|\s*,\s+(?=(?:add|fix|show|make|allow|load|update|switch|stop|ensure|read)\b)/i)
-    .flatMap((chunk) => chunk.split(/\s+to\s+(?=(?:allow|show|organize|explain|use|display|select|mention)\b)/i))
-    .map((part) =>
-      part.replace(/__TOKEN_(\d+)__/g, (_, index) => placeholders[Number(index)])
-    )
-    .map((part) => part.trim())
-    .filter(Boolean);
-
-  return parts.length ? parts.slice(0, 3) : [text.trim()];
+function truncate(text, max = 220) {
+  if (!text) return "";
+  return text.length > max ? `${text.slice(0, max - 1)}...` : text;
 }
 
 function parseMarkdown(body) {
@@ -117,302 +92,172 @@ function parseMarkdown(body) {
       continue;
     }
 
-    if (line.trim()) {
-      current.items.push(line.trim());
-    }
+    if (line.trim()) current.items.push(line.trim());
   }
 
   pushCurrent();
   return sections;
 }
 
-function detectActionKind(text, sectionTitle) {
+function detectKind(text, sectionTitle) {
   const source = `${sectionTitle} ${text}`;
-  if (/fix|error|issue|bug|broken|missing/i.test(source)) return "fix";
-  if (/bump|upgrade|update/i.test(text)) return "upgrade";
-  if (/add|support|show|load|read/i.test(text)) return "add";
-  if (/make|allow|switch|reorganize|group|organize|collapsible/i.test(text)) {
+  if (/fix|bug|issue|error|missing|broken/i.test(source)) return "fix";
+  if (/bump|upgrade|dependabot/i.test(source)) return "upgrade";
+  if (/add|support|show|load|allow|read/i.test(source)) return "feature";
+  if (/update|make|switch|reorganize|improve|organize|group|collapsible/i.test(source)) {
     return "improve";
   }
-  if (/stop|prevent|ensure/i.test(text)) return "protect";
   return "change";
 }
 
-function detectModule(text) {
-  for (const [pattern, label, audience] of MODULE_RULES) {
-    if (pattern.test(text)) return { label, audience };
+function detectArea(text) {
+  const rules = [
+    [/android|mobile/i, "Android 端"],
+    [/chat settings?|chat/i, "聊天设置"],
+    [/workflow|automation/i, "工作流"],
+    [/api|backend/i, "接口和后台"],
+    [/webhook/i, "Webhook"],
+    [/search|filter/i, "搜索和筛选"],
+    [/pagination/i, "翻页"],
+    [/slack/i, "Slack"],
+    [/oauth|google/i, "Google 授权"],
+    [/database|sqlite/i, "数据库设置"],
+    [/module/i, "模块列表"],
+    [/connection/i, "连接配置"],
+  ];
+
+  for (const [pattern, label] of rules) {
+    if (pattern.test(text)) return label;
   }
-  return { label: "通用功能", audience: "大多数用户" };
+  return "通用功能";
 }
 
-function classifyRisk(kind, moduleLabel) {
-  if (kind === "fix") return "稳";
-  if (kind === "upgrade" && /底层依赖/.test(moduleLabel)) return "低感知";
-  if (kind === "protect") return "管控";
-  return "优化";
+function extractRefNumber(item) {
+  const match = item.match(/\(#(\d+)\)\s*$/);
+  return match ? Number(match[1]) : null;
 }
 
-function buildHeadline(kind, moduleLabel) {
-  switch (kind) {
-    case "fix":
-      return `这条是在修 ${moduleLabel} 里的老毛病。`;
-    case "upgrade":
-      return `这条是在升级 ${moduleLabel} 用到的底层东西。`;
-    case "protect":
-      return `这条是在给 ${moduleLabel} 加限制和保护。`;
-    case "improve":
-      return `这条是在把 ${moduleLabel} 做得更顺手。`;
-    case "add":
-      return `这条是在给 ${moduleLabel} 添新能力。`;
-    default:
-      return `这条是在调整 ${moduleLabel}。`;
+function extractLinkedIssueNumbers(text) {
+  const refs = new Set();
+  const pattern = /(?:close[sd]?|fix(?:e[sd])?|resolve[sd]?)\s+#(\d+)/gi;
+  let match = pattern.exec(text || "");
+  while (match) {
+    refs.add(Number(match[1]));
+    match = pattern.exec(text || "");
   }
+  return [...refs];
 }
 
-function buildPlainSummary(text, kind, moduleLabel) {
-  const clean = normalizeText(text);
+function buildFallbackSummary(item, kind, area) {
+  const clean = normalizeText(item).replace(/\(#\d+\)\s*$/, "").trim();
 
-  if (/bump\s+`?([\w.-]+)`?\s+from\s+([\w.-]+)\s+to\s+([\w.-]+)/i.test(clean)) {
-    const match = clean.match(
+  if (kind === "upgrade") {
+    const versionMatch = clean.match(
       /bump\s+`?([\w.-]+)`?\s+from\s+([\w.-]+)\s+to\s+([\w.-]+)/i
     );
-    return `把 ${match[1]} 从 ${match[2]} 升到 ${match[3]}。这类更新通常是在补稳定性、安全性或兼容性。`;
+    if (versionMatch) {
+      return `把 ${versionMatch[1]} 从 ${versionMatch[2]} 升到 ${versionMatch[3]}。这类改动一般是补稳定性或兼容性，普通用户通常不用操作。`;
+    }
   }
 
   if (kind === "fix") {
-    return `${moduleLabel} 之前这里有问题，现在官方把它修好了，出错概率会更低。`;
+    return `${area} 之前这里有个问题，这次官方已经补上，重点是让它少出错、更稳定。`;
   }
 
-  if (kind === "protect") {
-    return `官方在 ${moduleLabel} 这里加了一道规矩，目的是别让不该发生的访问或操作继续发生。`;
-  }
-
-  if (kind === "add") {
-    return `官方给 ${moduleLabel} 增了新入口、新说明或新能力，让原来做不到的事现在可以做，或者更容易做。`;
+  if (kind === "feature") {
+    return `这条是在 ${area} 增加入口、说明或能力，目的就是让原来难做的事情更容易完成。`;
   }
 
   if (kind === "improve") {
-    return `这不是全新功能，而是把 ${moduleLabel} 的使用过程重新整理了一下，用起来会更顺。`;
+    return `这条不是大改版，而是把 ${area} 的用法理顺，减少绕路和找不到入口的情况。`;
   }
 
-  return `这是一次 ${moduleLabel} 相关调整，重点是让现有流程更清楚或更稳定。`;
+  return `这是一次 ${area} 相关调整，核心是让现有流程更清楚。`;
 }
 
-function buildImpact(text, moduleLabel, audience, kind) {
-  if (/android|mobile/i.test(text)) {
-    return "主要影响手机端，尤其是 Android 用户。";
+function buildContextSummary(item, kind, area, context) {
+  if (!context) return buildFallbackSummary(item, kind, area);
+
+  const title = cleanBody(context.title || "");
+  const body = truncate(cleanBody(context.body || ""), 240);
+  const issueTitle = cleanBody(context.linkedIssueTitle || "");
+  const issueBody = truncate(cleanBody(context.linkedIssueBody || ""), 180);
+
+  if (kind === "fix" && issueTitle) {
+    return `原来 ${area} 这里有人反馈“${issueTitle}”。这次对应的修复说明是“${title || normalizeText(item)}”，也就是把那个具体问题补上，避免用户继续踩坑。`;
   }
-  if (/api|backend|oauth|webhook/i.test(text)) {
-    return "普通访客基本无感，主要影响做配置、接系统、管后台的人。";
+
+  if (kind === "fix") {
+    return `这条修复背后的上下文是“${title || normalizeText(item)}”。结合描述看，官方是在处理 ${area} 的一个实际故障点，目标是让这块更稳。`;
   }
-  if (kind === "upgrade") {
-    return "表面上不一定看得出来，但底层会更稳一些。";
+
+  if (kind === "feature" && title) {
+    return `这条新增不是凭空冒出来的，结合提交上下文“${title}”来看，官方是在给 ${area} 补一个更完整的使用路径。`;
   }
-  return `最容易感受到变化的是${audience}。`;
+
+  if (kind === "improve" && body) {
+    return `这条优化结合上下文看，重点不是炫技，而是把 ${area} 的流程重新梳顺。原始说明里提到：${body}`;
+  }
+
+  return buildFallbackSummary(item, kind, area);
 }
 
-function buildBenefit(text, kind, moduleLabel) {
-  if (/search|filter|pagination/i.test(text)) {
-    return "直接好处是找东西更快、翻页更稳，不容易卡住。";
+function buildWhyItMatters(kind, area, context) {
+  if (context?.linkedIssueTitle) {
+    return `因为已经有人在真实使用里遇到这个问题，所以这次不是“顺手优化”，而是在补真实痛点。`;
   }
-  if (/settings|group|section|layout|collapsible/i.test(text)) {
-    return "直接好处是页面更好找，设置不会挤成一团。";
-  }
-  if (/webhook|oauth|connection|access/i.test(text)) {
-    return "直接好处是对接过程更清楚，也更不容易误配。";
+  if (kind === "feature") {
+    return `${area} 的路径会更完整，用户少猜一步。`;
   }
   if (kind === "fix") {
-    return `直接好处是 ${moduleLabel} 少报错、少出意外。`;
+    return `${area} 更稳，少报错，少出现“明明设置了却不生效”的情况。`;
   }
   if (kind === "upgrade") {
-    return "直接好处通常是兼容性和稳定性更好。";
+    return `表面上不明显，但底层兼容性和稳定性通常会更好。`;
   }
-  return `直接好处是 ${moduleLabel} 更顺手，也更省心。`;
+  return `${area} 会更顺手，理解成本会更低。`;
 }
 
-function buildAction(kind, moduleLabel, audience) {
-  if (kind === "upgrade") {
-    return "你通常不用手动处理，这类改动属于底层维护。";
+function buildDoNext(kind, area, context) {
+  if (kind === "upgrade") return "通常不用你手动处理。";
+  if (/接口|后台|Webhook|Google 授权/.test(area)) {
+    return `如果你管 ${area} 配置，更新后最好顺手检查一遍相关页面或对接流程。`;
   }
-  if (/管理员|开发者|接/.test(audience)) {
-    return `如果你负责 ${moduleLabel} 配置，更新后最好顺手检查一下相关页面或接口。`;
+  if (context?.linkedIssueTitle) {
+    return "如果你之前正好遇到过这个问题，可以优先验证这次更新是否已经解决。";
   }
-  return "大多数人不用做额外操作，更新后直接生效。";
+  return "大多数用户不用额外操作，更新后直接生效。";
 }
 
-function buildFarmerVersion(item, sectionTitle) {
-  const clean = normalizeText(item);
-  const kind = detectActionKind(clean, sectionTitle);
-  const moduleInfo = detectModule(clean);
-  const points = splitMeaningPoints(clean).map((part) =>
-    part.replace(/^`|`$/g, "")
-  );
+function buildEntry(item, sectionTitle, contextMap) {
+  const refNumber = extractRefNumber(item);
+  const text = normalizeText(item).replace(/\(#\d+\)\s*$/, "").trim();
+  const kind = detectKind(text, sectionTitle);
+  const area = detectArea(text);
+  const context = refNumber ? contextMap.get(refNumber) : null;
 
   return {
-    raw: item.trim(),
-    clean,
+    refNumber,
+    raw: item,
+    text,
+    area,
     kind,
-    moduleLabel: moduleInfo.label,
-    audience: moduleInfo.audience,
-    statusLabel: classifyRisk(kind, moduleInfo.label),
-    headline: buildHeadline(kind, moduleInfo.label),
-    summary: buildPlainSummary(clean, kind, moduleInfo.label),
-    points,
-    impact: buildImpact(clean, moduleInfo.label, moduleInfo.audience, kind),
-    benefit: buildBenefit(clean, kind, moduleInfo.label),
-    action: buildAction(kind, moduleInfo.label, moduleInfo.audience),
+    summary: buildContextSummary(text, kind, area, context),
+    whyItMatters: buildWhyItMatters(kind, area, context),
+    doNext: buildDoNext(kind, area, context),
+    contextTitle: context?.title || "",
+    linkedIssueTitle: context?.linkedIssueTitle || "",
   };
 }
 
-function summarizeRelease(release, parsedSections) {
-  const items = parsedSections.flatMap((section) =>
-    section.items.map((item) => buildFarmerVersion(item, section.title))
-  );
-
-  const stats = {
-    total: items.length,
-    fixes: items.filter((item) => item.kind === "fix").length,
-    adds: items.filter((item) => item.kind === "add").length,
-    upgrades: items.filter((item) => item.kind === "upgrade").length,
-    protects: items.filter((item) => item.kind === "protect").length,
-  };
-
-  const moduleCount = new Map();
-  for (const item of items) {
-    moduleCount.set(item.moduleLabel, (moduleCount.get(item.moduleLabel) || 0) + 1);
+async function fetchJson(url) {
+  const response = await fetch(url, { headers: HEADERS });
+  if (!response.ok) {
+    const error = new Error(`Request failed: ${response.status}`);
+    error.status = response.status;
+    throw error;
   }
-  const topModules = [...moduleCount.entries()]
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 3)
-    .map(([label]) => label);
-
-  const summaryLines = [
-    `这版一共动了 ${stats.total} 处，重点不在“炫新功能”，而是在把现有流程理顺。`,
-    topModules.length
-      ? `这次改动最集中的地方是：${topModules.join("、")}。`
-      : "这次改动比较分散，没有只盯着一个地方改。",
-    stats.fixes
-      ? `里面有 ${stats.fixes} 条明确是修问题，说明官方这次也在补稳定性。`
-      : "这次没有明显的大修 bug，更多是体验和结构调整。",
-  ];
-
-  return { items, stats, topModules, summaryLines };
-}
-
-function renderQuickStats(summary) {
-  return `
-    <div class="quick-stats">
-      <div class="quick-stat">
-        <span class="quick-stat-label">总改动</span>
-        <strong>${summary.stats.total}</strong>
-      </div>
-      <div class="quick-stat">
-        <span class="quick-stat-label">修复</span>
-        <strong>${summary.stats.fixes}</strong>
-      </div>
-      <div class="quick-stat">
-        <span class="quick-stat-label">新增/补充</span>
-        <strong>${summary.stats.adds}</strong>
-      </div>
-      <div class="quick-stat">
-        <span class="quick-stat-label">依赖升级</span>
-        <strong>${summary.stats.upgrades}</strong>
-      </div>
-    </div>
-  `;
-}
-
-function renderInsightList(summary) {
-  return `
-    <section class="insight-panel">
-      <div class="section-kicker">快速看完这版</div>
-      <p class="insight-brief">${escapeHtml(summary.summaryLines.join(" "))}</p>
-    </section>
-  `;
-}
-
-function renderTimelineItem(item) {
-  return `
-    <article class="story-card">
-      <div class="story-top">
-        <span class="status-pill status-${escapeHtml(item.kind)}">${escapeHtml(
-          item.statusLabel
-        )}</span>
-        <span class="module-pill">${escapeHtml(item.moduleLabel)}</span>
-      </div>
-      <h4>${escapeHtml(item.headline)}</h4>
-      <p class="story-summary">${escapeHtml(item.summary)}</p>
-      <div class="story-facts">
-        <div class="story-fact">
-          <span class="story-fact-label">原文</span>
-          <p>${escapeHtml(item.clean)}</p>
-        </div>
-        <div class="story-fact">
-          <span class="story-fact-label">影响</span>
-          <p>${escapeHtml(item.impact)} ${escapeHtml(item.benefit)}</p>
-        </div>
-        <div class="story-fact">
-          <span class="story-fact-label">要不要管</span>
-          <p>${escapeHtml(item.action)}</p>
-        </div>
-      </div>
-    </article>
-  `;
-}
-
-function renderSection(section) {
-  const renderedItems = section.items
-    .map((item) => renderTimelineItem(buildFarmerVersion(item, section.title)))
-    .join("");
-
-  return `
-    <section class="release-section">
-      <div class="section-head">
-        <div>
-          <div class="section-kicker">官方分组</div>
-          <h3>${escapeHtml(section.title)}</h3>
-        </div>
-      </div>
-      <div class="story-listing">
-        ${renderedItems}
-      </div>
-    </section>
-  `;
-}
-
-function renderRelease(release) {
-  const parsedSections = parseMarkdown(release.body || "");
-  const summary = summarizeRelease(release, parsedSections);
-
-  return `
-    <article class="release-shell" id="${escapeHtml(release.tag_name)}">
-      <header class="release-hero">
-        <div class="release-main">
-          <div class="eyebrow">版本快报</div>
-          <h2>${escapeHtml(release.name || release.tag_name)}</h2>
-          <p class="release-intro">
-            这是把官方英文更新日志翻成人话后的版本。重点不是逐词翻译，而是告诉你：
-            这次到底改了什么、谁会受影响、你需不需要管。
-          </p>
-          <div class="release-meta">
-            <span>发布时间：${escapeHtml(formatDate(release.published_at))}</span>
-            <span>原始标签：${escapeHtml(release.tag_name)}</span>
-            ${release.prerelease ? "<span>预览版</span>" : "<span>正式版</span>"}
-          </div>
-        </div>
-        <aside class="release-side">
-          ${renderQuickStats(summary)}
-          <a class="source-link" href="${escapeHtml(
-            release.html_url
-          )}" target="_blank" rel="noopener">查看 GitHub 原文</a>
-        </aside>
-      </header>
-      ${renderInsightList(summary)}
-      <div class="section-stack">
-        ${parsedSections.map(renderSection).join("")}
-      </div>
-    </article>
-  `;
+  return response.json();
 }
 
 async function fetchAllReleases() {
@@ -440,18 +285,245 @@ async function fetchAllReleases() {
   return releases.filter((release) => !release.draft);
 }
 
-async function loadOfflineReleases() {
-  const offlinePath = process.env.OFFLINE_RELEASES_PATH || DEFAULT_OFFLINE_PATH;
+async function loadJsonFile(filePath) {
   try {
-    return JSON.parse(await fs.readFile(offlinePath, "utf-8"));
+    return JSON.parse(await fs.readFile(filePath, "utf-8"));
   } catch {
     return null;
   }
 }
 
-async function writeFile(filePath, content) {
-  await fs.mkdir(path.dirname(filePath), { recursive: true });
-  await fs.writeFile(filePath, content);
+async function loadOfflineReleases() {
+  return loadJsonFile(process.env.OFFLINE_RELEASES_PATH || DEFAULT_OFFLINE_RELEASES_PATH);
+}
+
+async function loadOfflineContext() {
+  const raw = await loadJsonFile(
+    process.env.OFFLINE_CONTEXT_PATH || DEFAULT_OFFLINE_CONTEXT_PATH
+  );
+  if (!raw) return new Map();
+  return new Map(Object.entries(raw).map(([key, value]) => [Number(key), value]));
+}
+
+async function fetchContextForNumber(number, cache) {
+  if (cache.has(number)) return cache.get(number);
+
+  let item = null;
+
+  try {
+    const pr = await fetchJson(`https://api.github.com/repos/${REPO}/pulls/${number}`);
+    item = {
+      type: "pull",
+      number,
+      title: pr.title || "",
+      body: pr.body || "",
+      url: pr.html_url || "",
+    };
+  } catch (error) {
+    if (error.status !== 404) throw error;
+  }
+
+  if (!item) {
+    try {
+      const issue = await fetchJson(`https://api.github.com/repos/${REPO}/issues/${number}`);
+      item = {
+        type: "issue",
+        number,
+        title: issue.title || "",
+        body: issue.body || "",
+        url: issue.html_url || "",
+      };
+    } catch (error) {
+      if (error.status !== 404) throw error;
+    }
+  }
+
+  if (item) {
+    const linkedNumbers = extractLinkedIssueNumbers(item.body);
+    if (linkedNumbers.length) {
+      const linked = await fetchContextForNumber(linkedNumbers[0], cache);
+      if (linked) {
+        item.linkedIssueTitle = linked.title || "";
+        item.linkedIssueBody = linked.body || "";
+        item.linkedIssueUrl = linked.url || "";
+      }
+    }
+  }
+
+  cache.set(number, item);
+  return item;
+}
+
+async function buildContextMap(releases) {
+  const contextMap = await loadOfflineContext();
+  const numbers = new Set();
+
+  for (const release of releases) {
+    for (const section of parseMarkdown(release.body || "")) {
+      for (const item of section.items) {
+        const number = extractRefNumber(item);
+        if (number) numbers.add(number);
+      }
+    }
+  }
+
+  try {
+    for (const number of numbers) {
+      await fetchContextForNumber(number, contextMap);
+    }
+  } catch (error) {
+    if (!contextMap.size) throw error;
+    console.warn("Context API unavailable. Falling back to offline context data.");
+  }
+
+  return contextMap;
+}
+
+function summarizeRelease(release, contextMap) {
+  const sections = parseMarkdown(release.body || "").map((section) => ({
+    title: section.title,
+    entries: section.items.map((item) => buildEntry(item, section.title, contextMap)),
+  }));
+
+  const allEntries = sections.flatMap((section) => section.entries);
+  const total = allEntries.length;
+  const fixes = allEntries.filter((entry) => entry.kind === "fix").length;
+  const features = allEntries.filter((entry) => entry.kind === "feature").length;
+  const upgrades = allEntries.filter((entry) => entry.kind === "upgrade").length;
+
+  const topAreas = [...new Set(allEntries.map((entry) => entry.area))].slice(0, 3);
+
+  return {
+    release,
+    sections,
+    total,
+    fixes,
+    features,
+    upgrades,
+    headline: `这版一共 ${total} 条更新，重点集中在 ${topAreas.join("、")}。`,
+  };
+}
+
+function renderEntry(entry) {
+  return `
+    <li class="entry">
+      <div class="entry-main">
+        <div class="entry-header">
+          <span class="entry-kind kind-${escapeHtml(entry.kind)}">${escapeHtml(
+            entry.area
+          )}</span>
+          ${entry.refNumber ? `<a class="entry-ref" href="https://github.com/${REPO}/pull/${entry.refNumber}" target="_blank" rel="noopener">#${entry.refNumber}</a>` : ""}
+        </div>
+        <p class="entry-summary">${escapeHtml(entry.summary)}</p>
+        <div class="entry-meta">
+          <div><strong>这为什么重要：</strong>${escapeHtml(entry.whyItMatters)}</div>
+          <div><strong>你要不要管：</strong>${escapeHtml(entry.doNext)}</div>
+        </div>
+        <details class="entry-details">
+          <summary>看原始上下文</summary>
+          <div class="entry-context">
+            <div><strong>Release 原文：</strong>${escapeHtml(entry.text)}</div>
+            ${entry.contextTitle ? `<div><strong>对应 PR/Issue：</strong>${escapeHtml(entry.contextTitle)}</div>` : ""}
+            ${entry.linkedIssueTitle ? `<div><strong>关联问题：</strong>${escapeHtml(entry.linkedIssueTitle)}</div>` : ""}
+          </div>
+        </details>
+      </div>
+    </li>
+  `;
+}
+
+function renderSection(section) {
+  return `
+    <section class="release-section">
+      <h3>${escapeHtml(section.title)}</h3>
+      <ul class="entry-list">
+        ${section.entries.map(renderEntry).join("")}
+      </ul>
+    </section>
+  `;
+}
+
+function renderRelease(summary) {
+  const { release } = summary;
+  return `
+    <article class="release-card" id="${escapeHtml(release.tag_name)}">
+      <header class="release-header">
+        <div>
+          <div class="release-kicker">Release</div>
+          <h2>${escapeHtml(release.name || release.tag_name)}</h2>
+          <p class="release-headline">${escapeHtml(summary.headline)}</p>
+          <div class="release-facts">
+            <span>发布时间：${escapeHtml(formatDate(release.published_at))}</span>
+            <span>修复：${summary.fixes}</span>
+            <span>新增：${summary.features}</span>
+            <span>升级：${summary.upgrades}</span>
+          </div>
+        </div>
+        <a class="release-link" href="${escapeHtml(
+          release.html_url
+        )}" target="_blank" rel="noopener">查看原始 Release</a>
+      </header>
+      ${summary.sections.map(renderSection).join("")}
+    </article>
+  `;
+}
+
+function buildHtml(releases, summaries) {
+  return `<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>OpenClaw 更新日志中文解读</title>
+    <meta name="description" content="结合 GitHub Release、PR 和 Issue 上下文，把 OpenClaw 更新日志解释成清楚、通俗的中文。" />
+    <meta name="keywords" content="OpenClaw, 更新日志, 中文解读, GitHub Release, Issue, PR" />
+    <link rel="canonical" href="${escapeHtml(SITE_URL)}" />
+    <meta property="og:title" content="OpenClaw 更新日志中文解读" />
+    <meta property="og:description" content="不只是翻译 release 文本，还结合 Issue 和 PR 上下文解释这次为什么改、改完有什么用。" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="${escapeHtml(SITE_URL)}" />
+    <meta name="twitter:card" content="summary" />
+    <link rel="stylesheet" href="/style.css" />
+    <script type="application/ld+json">
+      ${JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        name: "OpenClaw 更新日志中文解读",
+        url: SITE_URL,
+        description:
+          "结合 GitHub Release、PR 和 Issue 上下文，把 OpenClaw 更新日志解释成清楚、通俗的中文。",
+        inLanguage: "zh-CN",
+      })}
+    </script>
+  </head>
+  <body>
+    <main class="page">
+      <header class="page-header">
+        <div class="page-title">OpenClaw 更新日志中文解读</div>
+        <p class="page-intro">
+          这个站不只是翻译 release 原文，而是尽量去看每条更新后面的 PR、Issue 和修复背景，
+          再告诉你：原来哪里有问题、这次加了什么、对你到底有什么影响。
+        </p>
+        <div class="page-facts">
+          <span>全球可访问</span>
+          <span>Cloudflare Pages 免费部署</span>
+          <span>支持每日自动同步</span>
+          <span>预留 Google AdSense</span>
+          <span>最后生成：${escapeHtml(formatDateTime(new Date().toISOString()))}</span>
+        </div>
+      </header>
+
+      <section class="notice">
+        <strong>说明：</strong>当 GitHub API 可访问时，页面会自动补充 PR/Issue 上下文；如果暂时访问不到，
+        就退回到离线样本或 release 原文本身。
+      </section>
+
+      <section class="release-list">
+        ${summaries.map(renderRelease).join("")}
+      </section>
+    </main>
+  </body>
+</html>`;
 }
 
 function buildRobots() {
@@ -477,544 +549,282 @@ function buildAdsTxt() {
 # google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0`;
 }
 
-function buildHtml(releases) {
-  const newest = releases[0];
-
-  return `<!doctype html>
-<html lang="zh-CN">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>OpenClaw 更新解读站 | 不是翻译，是讲人话</title>
-    <meta name="description" content="把 OpenClaw 官方版本日志拆成普通人能看懂的中文解读：这次改了什么，谁会受影响，要不要你动手。" />
-    <meta name="keywords" content="OpenClaw, 更新日志, 中文解读, Release Notes, Cloudflare Pages, SEO" />
-    <link rel="canonical" href="${escapeHtml(SITE_URL)}" />
-    <meta property="og:title" content="OpenClaw 更新解读站" />
-    <meta property="og:description" content="不是逐词翻译，而是把 OpenClaw 更新讲成人话。" />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="${escapeHtml(SITE_URL)}" />
-    <meta property="og:locale" content="zh_CN" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <link rel="stylesheet" href="/style.css" />
-    <script type="application/ld+json">
-      ${JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "WebSite",
-        name: "OpenClaw 更新解读站",
-        url: SITE_URL,
-        description:
-          "把 OpenClaw 官方版本日志拆成普通人能看懂的中文解读：这次改了什么，谁会受影响，要不要你动手。",
-        inLanguage: "zh-CN",
-      })}
-    </script>
-  </head>
-  <body>
-    <div class="page-noise"></div>
-    <main class="page">
-      <section class="masthead">
-        <div class="masthead-copy">
-          <div class="brand">OpenClaw Update Log</div>
-          <h1>OpenClaw 更新解读站</h1>
-          <p class="lead">
-            这里不做生硬翻译，只回答四件事：这次到底改了什么、谁会受影响、
-            你能得到什么好处、你到底要不要动手。
-          </p>
-        </div>
-        <div class="masthead-panel">
-          <div class="panel-kicker">当前站点状态</div>
-          <div class="panel-line">
-            <span>最新版本</span>
-            <strong>${escapeHtml(newest ? newest.tag_name : "暂无")}</strong>
-          </div>
-          <div class="panel-line">
-            <span>最近生成</span>
-            <strong>${escapeHtml(formatDateTime(new Date().toISOString()))}</strong>
-          </div>
-          <div class="panel-line">
-            <span>数据来源</span>
-            <strong>GitHub Releases</strong>
-          </div>
-        </div>
-      </section>
-
-      <section class="ad-banner">
-        <div>
-          <div class="section-kicker">广告位预留</div>
-          <h2>Google AdSense 以后可以直接接进来</h2>
-        </div>
-        <p>现在先留出结构位置，后面只要补广告脚本和正式 ads.txt 就能接入。</p>
-      </section>
-
-      <section class="release-stack">
-        ${releases.map(renderRelease).join("")}
-      </section>
-    </main>
-  </body>
-</html>`;
-}
-
 const STYLE_CSS = `
 :root {
-  --bg: #f3efe5;
-  --paper: rgba(255, 250, 242, 0.86);
-  --paper-strong: #fffaf2;
-  --line: rgba(49, 39, 28, 0.12);
-  --ink: #1b140e;
-  --muted: #625549;
-  --accent: #b85c2d;
-  --accent-strong: #8d3c14;
-  --olive: #646b3b;
-  --shadow: 0 18px 48px rgba(45, 28, 17, 0.12);
-  --radius-lg: 28px;
-  --radius-md: 20px;
-  --radius-sm: 14px;
+  --bg: #f6f8fa;
+  --surface: #ffffff;
+  --surface-muted: #f6f8fa;
+  --border: #d0d7de;
+  --text: #1f2328;
+  --muted: #57606a;
+  --link: #0969da;
+  --success: #1a7f37;
+  --accent: #8250df;
+  --shadow: 0 1px 0 rgba(27, 31, 36, 0.04);
 }
 
 * {
   box-sizing: border-box;
 }
 
-html {
-  scroll-behavior: smooth;
-}
-
 body {
   margin: 0;
-  color: var(--ink);
-  font-family: "Noto Serif SC", "Source Han Serif SC", "Songti SC", "STSong", serif;
-  background:
-    radial-gradient(circle at top left, rgba(184, 92, 45, 0.12), transparent 28%),
-    radial-gradient(circle at right 20%, rgba(100, 107, 59, 0.12), transparent 22%),
-    linear-gradient(180deg, #f6f1e7 0%, #efe7da 100%);
-  min-height: 100vh;
-  font-size: 17px;
-  line-height: 1.7;
-}
-
-.page-noise {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  background-image:
-    radial-gradient(rgba(27, 20, 14, 0.04) 1px, transparent 1px),
-    linear-gradient(rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.18));
-  background-size: 26px 26px, 100% 100%;
-  opacity: 0.55;
+  background: var(--bg);
+  color: var(--text);
+  font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
 }
 
 .page {
-  position: relative;
-  z-index: 1;
-  width: min(1180px, calc(100% - 32px));
+  width: min(1012px, calc(100% - 32px));
   margin: 0 auto;
-  padding: 40px 0 96px;
+  padding: 32px 0 72px;
 }
 
-.masthead {
-  display: grid;
-  grid-template-columns: minmax(0, 1.45fr) minmax(300px, 0.8fr);
-  gap: 28px;
-  align-items: stretch;
-}
-
-.masthead-copy,
-.masthead-panel,
-.ad-banner,
-.release-hero,
-.insight-panel,
-.release-section {
-  background: var(--paper);
-  backdrop-filter: blur(10px);
-  border: 1px solid var(--line);
+.page-header,
+.notice,
+.release-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
   box-shadow: var(--shadow);
 }
 
-.masthead-copy {
-  border-radius: 34px;
-  padding: 36px;
-  animation: rise 0.7s ease;
-}
-
-.brand,
-.section-kicker,
-.eyebrow,
-.panel-kicker {
-  font-family: "Noto Sans SC", "Source Han Sans SC", "PingFang SC", sans-serif;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  font-size: 12px;
-  color: var(--accent-strong);
-}
-
-.masthead-copy h1 {
-  margin: 14px 0 12px;
-  font-size: clamp(38px, 6vw, 68px);
-  line-height: 1.02;
-  letter-spacing: -0.03em;
-}
-
-.lead {
-  max-width: 44rem;
-  font-size: 19px;
-  color: var(--muted);
-}
-.release-meta span,
-.module-pill,
-.status-pill {
-  display: inline-flex;
-  align-items: center;
-  border-radius: 999px;
-  padding: 8px 12px;
-  font-size: 13px;
-  line-height: 1;
-}
-
-.masthead-panel {
-  border-radius: 28px;
-  padding: 28px;
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-  animation: rise 0.85s ease;
-}
-
-.panel-line {
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-  align-items: baseline;
-  padding-bottom: 14px;
-  border-bottom: 1px solid var(--line);
-}
-
-.panel-line span {
-  color: var(--muted);
-  font-size: 14px;
-}
-
-.panel-line strong {
-  font-size: 16px;
-  text-align: right;
-}
-
-.ad-banner p,
-.release-intro,
-.story-summary,
-.story-fact p,
-.insight-brief {
-  margin: 0;
-  color: var(--muted);
-}
-
-.ad-banner {
-  margin-top: 24px;
-  border-radius: 28px;
-  padding: 24px 28px;
-  display: flex;
-  justify-content: space-between;
-  gap: 24px;
-  align-items: center;
-}
-
-.ad-banner h2 {
-  margin: 4px 0 0;
-  font-size: clamp(24px, 3vw, 34px);
-}
-
-.release-stack {
-  display: grid;
-  gap: 30px;
-  margin-top: 30px;
-}
-
-.release-shell {
-  display: grid;
-  gap: 18px;
-}
-
-.release-hero {
-  border-radius: 34px;
-  padding: 30px;
-  display: grid;
-  grid-template-columns: minmax(0, 1.3fr) minmax(250px, 0.7fr);
-  gap: 24px;
-}
-
-.release-main h2 {
-  margin: 10px 0 12px;
-  font-size: clamp(30px, 4vw, 48px);
-  line-height: 1.08;
-}
-
-.release-intro {
-  font-size: 18px;
-  max-width: 42rem;
-}
-
-.release-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 18px;
-}
-
-.release-meta span,
-.module-pill {
-  background: rgba(100, 107, 59, 0.08);
-  border: 1px solid rgba(100, 107, 59, 0.14);
-}
-
-.quick-stats {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-}
-
-.quick-stat {
-  border-radius: 18px;
-  padding: 16px;
-  background: rgba(255, 255, 255, 0.58);
-  border: 1px solid var(--line);
-}
-
-.quick-stat-label {
-  display: block;
-  font-size: 13px;
-  color: var(--muted);
-  margin-bottom: 6px;
-}
-
-.quick-stat strong {
-  font-size: 28px;
-  line-height: 1;
-}
-
-.release-side {
-  display: grid;
-  gap: 14px;
-  align-content: start;
-}
-
-.source-link {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 48px;
-  padding: 0 18px;
-  border-radius: 999px;
-  text-decoration: none;
-  color: #fffaf5;
-  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
-  font-family: "Noto Sans SC", "Source Han Sans SC", "PingFang SC", sans-serif;
-  font-size: 14px;
-}
-
-.insight-panel {
-  border-radius: 28px;
+.page-header {
   padding: 24px;
 }
 
-.insight-brief {
-  margin-top: 10px;
-  font-size: 18px;
-}
-
-.section-stack {
-  display: grid;
-  gap: 18px;
-}
-
-.release-section {
-  border-radius: 28px;
-  padding: 24px;
-}
-
-.section-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: end;
-  gap: 16px;
-  margin-bottom: 18px;
-}
-
-.section-head h3 {
-  margin: 6px 0 0;
-  font-size: 28px;
-}
-
-.story-listing {
-  display: grid;
-  gap: 16px;
-}
-
-.story-card {
-  background: var(--paper-strong);
-  border: 1px solid var(--line);
-  border-radius: 22px;
-  padding: 22px;
-  display: grid;
-  gap: 14px;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-
-.story-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 16px 36px rgba(45, 28, 17, 0.1);
-}
-
-.story-top {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.status-pill {
-  font-family: "Noto Sans SC", "Source Han Sans SC", "PingFang SC", sans-serif;
-  border: 1px solid transparent;
-}
-
-.status-add,
-.status-improve,
-.status-change {
-  background: rgba(184, 92, 45, 0.1);
-  border-color: rgba(184, 92, 45, 0.14);
-}
-
-.status-fix {
-  background: rgba(100, 107, 59, 0.12);
-  border-color: rgba(100, 107, 59, 0.16);
-}
-
-.status-upgrade {
-  background: rgba(52, 91, 122, 0.1);
-  border-color: rgba(52, 91, 122, 0.15);
-}
-
-.status-protect {
-  background: rgba(122, 61, 52, 0.1);
-  border-color: rgba(122, 61, 52, 0.15);
-}
-
-.story-card h4 {
-  margin: 0;
-  font-size: 27px;
+.page-title {
+  font-size: 32px;
+  font-weight: 600;
   line-height: 1.25;
 }
 
-.story-summary {
-  font-size: 18px;
+.page-intro {
+  margin: 12px 0 0;
+  color: var(--muted);
+  max-width: 760px;
 }
 
-.story-facts {
-  display: grid;
+.page-facts {
+  display: flex;
+  flex-wrap: wrap;
   gap: 10px;
+  margin-top: 16px;
 }
 
-.story-fact {
+.page-facts span,
+.release-facts span,
+.entry-kind,
+.entry-ref {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 0 10px;
+  border-radius: 999px;
+  font-size: 13px;
+}
+
+.page-facts span,
+.release-facts span {
+  background: var(--surface-muted);
+  border: 1px solid var(--border);
+  color: var(--muted);
+}
+
+.notice {
+  margin-top: 16px;
+  padding: 14px 16px;
+  color: var(--muted);
+}
+
+.release-list {
   display: grid;
-  grid-template-columns: 82px minmax(0, 1fr);
-  gap: 12px;
-  padding: 12px 14px;
-  border-radius: 14px;
-  background: rgba(243, 239, 229, 0.7);
-  border: 1px solid rgba(49, 39, 28, 0.08);
+  gap: 16px;
+  margin-top: 16px;
 }
 
-.story-fact-label {
-  font-family: "Noto Sans SC", "Source Han Sans SC", "PingFang SC", sans-serif;
+.release-card {
+  overflow: hidden;
+}
+
+.release-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.release-kicker {
+  color: var(--muted);
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--accent-strong);
-  padding-top: 2px;
 }
 
-@keyframes rise {
-  from {
-    opacity: 0;
-    transform: translateY(16px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.release-header h2 {
+  margin: 6px 0 8px;
+  font-size: 28px;
+  line-height: 1.25;
 }
 
-@media (max-width: 980px) {
-  .masthead,
-  .release-hero {
-    grid-template-columns: 1fr;
-  }
+.release-headline {
+  margin: 0;
+  color: var(--muted);
+}
 
-  .ad-banner {
-    flex-direction: column;
-    align-items: flex-start;
-  }
+.release-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.release-link {
+  align-self: start;
+  color: var(--link);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.release-section {
+  padding: 20px 24px 24px;
+  border-top: 1px solid var(--border);
+}
+
+.release-section h3 {
+  margin: 0 0 14px;
+  font-size: 20px;
+}
+
+.entry-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.entry {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+}
+
+.entry-main {
+  padding: 16px;
+}
+
+.entry-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+}
+
+.entry-kind {
+  background: #ddf4ff;
+  color: #0550ae;
+}
+
+.kind-fix {
+  background: #dafbe1;
+  color: var(--success);
+}
+
+.kind-upgrade {
+  background: #fbefff;
+  color: var(--accent);
+}
+
+.entry-ref {
+  border: 1px solid var(--border);
+  color: var(--link);
+  text-decoration: none;
+  background: var(--surface-muted);
+}
+
+.entry-summary {
+  margin: 12px 0 0;
+}
+
+.entry-meta {
+  display: grid;
+  gap: 8px;
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.entry-details {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+
+.entry-details summary {
+  cursor: pointer;
+  color: var(--link);
+  font-size: 14px;
+}
+
+.entry-context {
+  display: grid;
+  gap: 8px;
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 14px;
 }
 
 @media (max-width: 720px) {
-  body {
-    font-size: 16px;
-  }
-
   .page {
-    width: min(100% - 20px, 1180px);
-    padding-top: 20px;
+    width: min(100% - 16px, 1012px);
+    padding-top: 16px;
   }
 
-  .masthead-copy,
-  .masthead-panel,
-  .release-hero,
-  .insight-panel,
-  .release-section,
-  .ad-banner {
-    padding: 20px;
-    border-radius: 22px;
+  .page-title {
+    font-size: 26px;
   }
 
-  .masthead-copy h1 {
-    font-size: 34px;
+  .release-header {
+    flex-direction: column;
   }
 
-  .release-main h2 {
-    font-size: 28px;
-  }
-
-  .story-card h4 {
-    font-size: 22px;
-  }
-
-  .story-fact {
-    grid-template-columns: 1fr;
-    gap: 6px;
-  }
-
-  .quick-stats {
-    grid-template-columns: 1fr 1fr;
+  .release-header h2 {
+    font-size: 24px;
   }
 }
 `.trim();
 
+async function writeFile(filePath, content) {
+  await fs.mkdir(path.dirname(filePath), { recursive: true });
+  await fs.writeFile(filePath, content);
+}
+
 async function buildSite() {
-  let releases = [];
+  let releases;
   try {
     releases = await fetchAllReleases();
   } catch (error) {
     const offline = await loadOfflineReleases();
     if (!offline) throw error;
-    console.warn(
-      "GitHub API unavailable. Using offline releases data for local preview."
-    );
+    console.warn("GitHub API unavailable. Using offline releases data for local preview.");
     releases = offline;
   }
 
-  const html = buildHtml(releases);
+  const contextMap = await buildContextMap(releases);
+  const summaries = releases.map((release) => summarizeRelease(release, contextMap));
+  const html = buildHtml(releases, summaries);
 
   await writeFile(path.join(PUBLIC_DIR, "index.html"), html);
   await writeFile(path.join(PUBLIC_DIR, "style.css"), STYLE_CSS);
   await writeFile(
     path.join(DATA_DIR, "releases.json"),
     JSON.stringify(releases, null, 2)
+  );
+  await writeFile(
+    path.join(DATA_DIR, "context.json"),
+    JSON.stringify(Object.fromEntries(contextMap), null, 2)
   );
   await writeFile(path.join(PUBLIC_DIR, "robots.txt"), buildRobots());
   await writeFile(path.join(PUBLIC_DIR, "sitemap.xml"), buildSitemap());
