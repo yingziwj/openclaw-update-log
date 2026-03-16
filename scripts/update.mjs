@@ -325,19 +325,8 @@ function renderQuickStats(summary) {
 function renderInsightList(summary) {
   return `
     <section class="insight-panel">
-      <div class="section-kicker">三句话看懂这一版</div>
-      <div class="insight-list">
-        ${summary.summaryLines
-          .map(
-            (line, index) => `
-              <div class="insight-item">
-                <div class="insight-index">0${index + 1}</div>
-                <p>${escapeHtml(line)}</p>
-              </div>
-            `
-          )
-          .join("")}
-      </div>
+      <div class="section-kicker">快速看完这版</div>
+      <p class="insight-brief">${escapeHtml(summary.summaryLines.join(" "))}</p>
     </section>
   `;
 }
@@ -353,30 +342,19 @@ function renderTimelineItem(item) {
       </div>
       <h4>${escapeHtml(item.headline)}</h4>
       <p class="story-summary">${escapeHtml(item.summary)}</p>
-      <div class="story-block">
-        <div class="story-label">原文在说什么</div>
-        <p>${escapeHtml(item.clean)}</p>
-      </div>
-      <div class="story-block">
-        <div class="story-label">拆开来看</div>
-        <ol class="story-list">
-          ${item.points
-            .map((point) => `<li>${escapeHtml(point)}</li>`)
-            .join("")}
-        </ol>
-      </div>
-      <div class="story-grid">
-        <div class="story-meta">
-          <div class="story-label">谁最该看</div>
-          <p>${escapeHtml(item.impact)}</p>
+      <div class="story-facts">
+        <div class="story-fact">
+          <span class="story-fact-label">原文</span>
+          <p>${escapeHtml(item.clean)}</p>
         </div>
-        <div class="story-meta">
-          <div class="story-label">能带来什么</div>
-          <p>${escapeHtml(item.benefit)}</p>
+        <div class="story-fact">
+          <span class="story-fact-label">影响</span>
+          <p>${escapeHtml(item.impact)} ${escapeHtml(item.benefit)}</p>
         </div>
-      </div>
-      <div class="story-note">
-        <strong>你要不要动手：</strong>${escapeHtml(item.action)}
+        <div class="story-fact">
+          <span class="story-fact-label">要不要管</span>
+          <p>${escapeHtml(item.action)}</p>
+        </div>
       </div>
     </article>
   `;
@@ -541,12 +519,6 @@ function buildHtml(releases) {
             这里不做生硬翻译，只回答四件事：这次到底改了什么、谁会受影响、
             你能得到什么好处、你到底要不要动手。
           </p>
-          <div class="masthead-notes">
-            <span>全球可访问</span>
-            <span>Cloudflare Pages 免费部署</span>
-            <span>支持 AdSense 预留位</span>
-            <span>每天可自动同步官方更新</span>
-          </div>
         </div>
         <div class="masthead-panel">
           <div class="panel-kicker">当前站点状态</div>
@@ -563,21 +535,6 @@ function buildHtml(releases) {
             <strong>GitHub Releases</strong>
           </div>
         </div>
-      </section>
-
-      <section class="promise-grid">
-        <article class="promise-card">
-          <div class="promise-title">不是直译</div>
-          <p>每条更新都会转成中文解释，重点说“有什么实际影响”。</p>
-        </article>
-        <article class="promise-card">
-          <div class="promise-title">不漏关键步骤</div>
-          <p>原文、拆解、影响对象、收益、是否要操作，五层都保留。</p>
-        </article>
-        <article class="promise-card">
-          <div class="promise-title">适合搜索</div>
-          <p>页面标题、描述、结构化数据、站点地图和 robots 都自动生成。</p>
-        </article>
       </section>
 
       <section class="ad-banner">
@@ -662,7 +619,6 @@ body {
 
 .masthead-copy,
 .masthead-panel,
-.promise-card,
 .ad-banner,
 .release-hero,
 .insight-panel,
@@ -702,15 +658,6 @@ body {
   font-size: 19px;
   color: var(--muted);
 }
-
-.masthead-notes {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 24px;
-}
-
-.masthead-notes span,
 .release-meta span,
 .module-pill,
 .status-pill {
@@ -720,11 +667,6 @@ body {
   padding: 8px 12px;
   font-size: 13px;
   line-height: 1;
-}
-
-.masthead-notes span {
-  background: rgba(184, 92, 45, 0.08);
-  border: 1px solid rgba(184, 92, 45, 0.12);
 }
 
 .masthead-panel {
@@ -755,30 +697,11 @@ body {
   text-align: right;
 }
 
-.promise-grid {
-  margin-top: 24px;
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 18px;
-}
-
-.promise-card {
-  border-radius: 24px;
-  padding: 22px;
-}
-
-.promise-title {
-  font-size: 22px;
-  margin-bottom: 8px;
-}
-
-.promise-card p,
 .ad-banner p,
 .release-intro,
 .story-summary,
-.story-block p,
-.story-meta p,
-.insight-item p {
+.story-fact p,
+.insight-brief {
   margin: 0;
   color: var(--muted);
 }
@@ -891,34 +814,8 @@ body {
   padding: 24px;
 }
 
-.insight-list {
-  display: grid;
-  gap: 14px;
-  margin-top: 14px;
-}
-
-.insight-item {
-  display: grid;
-  grid-template-columns: 58px minmax(0, 1fr);
-  gap: 16px;
-  align-items: start;
-  padding-top: 14px;
-  border-top: 1px solid var(--line);
-}
-
-.insight-item:first-child {
-  border-top: 0;
-  padding-top: 0;
-}
-
-.insight-index {
-  width: 58px;
-  height: 58px;
-  border-radius: 18px;
-  display: grid;
-  place-items: center;
-  background: linear-gradient(135deg, rgba(184, 92, 45, 0.16), rgba(100, 107, 59, 0.12));
-  font-weight: 700;
+.insight-brief {
+  margin-top: 10px;
   font-size: 18px;
 }
 
@@ -1008,38 +905,28 @@ body {
   font-size: 18px;
 }
 
-.story-block,
-.story-meta,
-.story-note {
-  padding: 14px 16px;
-  border-radius: 16px;
+.story-facts {
+  display: grid;
+  gap: 10px;
+}
+
+.story-fact {
+  display: grid;
+  grid-template-columns: 82px minmax(0, 1fr);
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 14px;
   background: rgba(243, 239, 229, 0.7);
   border: 1px solid rgba(49, 39, 28, 0.08);
 }
 
-.story-label {
-  margin-bottom: 8px;
+.story-fact-label {
   font-family: "Noto Sans SC", "Source Han Sans SC", "PingFang SC", sans-serif;
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--accent-strong);
-}
-
-.story-list {
-  margin: 0;
-  padding-left: 22px;
-  color: var(--ink);
-}
-
-.story-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-}
-
-.story-note {
-  color: var(--ink);
+  padding-top: 2px;
 }
 
 @keyframes rise {
@@ -1055,9 +942,7 @@ body {
 
 @media (max-width: 980px) {
   .masthead,
-  .release-hero,
-  .promise-grid,
-  .story-grid {
+  .release-hero {
     grid-template-columns: 1fr;
   }
 
@@ -1099,15 +984,9 @@ body {
     font-size: 22px;
   }
 
-  .insight-item {
-    grid-template-columns: 46px minmax(0, 1fr);
-  }
-
-  .insight-index {
-    width: 46px;
-    height: 46px;
-    border-radius: 14px;
-    font-size: 16px;
+  .story-fact {
+    grid-template-columns: 1fr;
+    gap: 6px;
   }
 
   .quick-stats {
