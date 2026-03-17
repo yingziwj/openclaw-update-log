@@ -145,6 +145,21 @@ body {
   font-size: 20px;
 }
 
+.release-section-highlights {
+  background: #fcfcfd;
+}
+
+.section-toggle summary {
+  cursor: pointer;
+  color: var(--link);
+  font-weight: 500;
+  margin-bottom: 14px;
+}
+
+.section-toggle[open] summary {
+  margin-bottom: 16px;
+}
+
 .entry-list {
   list-style: none;
   padding: 0;

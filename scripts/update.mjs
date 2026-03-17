@@ -17,6 +17,7 @@ const RELEASE_LIMIT = Number(process.env.RELEASE_LIMIT || 1);
 const CONTEXT_RELEASE_LIMIT = Number(process.env.CONTEXT_RELEASE_LIMIT || 1);
 const REQUEST_TIMEOUT_MS = Number(process.env.REQUEST_TIMEOUT_MS || 12000);
 const CONTEXT_CONCURRENCY = Number(process.env.CONTEXT_CONCURRENCY || 6);
+const HIGHLIGHT_LIMIT = Number(process.env.HIGHLIGHT_LIMIT || 8);
 
 const HEADERS = {
   "User-Agent": "openclaw-update-log-generator",
@@ -635,16 +636,33 @@ function summarizeRelease(release, contextMap) {
   const upgrades = allEntries.filter((entry) => entry.kind === "upgrade").length;
 
   const topAreas = [...new Set(allEntries.map((entry) => entry.area))].slice(0, 3);
+  const highlights = [...allEntries]
+    .sort((a, b) => scoreEntry(b) - scoreEntry(a))
+    .slice(0, HIGHLIGHT_LIMIT);
 
   return {
     release,
     sections,
+    highlights,
     total,
     fixes,
     features,
     upgrades,
     headline: `这版一共 ${total} 条更新，重点集中在 ${topAreas.join("、")}。`,
   };
+}
+
+function scoreEntry(entry) {
+  let score = 0;
+  if (entry.kind === "fix") score += 5;
+  if (entry.kind === "feature") score += 4;
+  if (entry.kind === "improve") score += 2;
+  if (entry.linkedIssueTitle) score += 4;
+  if (entry.contextTitle) score += 2;
+  if (/android|gateway|browser|telegram|feishu|slack|config|session|ui/i.test(entry.text)) {
+    score += 1;
+  }
+  return score;
 }
 
 function renderEntry(entry) {
@@ -681,8 +699,22 @@ function renderSection(section) {
   return `
     <section class="release-section">
       <h3>${escapeHtml(section.title)}</h3>
+      <details class="section-toggle">
+        <summary>展开查看这一组全部 ${section.entries.length} 条</summary>
+        <ul class="entry-list">
+          ${section.entries.map(renderEntry).join("")}
+        </ul>
+      </details>
+    </section>
+  `;
+}
+
+function renderHighlights(entries) {
+  return `
+    <section class="release-section release-section-highlights">
+      <h3>重点更新</h3>
       <ul class="entry-list">
-        ${section.entries.map(renderEntry).join("")}
+        ${entries.map(renderEntry).join("")}
       </ul>
     </section>
   `;
@@ -708,6 +740,7 @@ function renderRelease(summary) {
           release.html_url
         )}" target="_blank" rel="noopener">查看原始 Release</a>
       </header>
+      ${renderHighlights(summary.highlights)}
       ${summary.sections.map(renderSection).join("")}
     </article>
   `;
@@ -940,6 +973,21 @@ body {
 .release-section h3 {
   margin: 0 0 14px;
   font-size: 20px;
+}
+
+.release-section-highlights {
+  background: #fcfcfd;
+}
+
+.section-toggle summary {
+  cursor: pointer;
+  color: var(--link);
+  font-weight: 500;
+  margin-bottom: 14px;
+}
+
+.section-toggle[open] summary {
+  margin-bottom: 16px;
 }
 
 .entry-list {
