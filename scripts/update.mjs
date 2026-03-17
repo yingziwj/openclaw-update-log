@@ -145,15 +145,24 @@ function detectKind(text, sectionTitle) {
 
 function detectArea(text) {
   const rules = [
+    [/session|transcript/i, "会话和状态"],
+    [/agents?|provider|anthropic|azure|memory/i, "智能体流程"],
+    [/config|schema|validation/i, "配置和校验"],
+    [/telegram|discord|signal|feishu|slack/i, "消息渠道和集成"],
+    [/gateway/i, "网关连接"],
     [/android|mobile/i, "Android 端"],
+    [/ios/i, "iOS 端"],
     [/chat settings?|chat/i, "聊天设置"],
     [/workflow|automation/i, "工作流"],
     [/api|backend/i, "接口和后台"],
     [/webhook/i, "Webhook"],
-    [/search|filter/i, "搜索和筛选"],
+    [/search|pagination/i, "搜索和筛选"],
     [/pagination/i, "翻页"],
     [/slack/i, "Slack"],
     [/oauth|google/i, "Google 授权"],
+    [/docker|timezone/i, "部署环境"],
+    [/browser|ui/i, "界面和交互"],
+    [/windows|macos/i, "桌面运行环境"],
     [/database|sqlite/i, "数据库设置"],
     [/module/i, "模块列表"],
     [/connection/i, "连接配置"],
@@ -342,6 +351,14 @@ function buildSpecificFeatureSummary(title, area) {
     return "给 Docker 运行环境补了时区支持，定时任务和日志时间会更贴近实际使用地区。";
   }
 
+  if (/slack.*interactive reply directives/.test(lower)) {
+    return "Slack 这边新增了可选的交互式回复指令，后续在消息里做确认、选择和操作会更方便。";
+  }
+
+  if (/plugins: fail fast/.test(lower)) {
+    return "插件这边补了更早的冲突拦截，通道或绑定一旦撞车，会更早报出来，不会拖到后面才炸。";
+  }
+
   return `${area} 这里补了一块以前没有的能力或入口，用起来会少绕一点。`;
 }
 
@@ -354,6 +371,10 @@ function buildSpecificImproveSummary(title, area) {
 
   if (/polish|refinements|align /.test(lower)) {
     return `${area} 做的是细节整理，不是功能重写，但能减少用的时候那种别扭感。`;
+  }
+
+  if (/updated default model/.test(lower)) {
+    return "默认模型测试基线往上提了一档，说明官方已经把更新的模型能力当成主路径在校验。";
   }
 
   return `${area} 这次主要是在理顺细节，让使用过程更顺。`;
@@ -762,25 +783,47 @@ function summarizeRelease(release, contextMap) {
   })).filter((section) => section.entries.length);
 
   const allEntries = sections.flatMap((section) => section.entries);
-  const total = allEntries.length;
-  const fixes = allEntries.filter((entry) => entry.kind === "fix").length;
-  const features = allEntries.filter((entry) => entry.kind === "feature").length;
-  const upgrades = allEntries.filter((entry) => entry.kind === "upgrade").length;
-
-  const topAreas = [...new Set(allEntries.map((entry) => entry.area))].slice(0, 3);
-  const highlights = [...allEntries]
+  const fixesList = allEntries.filter((entry) => entry.kind === "fix");
+  const featureList = allEntries.filter((entry) => entry.kind === "feature");
+  const improveList = allEntries.filter((entry) => entry.kind === "improve");
+  const upgradeList = allEntries.filter((entry) => entry.kind === "upgrade");
+  const topAreas = topLabelsByCount(allEntries.map((entry) => entry.area), 3);
+  const topFixes = [...fixesList].sort((a, b) => scoreEntry(b) - scoreEntry(a)).slice(0, 5);
+  const topFeatures = [...featureList, ...improveList]
     .sort((a, b) => scoreEntry(b) - scoreEntry(a))
-    .slice(0, HIGHLIGHT_LIMIT);
+    .slice(0, 3);
+  const areaGroups = groupEntriesByArea(allEntries);
+  const topThemes = [...areaGroups.values()]
+    .sort((a, b) => b.length - a.length)
+    .slice(0, 3);
 
   return {
     release,
     sections,
-    highlights,
-    total,
-    fixes,
-    features,
-    upgrades,
-    headline: `这版一共 ${total} 条更新，重点集中在 ${topAreas.join("、")}。`,
+    entries: allEntries,
+    total: allEntries.length,
+    fixes: fixesList.length,
+    features: featureList.length,
+    improves: improveList.length,
+    upgrades: upgradeList.length,
+    topAreas,
+    topFixes,
+    topFeatures,
+    topThemes,
+    headline: buildHeadline(allEntries.length, fixesList.length, featureList.length, topAreas),
+    overview: buildReleaseOverview(
+      release,
+      allEntries,
+      fixesList,
+      featureList,
+      improveList,
+      topAreas
+    ),
+    issueDigest: buildIssueDigest(fixesList),
+    featureDigest: buildFeatureDigest(featureList, improveList, upgradeList),
+    impactDigest: buildImpactDigest(allEntries, fixesList, featureList, topAreas),
+    adviceDigest: buildAdviceDigest(allEntries, fixesList, featureList),
+    sourceDigest: buildSourceDigest(topFixes, topFeatures),
   };
 }
 
@@ -797,57 +840,190 @@ function scoreEntry(entry) {
   return score;
 }
 
-function renderEntry(entry) {
+function topLabelsByCount(values, limit) {
+  const counts = new Map();
+  for (const value of values) {
+    counts.set(value, (counts.get(value) || 0) + 1);
+  }
+  return [...counts.entries()]
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, limit)
+    .map(([label]) => label);
+}
+
+function groupEntriesByArea(entries) {
+  const groups = new Map();
+  for (const entry of entries) {
+    if (!groups.has(entry.area)) groups.set(entry.area, []);
+    groups.get(entry.area).push(entry);
+  }
+  return groups;
+}
+
+function joinWithChineseComma(items, fallback = "通用功能") {
+  const list = items.filter(Boolean);
+  if (!list.length) return fallback;
+  if (list.length === 1) return list[0];
+  if (list.length === 2) return `${list[0]}和${list[1]}`;
+  return `${list.slice(0, -1).join("、")}和${list[list.length - 1]}`;
+}
+
+function toSentence(text) {
+  return String(text || "").replace(/[。；，\s]+$/g, "").trim();
+}
+
+function buildHeadline(total, fixes, features, topAreas) {
+  const areaText = joinWithChineseComma(topAreas, "通用功能");
+  if (fixes >= Math.max(features * 2, 8)) {
+    return `这一版共有 ${total} 条可见更新，主线不是加花样，而是集中补 ${areaText} 的稳定性。`;
+  }
+  if (features > fixes / 2) {
+    return `这一版共有 ${total} 条可见更新，既在补 ${areaText} 的问题，也顺手加了一批更好用的入口和能力。`;
+  }
+  return `这一版共有 ${total} 条可见更新，重点落在 ${areaText} 这几块。`;
+}
+
+function buildReleaseOverview(release, entries, fixes, features, improves, topAreas) {
+  const areaText = joinWithChineseComma(topAreas, "通用功能");
+  const first = `从这次 ${release.name || release.tag_name} 的发布日志和后面的 PR/Issue 上下文看，官方这轮主要在收口老问题，尤其是 ${areaText} 这几块。`;
+
+  let second = `表面上看更新条目很多，但真正的主轴很清楚：一边修会影响正常使用的具体故障，一边把少数入口和细节顺手理顺。`;
+  if (fixes.length >= 20) {
+    second = `这版最明显的特点就是“修问题多于加功能”。也就是说，它更像一次集中补坑和加固，而不是一次花哨的新功能发布。`;
+  } else if (features.length + improves.length >= 6) {
+    second = `这版不是纯修 bug，也有一部分是把入口、设置和默认行为往更顺手的方向推了一步。`;
+  }
+
+  const third = `如果你不是开发者，可以把它理解成：官方在把那些“平时不一定天天碰到，但一旦碰到就很烦”的坑逐个填平，让系统更稳、更少莫名其妙出错。`;
+  return [first, second, third];
+}
+
+function buildIssueDigest(fixes) {
+  if (!fixes.length) {
+    return [
+      "这次公开日志里没有特别多的故障修复项，重点不在救火，而在整理现有能力。",
+    ];
+  }
+
+  const picks = fixes
+    .slice()
+    .sort((a, b) => scoreEntry(b) - scoreEntry(a))
+    .slice(0, 5)
+    .map((entry) => toSentence(entry.summary));
+
+  const areaText = joinWithChineseComma(topLabelsByCount(fixes.map((entry) => entry.area), 3));
+  const first = `如果只看“到底修了什么”，这版最值钱的部分都集中在 ${areaText}。它不是泛泛写成“优化体验”，而是对着真实故障点直接下手。`;
+  const second = picks.length
+    ? `拿最有代表性的几类问题来说：${picks.join("；")}。这些内容放在一起看，能看出官方在优先处理那些会让流程中断、状态出错、资源泄漏或配置失效的问题。`
+    : "";
+  const third = `换句话说，这版的核心价值不是多了多少新按钮，而是把原来容易绊人的石头搬走了。`;
+
+  return [first, second, third].filter(Boolean);
+}
+
+function buildFeatureDigest(features, improves, upgrades) {
+  const list = [...features, ...improves].sort((a, b) => scoreEntry(b) - scoreEntry(a));
+  if (!list.length && !upgrades.length) {
+    return ["这版新增内容不算多，主要精力还是放在修复和加固上。"];
+  }
+
+  const picks = list.slice(0, 3).map((entry) => toSentence(entry.summary));
+  const sentences = [];
+  if (picks.length) {
+    sentences.push(
+      `虽然这版主线是修 bug，但也不是完全没有新增或调整。比较能直接感知到的变化有：${picks.join("；")}。`
+    );
+  }
+  if (upgrades.length) {
+    sentences.push(
+      `另外还有少量底层依赖升级，这类东西你表面上不一定看得见，但通常是在补兼容性、稳定性或后续维护成本。`
+    );
+  }
+  sentences.push(
+    "所以这版的“新增”更像顺手把入口、默认行为和底层基础补齐，而不是突然换一整套新玩法。"
+  );
+  return sentences;
+}
+
+function buildImpactDigest(entries, fixes, features, topAreas) {
+  const areaText = joinWithChineseComma(topAreas, "通用功能");
+  const hasAndroid = entries.some((entry) => entry.area === "Android 端");
+  const hasConfig = entries.some((entry) => /配置|后台|接口|Webhook|Google 授权/.test(entry.area));
+
+  const sentences = [
+    `对普通用户来说，这版最直接的影响不是“界面大变样”，而是 ${areaText} 这些地方会更稳，之前那种明明流程没做错、结果却突然失败的情况会少一些。`,
+  ];
+
+  if (hasAndroid) {
+    sentences.push(
+      "如果你主要在 Android 端使用，长时间运行、会话切换和部分页面细节这类问题会更不容易积累成肉眼可见的卡顿或异常。"
+    );
+  }
+
+  if (hasConfig || fixes.some((entry) => /config|schema|validation|oauth|webhook/i.test(entry.text))) {
+    sentences.push(
+      "如果你自己还管配置、集成或部署，这版也意味着一些原来容易因为字段缺失、校验不全、连接失败而报错的坑被补上了。"
+    );
+  }
+
+  if (features.length) {
+    sentences.push(
+      "新增部分对普通人的意义也很务实，不是炫技，而是把一些原来不顺手的入口和细节做得更容易理解。"
+    );
+  }
+
+  return sentences;
+}
+
+function buildAdviceDigest(entries, fixes, features) {
+  const needsAdminAttention = entries.some((entry) =>
+    /config|schema|validation|oauth|webhook|database|sqlite|docker|timezone/i.test(entry.text)
+  );
+  const sentences = [
+    "大多数普通用户看到这里，结论其实很简单：不用专门学新东西，也不用手动做一串复杂操作，正常更新即可。",
+  ];
+
+  if (needsAdminAttention) {
+    sentences.push(
+      "如果你是自己部署、自己配接口、自己管集成的人，更新之后最好顺手看一下相关配置和日志，确认旧环境没有被历史脏配置拖住。"
+    );
+  }
+
+  if (fixes.length > features.length * 2) {
+    sentences.push(
+      "因为这版以修复为主，所以最值得做的不是研究新功能，而是把你以前碰到过的老问题重新试一遍，看它是不是已经真的消失了。"
+    );
+  }
+
+  return sentences;
+}
+
+function buildSourceDigest(topFixes, topFeatures) {
+  const labels = [...topFixes, ...topFeatures]
+    .slice(0, 5)
+    .map((entry) => {
+      const ref = entry.refNumber ? ` #${entry.refNumber}` : "";
+      return `${entry.area}${ref}`;
+    });
+  if (!labels.length) {
+    return "本页解读来自官方 Release 文本，以及能抓到的 PR/Issue 上下文。";
+  }
+  return `本页解读不是凭空发挥，而是综合官方 Release 文本，以及像 ${joinWithChineseComma(
+    labels
+  )} 这类 PR/Issue 上下文整理出来的。`;
+}
+
+function renderParagraphs(items) {
+  return items.map((item) => `<p>${escapeHtml(item)}</p>`).join("");
+}
+
+function renderDigestSection(title, paragraphs) {
   return `
-    <li class="entry">
-      <div class="entry-main">
-        <div class="entry-header">
-          <span class="entry-kind kind-${escapeHtml(entry.kind)}">${escapeHtml(
-            entry.area
-          )}</span>
-          ${entry.refNumber ? `<a class="entry-ref" href="${escapeHtml(
-            entry.contextUrl || `https://github.com/${REPO}/pull/${entry.refNumber}`
-          )}" target="_blank" rel="noopener">#${entry.refNumber}</a>` : ""}
-        </div>
-        <p class="entry-summary">${escapeHtml(entry.summary)}</p>
-        <div class="entry-meta">
-          <div><strong>这为什么重要：</strong>${escapeHtml(entry.whyItMatters)}</div>
-          <div><strong>你要不要管：</strong>${escapeHtml(entry.doNext)}</div>
-        </div>
-        <details class="entry-details">
-          <summary>看原始上下文</summary>
-          <div class="entry-context">
-            <div><strong>Release 原文：</strong>${escapeHtml(entry.text)}</div>
-            ${entry.contextTitle ? `<div><strong>对应 PR/Issue：</strong>${escapeHtml(entry.contextTitle)}</div>` : ""}
-            ${entry.linkedIssueTitle ? `<div><strong>关联问题：</strong>${escapeHtml(entry.linkedIssueTitle)}</div>` : ""}
-          </div>
-        </details>
+    <section class="digest-section">
+      <h3>${escapeHtml(title)}</h3>
+      <div class="digest-body">
+        ${renderParagraphs(paragraphs)}
       </div>
-    </li>
-  `;
-}
-
-function renderSection(section) {
-  return `
-    <section class="release-section">
-      <h3>${escapeHtml(section.title)}</h3>
-      <details class="section-toggle">
-        <summary>展开查看这一组全部 ${section.entries.length} 条</summary>
-        <ul class="entry-list">
-          ${section.entries.map(renderEntry).join("")}
-        </ul>
-      </details>
-    </section>
-  `;
-}
-
-function renderHighlights(entries) {
-  return `
-    <section class="release-section release-section-highlights">
-      <h3>重点更新</h3>
-      <ul class="entry-list">
-        ${entries.map(renderEntry).join("")}
-      </ul>
     </section>
   `;
 }
@@ -865,6 +1041,7 @@ function renderRelease(summary) {
             <span>发布时间：${escapeHtml(formatDate(release.published_at))}</span>
             <span>修复：${summary.fixes}</span>
             <span>新增：${summary.features}</span>
+            <span>调整：${summary.improves}</span>
             <span>升级：${summary.upgrades}</span>
           </div>
         </div>
@@ -872,8 +1049,16 @@ function renderRelease(summary) {
           release.html_url
         )}" target="_blank" rel="noopener">查看原始 Release</a>
       </header>
-      ${renderHighlights(summary.highlights)}
-      ${summary.sections.map(renderSection).join("")}
+      <section class="digest-grid">
+        ${renderDigestSection("整体看，这一版在干什么", summary.overview)}
+        ${renderDigestSection("这一版主要修了哪些问题", summary.issueDigest)}
+        ${renderDigestSection("除了修 bug，还动了什么", summary.featureDigest)}
+        ${renderDigestSection("对普通用户到底意味着什么", summary.impactDigest)}
+        ${renderDigestSection("你要不要专门处理", summary.adviceDigest)}
+      </section>
+      <footer class="release-footer">
+        <p>${escapeHtml(summary.sourceDigest)}</p>
+      </footer>
     </article>
   `;
 }
@@ -911,8 +1096,8 @@ function buildHtml(releases, summaries) {
       <header class="page-header">
         <div class="page-title">OpenClaw 更新日志中文解读</div>
         <p class="page-intro">
-          这个站不只是翻译 release 原文，而是尽量去看每条更新后面的 PR、Issue 和修复背景，
-          再告诉你：原来哪里有问题、这次加了什么、对你到底有什么影响。
+          这个站不再逐条翻译日志，而是把官方 Release、PR 和 Issue 背后的上下文揉成一篇整体解读，
+          直接告诉你这版到底在修什么、加什么、对普通用户意味着什么。
         </p>
         <div class="page-facts">
           <span>全球可访问</span>
@@ -925,7 +1110,7 @@ function buildHtml(releases, summaries) {
 
       <section class="notice">
         <strong>说明：</strong>当 GitHub API 可访问时，页面会自动补充 PR/Issue 上下文；如果暂时访问不到，
-        就退回到离线样本或 release 原文本身。
+        就回退到 GitHub 网页公开内容和本地缓存，优先保证“整体解读”仍然能生成。
       </section>
 
       <section class="release-list">
@@ -981,7 +1166,7 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--text);
-  font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  font: 17px/1.75 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
 }
 
 .page {
@@ -995,12 +1180,12 @@ body {
 .release-card {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: 10px;
   box-shadow: var(--shadow);
 }
 
 .page-header {
-  padding: 24px;
+  padding: 28px;
 }
 
 .page-title {
@@ -1012,7 +1197,7 @@ body {
 .page-intro {
   margin: 12px 0 0;
   color: var(--muted);
-  max-width: 760px;
+  max-width: 820px;
 }
 
 .page-facts {
@@ -1043,7 +1228,7 @@ body {
 
 .notice {
   margin-top: 16px;
-  padding: 14px 16px;
+  padding: 14px 18px;
   color: var(--muted);
 }
 
@@ -1061,7 +1246,7 @@ body {
   display: flex;
   justify-content: space-between;
   gap: 16px;
-  padding: 24px;
+  padding: 28px;
   border-bottom: 1px solid var(--border);
 }
 
@@ -1074,13 +1259,14 @@ body {
 
 .release-header h2 {
   margin: 6px 0 8px;
-  font-size: 28px;
+  font-size: 30px;
   line-height: 1.25;
 }
 
 .release-headline {
   margin: 0;
   color: var(--muted);
+  max-width: 760px;
 }
 
 .release-facts {
@@ -1097,108 +1283,40 @@ body {
   font-weight: 500;
 }
 
-.release-section {
-  padding: 20px 24px 24px;
+.digest-grid {
+  display: grid;
+  gap: 0;
+}
+
+.digest-section {
+  padding: 24px 28px;
   border-top: 1px solid var(--border);
 }
 
-.release-section h3 {
+.digest-section h3 {
   margin: 0 0 14px;
-  font-size: 20px;
+  font-size: 22px;
+  line-height: 1.35;
 }
 
-.release-section-highlights {
+.digest-body {
+  display: grid;
+  gap: 14px;
+}
+
+.digest-body p {
+  margin: 0;
+}
+
+.release-footer {
+  padding: 18px 28px 26px;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
   background: #fcfcfd;
 }
 
-.section-toggle summary {
-  cursor: pointer;
-  color: var(--link);
-  font-weight: 500;
-  margin-bottom: 14px;
-}
-
-.section-toggle[open] summary {
-  margin-bottom: 16px;
-}
-
-.entry-list {
-  list-style: none;
-  padding: 0;
+.release-footer p {
   margin: 0;
-  display: grid;
-  gap: 12px;
-}
-
-.entry {
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  background: var(--surface);
-}
-
-.entry-main {
-  padding: 16px;
-}
-
-.entry-header {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  align-items: center;
-}
-
-.entry-kind {
-  background: #ddf4ff;
-  color: #0550ae;
-}
-
-.kind-fix {
-  background: #dafbe1;
-  color: var(--success);
-}
-
-.kind-upgrade {
-  background: #fbefff;
-  color: var(--accent);
-}
-
-.entry-ref {
-  border: 1px solid var(--border);
-  color: var(--link);
-  text-decoration: none;
-  background: var(--surface-muted);
-}
-
-.entry-summary {
-  margin: 12px 0 0;
-}
-
-.entry-meta {
-  display: grid;
-  gap: 8px;
-  margin-top: 12px;
-  color: var(--muted);
-  font-size: 14px;
-}
-
-.entry-details {
-  margin-top: 12px;
-  padding-top: 12px;
-  border-top: 1px solid var(--border);
-}
-
-.entry-details summary {
-  cursor: pointer;
-  color: var(--link);
-  font-size: 14px;
-}
-
-.entry-context {
-  display: grid;
-  gap: 8px;
-  margin-top: 10px;
-  color: var(--muted);
-  font-size: 14px;
 }
 
 @media (max-width: 720px) {
@@ -1217,6 +1335,14 @@ body {
 
   .release-header h2 {
     font-size: 24px;
+  }
+
+  .digest-section,
+  .release-header,
+  .page-header,
+  .release-footer {
+    padding-left: 18px;
+    padding-right: 18px;
   }
 }
 `.trim();
