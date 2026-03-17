@@ -60,5 +60,313 @@
     "url": "https://github.com/openclaw/openclaw/pull/4025",
     "linkedIssueTitle": "LegacyModel provider triggers do not start workflows",
     "linkedIssueBody": "Users relying on LegacyModel providers found that some workflows never started because the trigger stage did not fire."
+  },
+  "10456": {
+    "type": "pull",
+    "number": 10456,
+    "title": "fix: preserve persona and language continuity in compaction summaries by keepitmello · Pull Request #10456 · openclaw/openclaw",
+    "body": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞  - fix: preserve persona and language continuity in compaction summaries by keepitmello · Pull Request #10456 · openclaw/openclaw",
+    "url": "https://github.com/openclaw/openclaw/pull/10456"
+  },
+  "13798": {
+    "type": "pull",
+    "number": 13798,
+    "title": "fix(macos): prevent PortGuard from killing Docker Desktop in remote mode by teslamint · Pull Request #13798 · openclaw/openclaw",
+    "body": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞  - fix(macos): prevent PortGuard from killing Docker Desktop in remote mode by teslamint · Pull Request #13798 · openclaw/openclaw",
+    "url": "https://github.com/openclaw/openclaw/pull/13798"
+  },
+  "26054": {
+    "type": "pull",
+    "number": 26054,
+    "title": "fix(agents): avoid injecting memory file twice on case-insensitive mounts by Lanfei · Pull Request #26054 · openclaw/openclaw",
+    "body": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞  - fix(agents): avoid injecting memory file twice on case-insensitive mounts by Lanfei · Pull Request #26054 · openclaw/openclaw",
+    "url": "https://github.com/openclaw/openclaw/pull/26054"
+  },
+  "27199": {
+    "type": "pull",
+    "number": 27199,
+    "title": "fix(signal): add groups config to Signal channel schema by unisone · Pull Request #27199 · openclaw/openclaw",
+    "body": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞  - fix(signal): add groups config to Signal channel schema by unisone · Pull Request #27199 · openclaw/openclaw",
+    "url": "https://github.com/openclaw/openclaw/pull/27199"
+  },
+  "28347": {
+    "type": "pull",
+    "number": 28347,
+    "title": "fix(compaction): use full-session token count for post-compaction sanity check by efe-arv · Pull Request #28347 · openclaw/openclaw",
+    "body": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞  - fix(compaction): use full-session token count for post-compaction sanity check by efe-arv · Pull Request #28347 · openclaw/openclaw",
+    "url": "https://github.com/openclaw/openclaw/pull/28347"
+  },
+  "33912": {
+    "type": "pull",
+    "number": 33912,
+    "title": "[Regression] Feishu 文件发送中文文件名乱码 (v2026.3.2) · Issue #33912 · openclaw/openclaw",
+    "body": "问题描述 OpenClaw 2026.3.2 版本中，通过 Feishu 通道发送文件时，中文文件名被转码显示为乱码。此问题在 2026.3.1 及之前版本正常。 复现步骤 使用 message 工具发送文件，filename 参数包含中文，例如： { \"action\": \"send\", \"filePath\": \"武汉15座山登山信息汇总.csv\", \"filename\": \"武汉15座山登山信息汇总.csv\" } 在 Feishu 群中查看，文件名显示为乱码（如 UR...",
+    "url": "https://github.com/openclaw/openclaw/pull/33912"
+  },
+  "35615": {
+    "type": "pull",
+    "number": 35615,
+    "title": "fix(discovery): add missing domain to wideArea Zod config schema by ingyukoh · Pull Request #35615 · openclaw/openclaw",
+    "body": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞  - fix(discovery): add missing domain to wideArea Zod config schema by ingyukoh · Pull Request #35615 · openclaw/openclaw",
+    "url": "https://github.com/openclaw/openclaw/pull/35615"
+  },
+  "36645": {
+    "type": "pull",
+    "number": 36645,
+    "title": "fix(sessions): create transcript file on chat.inject when missing by 2233admin · Pull Request #36645 · openclaw/openclaw",
+    "body": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞  - fix(sessions): create transcript file on chat.inject when missing by 2233admin · Pull Request #36645 · openclaw/openclaw",
+    "url": "https://github.com/openclaw/openclaw/pull/36645"
+  },
+  "40176": {
+    "type": "pull",
+    "number": 40176,
+    "title": "fix: resolve target agent workspace for cross-agent subagent spawns by moshehbenavraham · Pull Request #40176 · openclaw/openclaw",
+    "body": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞  - fix: resolve target agent workspace for cross-agent subagent spawns by moshehbenavraham · Pull Request #40176 · openclaw/openclaw",
+    "url": "https://github.com/openclaw/openclaw/pull/40176"
+  },
+  "41171": {
+    "type": "pull",
+    "number": 41171,
+    "title": "fix(config): add missing params field to agents.list[] validation schema by atian8179 · Pull Request #41171 · openclaw/openclaw",
+    "body": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞  - fix(config): add missing params field to agents.list[] validation schema by atian8179 · Pull Request #41171 · openclaw/openclaw",
+    "url": "https://github.com/openclaw/openclaw/pull/41171"
+  },
+  "42435": {
+    "type": "pull",
+    "number": 42435,
+    "title": "fix(models): apply Gemini model-id normalization to google-vertex provider by scoootscooob · Pull Request #42435 · openclaw/openclaw",
+    "body": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞  - fix(models): apply Gemini model-id normalization to google-vertex provider by scoootscooob · Pull Request #42435 · openclaw/openclaw",
+    "url": "https://github.com/openclaw/openclaw/pull/42435"
+  },
+  "42583": {
+    "type": "pull",
+    "number": 42583,
+    "title": "fix: restore web fetch firecrawl config in runtime zod schema by stim64045-spec · Pull Request #42583 · openclaw/openclaw",
+    "body": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞  - fix: restore web fetch firecrawl config in runtime zod schema by stim64045-spec · Pull Request #42583 · openclaw/openclaw",
+    "url": "https://github.com/openclaw/openclaw/pull/42583"
+  },
+  "43403": {
+    "type": "pull",
+    "number": 43403,
+    "title": "fix(agents): rephrase session reset prompt to avoid Azure content filter by xingsy97 · Pull Request #43403 · openclaw/openclaw",
+    "body": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞  - fix(agents): rephrase session reset prompt to avoid Azure content filter by xingsy97 · Pull Request #43403 · openclaw/openclaw",
+    "url": "https://github.com/openclaw/openclaw/pull/43403"
+  },
+  "43438": {
+    "type": "pull",
+    "number": 43438,
+    "title": "test(config): cover requiresOpenAiAnthropicToolPayload in compat schema fixture by xingsy97 · Pull Request #43438 · openclaw/openclaw",
+    "body": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞  - test(config): cover requiresOpenAiAnthropicToolPayload in compat schema fixture by xingsy97 · Pull Request #43438 · openclaw/openclaw",
+    "url": "https://github.com/openclaw/openclaw/pull/43438"
+  },
+  "43762": {
+    "type": "pull",
+    "number": 43762,
+    "title": "fix(feishu): add early event-level dedup to prevent duplicate replies by yunweibang · Pull Request #43762 · openclaw/openclaw",
+    "body": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞  - fix(feishu): add early event-level dedup to prevent duplicate replies by yunweibang · Pull Request #43762 · openclaw/openclaw",
+    "url": "https://github.com/openclaw/openclaw/pull/43762"
+  },
+  "43780": {
+    "type": "pull",
+    "number": 43780,
+    "title": "Android: fix HttpURLConnection leak in TalkModeVoiceResolver by Kaneki-x · Pull Request #43780 · openclaw/openclaw",
+    "body": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞  - Android: fix HttpURLConnection leak in TalkModeVoiceResolver by Kaneki-x · Pull Request #43780 · openclaw/openclaw",
+    "url": "https://github.com/openclaw/openclaw/pull/43780"
+  },
+  "44397": {
+    "type": "pull",
+    "number": 44397,
+    "title": "fix: handle Discord gateway metadata fetch failures by jalehman · Pull Request #44397 · openclaw/openclaw",
+    "body": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞  - fix: handle Discord gateway metadata fetch failures by jalehman · Pull Request #44397 · openclaw/openclaw",
+    "url": "https://github.com/openclaw/openclaw/pull/44397"
+  },
+  "44432": {
+    "type": "pull",
+    "number": 44432,
+    "title": "fix(agents): respect explicit user compat overrides for non-native openai-completions by cheapestinference · Pull Request #44432 · openclaw/openclaw",
+    "body": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞  - fix(agents): respect explicit user compat overrides for non-native openai-completions by cheapestinference · Pull Request #44432 · openclaw/openclaw",
+    "url": "https://github.com/openclaw/openclaw/pull/44432"
+  },
+  "44639": {
+    "type": "pull",
+    "number": 44639,
+    "title": "fix(telegram): thread media transport policy into SSRF by obviyus · Pull Request #44639 · openclaw/openclaw",
+    "body": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞  - fix(telegram): thread media transport policy into SSRF by obviyus · Pull Request #44639 · openclaw/openclaw",
+    "url": "https://github.com/openclaw/openclaw/pull/44639"
+  },
+  "44666": {
+    "type": "pull",
+    "number": 44666,
+    "title": "fix: address delivery dedupe review follow-ups by frankekn · Pull Request #44666 · openclaw/openclaw",
+    "body": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞  - fix: address delivery dedupe review follow-ups by frankekn · Pull Request #44666 · openclaw/openclaw",
+    "url": "https://github.com/openclaw/openclaw/pull/44666"
+  },
+  "44773": {
+    "type": "pull",
+    "number": 44773,
+    "title": "fix(session): preserve `lastAccountId ` and `lastThreadId` on session reset by Lanfei · Pull Request #44773 · openclaw/openclaw",
+    "body": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞  - fix(session): preserve `lastAccountId ` and `lastThreadId` on session reset by Lanfei · Pull Request #44773 · openclaw/openclaw",
+    "url": "https://github.com/openclaw/openclaw/pull/44773"
+  },
+  "44842": {
+    "type": "pull",
+    "number": 44842,
+    "title": "fix(windows): suppress visible console windows during restart and process cleanup by MoerAI · Pull Request #44842 · openclaw/openclaw",
+    "body": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞  - fix(windows): suppress visible console windows during restart and process cleanup by MoerAI · Pull Request #44842 · openclaw/openclaw",
+    "url": "https://github.com/openclaw/openclaw/pull/44842"
+  },
+  "44843": {
+    "type": "pull",
+    "number": 44843,
+    "title": "fix(agents): drop Anthropic thinking blocks on replay by frankekn · Pull Request #44843 · openclaw/openclaw",
+    "body": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞  - fix(agents): drop Anthropic thinking blocks on replay by frankekn · Pull Request #44843 · openclaw/openclaw",
+    "url": "https://github.com/openclaw/openclaw/pull/44843"
+  },
+  "44856": {
+    "type": "pull",
+    "number": 44856,
+    "title": "fix(ui): restore chat-new-messages class on scroll pill button by Astro-Han · Pull Request #44856 · openclaw/openclaw",
+    "body": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞  - fix(ui): restore chat-new-messages class on scroll pill button by Astro-Han · Pull Request #44856 · openclaw/openclaw",
+    "url": "https://github.com/openclaw/openclaw/pull/44856"
+  },
+  "44989": {
+    "type": "pull",
+    "number": 44989,
+    "title": "Fix incorrect rendering of brave costs in docs by keelanfh · Pull Request #44989 · openclaw/openclaw",
+    "body": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞  - Fix incorrect rendering of brave costs in docs by keelanfh · Pull Request #44989 · openclaw/openclaw",
+    "url": "https://github.com/openclaw/openclaw/pull/44989"
+  },
+  "45021": {
+    "type": "pull",
+    "number": 45021,
+    "title": "fix(android): use Google Code Scanner for onboarding QR by obviyus · Pull Request #45021 · openclaw/openclaw",
+    "body": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞  - fix(android): use Google Code Scanner for onboarding QR by obviyus · Pull Request #45021 · openclaw/openclaw",
+    "url": "https://github.com/openclaw/openclaw/pull/45021"
+  },
+  "45088": {
+    "type": "pull",
+    "number": 45088,
+    "title": "fix(ui): keep shared auth on insecure control-ui connects by velvet-shark · Pull Request #45088 · openclaw/openclaw",
+    "body": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞  - fix(ui): keep shared auth on insecure control-ui connects by velvet-shark · Pull Request #45088 · openclaw/openclaw",
+    "url": "https://github.com/openclaw/openclaw/pull/45088"
+  },
+  "45327": {
+    "type": "pull",
+    "number": 45327,
+    "title": "fix: retry Telegram inbound media downloads over IPv4 fallback by frankekn · Pull Request #45327 · openclaw/openclaw",
+    "body": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞  - fix: retry Telegram inbound media downloads over IPv4 fallback by frankekn · Pull Request #45327 · openclaw/openclaw",
+    "url": "https://github.com/openclaw/openclaw/pull/45327"
+  },
+  "45330": {
+    "type": "pull",
+    "number": 45330,
+    "title": "fix(ollama): hide native reasoning-only output by frankekn · Pull Request #45330 · openclaw/openclaw",
+    "body": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞  - fix(ollama): hide native reasoning-only output by frankekn · Pull Request #45330 · openclaw/openclaw",
+    "url": "https://github.com/openclaw/openclaw/pull/45330"
+  },
+  "45426": {
+    "type": "pull",
+    "number": 45426,
+    "title": "perf(build): deduplicate plugin-sdk chunks to fix ~2x memory regression by TarasShyn · Pull Request #45426 · openclaw/openclaw",
+    "body": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞  - perf(build): deduplicate plugin-sdk chunks to fix ~2x memory regression by TarasShyn · Pull Request #45426 · openclaw/openclaw",
+    "url": "https://github.com/openclaw/openclaw/pull/45426"
+  },
+  "45452": {
+    "type": "pull",
+    "number": 45452,
+    "title": "Fix updater refresh cwd for service reinstall by vincentkoc · Pull Request #45452 · openclaw/openclaw",
+    "body": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞  - Fix updater refresh cwd for service reinstall by vincentkoc · Pull Request #45452 · openclaw/openclaw",
+    "url": "https://github.com/openclaw/openclaw/pull/45452"
+  },
+  "45457": {
+    "type": "pull",
+    "number": 45457,
+    "title": "fix(browser): normalize batch act dispatch for selector and batch support by vincentkoc · Pull Request #45457 · openclaw/openclaw",
+    "body": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞  - fix(browser): normalize batch act dispatch for selector and batch support by vincentkoc · Pull Request #45457 · openclaw/openclaw",
+    "url": "https://github.com/openclaw/openclaw/pull/45457"
+  },
+  "45459": {
+    "type": "pull",
+    "number": 45459,
+    "title": "fix(cron): prevent isolated cron nested lane deadlocks by vincentkoc · Pull Request #45459 · openclaw/openclaw",
+    "body": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞  - fix(cron): prevent isolated cron nested lane deadlocks by vincentkoc · Pull Request #45459 · openclaw/openclaw",
+    "url": "https://github.com/openclaw/openclaw/pull/45459"
+  },
+  "45486": {
+    "type": "pull",
+    "number": 45486,
+    "title": "Guard updater service refresh against missing invocation cwd by vincentkoc · Pull Request #45486 · openclaw/openclaw",
+    "body": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞  - Guard updater service refresh against missing invocation cwd by vincentkoc · Pull Request #45486 · openclaw/openclaw",
+    "url": "https://github.com/openclaw/openclaw/pull/45486"
+  },
+  "45506": {
+    "type": "pull",
+    "number": 45506,
+    "title": "fix(browser): follow up batch failure and limit handling by vincentkoc · Pull Request #45506 · openclaw/openclaw",
+    "body": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞  - fix(browser): follow up batch failure and limit handling by vincentkoc · Pull Request #45506 · openclaw/openclaw",
+    "url": "https://github.com/openclaw/openclaw/pull/45506"
+  },
+  "45512": {
+    "type": "pull",
+    "number": 45512,
+    "title": "fix(gateway/ui): restore control-ui auth bypass and classify connect failures by sallyom · Pull Request #45512 · openclaw/openclaw",
+    "body": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞  - fix(gateway/ui): restore control-ui auth bypass and classify connect failures by sallyom · Pull Request #45512 · openclaw/openclaw",
+    "url": "https://github.com/openclaw/openclaw/pull/45512"
+  },
+  "45520": {
+    "type": "pull",
+    "number": 45520,
+    "title": "fix(config): avoid Anthropic startup crash by BunsDev · Pull Request #45520 · openclaw/openclaw",
+    "body": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞  - fix(config): avoid Anthropic startup crash by BunsDev · Pull Request #45520 · openclaw/openclaw",
+    "url": "https://github.com/openclaw/openclaw/pull/45520"
+  },
+  "45533": {
+    "type": "pull",
+    "number": 45533,
+    "title": "UI: fix chat context notice icon sizing by BunsDev · Pull Request #45533 · openclaw/openclaw",
+    "body": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞  - UI: fix chat context notice icon sizing by BunsDev · Pull Request #45533 · openclaw/openclaw",
+    "url": "https://github.com/openclaw/openclaw/pull/45533"
+  },
+  "45541": {
+    "type": "pull",
+    "number": 45541,
+    "title": "fix(ui): stop dashboard chat history reload storm by BunsDev · Pull Request #45541 · openclaw/openclaw",
+    "body": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞  - fix(ui): stop dashboard chat history reload storm by BunsDev · Pull Request #45541 · openclaw/openclaw",
+    "url": "https://github.com/openclaw/openclaw/pull/45541"
+  },
+  "45559": {
+    "type": "pull",
+    "number": 45559,
+    "title": "fix(ui): keep oversized chat replies readable by BunsDev · Pull Request #45559 · openclaw/openclaw",
+    "body": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞  - fix(ui): keep oversized chat replies readable by BunsDev · Pull Request #45559 · openclaw/openclaw",
+    "url": "https://github.com/openclaw/openclaw/pull/45559"
+  },
+  "45631": {
+    "type": "pull",
+    "number": 45631,
+    "title": "fix(agents): preserve blank local custom-provider API keys after onboarding by frankekn · Pull Request #45631 · openclaw/openclaw",
+    "body": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞  - fix(agents): preserve blank local custom-provider API keys after onboarding by frankekn · Pull Request #45631 · openclaw/openclaw",
+    "url": "https://github.com/openclaw/openclaw/pull/45631"
+  },
+  "45640": {
+    "type": "pull",
+    "number": 45640,
+    "title": "fix(macos): align minimum Node.js version with runtime guard (22.16.0) by ImLukeF · Pull Request #45640 · openclaw/openclaw",
+    "body": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞  - fix(macos): align minimum Node.js version with runtime guard (22.16.0) by ImLukeF · Pull Request #45640 · openclaw/openclaw",
+    "url": "https://github.com/openclaw/openclaw/pull/45640"
+  },
+  "45682": {
+    "type": "pull",
+    "number": 45682,
+    "title": "fix(browser): harden existing-session driver validation and session lifecycle by odysseus0 · Pull Request #45682 · openclaw/openclaw",
+    "body": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞  - fix(browser): harden existing-session driver validation and session lifecycle by odysseus0 · Pull Request #45682 · openclaw/openclaw",
+    "url": "https://github.com/openclaw/openclaw/pull/45682"
+  },
+  "45689": {
+    "type": "pull",
+    "number": 45689,
+    "title": "fix(gateway): bound unanswered client requests by Takhoffman · Pull Request #45689 · openclaw/openclaw",
+    "body": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞  - fix(gateway): bound unanswered client requests by Takhoffman · Pull Request #45689 · openclaw/openclaw",
+    "url": "https://github.com/openclaw/openclaw/pull/45689"
   }
 }

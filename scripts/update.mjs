@@ -13,10 +13,18 @@ const SITE_URL =
   process.env.SITE_URL || "https://openclaw-update-log.pages.dev";
 const REPO = "openclaw/openclaw";
 const PER_PAGE = 100;
+const RELEASE_LIMIT = Number(process.env.RELEASE_LIMIT || 1);
+const CONTEXT_RELEASE_LIMIT = Number(process.env.CONTEXT_RELEASE_LIMIT || 1);
+const REQUEST_TIMEOUT_MS = Number(process.env.REQUEST_TIMEOUT_MS || 12000);
+const CONTEXT_CONCURRENCY = Number(process.env.CONTEXT_CONCURRENCY || 6);
 
 const HEADERS = {
   "User-Agent": "openclaw-update-log-generator",
   Accept: "application/vnd.github+json",
+};
+const HTML_HEADERS = {
+  "User-Agent": "openclaw-update-log-generator",
+  Accept: "text/html,application/xhtml+xml",
 };
 
 if (process.env.GITHUB_TOKEN) {
@@ -132,9 +140,30 @@ function detectArea(text) {
   return "通用功能";
 }
 
+function shouldFetchContext(item, sectionTitle) {
+  const text = normalizeText(item);
+  const kind = detectKind(text, sectionTitle);
+  if (kind === "upgrade") return false;
+  if (/^(docs?|test|tests|refactor|chore|ci|build):/i.test(text)) return false;
+  return kind === "fix";
+}
+
 function extractRefNumber(item) {
-  const match = item.match(/\(#(\d+)\)\s*$/);
-  return match ? Number(match[1]) : null;
+  const urlMatch = item.match(/github\.com\/[^/\s]+\/[^/\s]+\/(?:pull|issues)\/(\d+)/i);
+  if (urlMatch) return Number(urlMatch[1]);
+
+  const tailMatch = item.match(/\(#(\d+)\)\s*$/);
+  if (tailMatch) return Number(tailMatch[1]);
+
+  const hashMatch = item.match(/(?:^|\s)#(\d+)(?:\s|$)/);
+  return hashMatch ? Number(hashMatch[1]) : null;
+}
+
+function removeTrailingRefs(text) {
+  return text
+    .replace(/\s+by\s+@[\w-]+\s+in\s+https:\/\/github\.com\/[^\s]+$/i, "")
+    .replace(/\s*\(#\d+\)\s*$/i, "")
+    .trim();
 }
 
 function extractLinkedIssueNumbers(text) {
@@ -149,7 +178,7 @@ function extractLinkedIssueNumbers(text) {
 }
 
 function buildFallbackSummary(item, kind, area) {
-  const clean = normalizeText(item).replace(/\(#\d+\)\s*$/, "").trim();
+  const clean = removeTrailingRefs(normalizeText(item));
 
   if (kind === "upgrade") {
     const versionMatch = clean.match(
@@ -231,7 +260,7 @@ function buildDoNext(kind, area, context) {
 
 function buildEntry(item, sectionTitle, contextMap) {
   const refNumber = extractRefNumber(item);
-  const text = normalizeText(item).replace(/\(#\d+\)\s*$/, "").trim();
+  const text = removeTrailingRefs(normalizeText(item));
   const kind = detectKind(text, sectionTitle);
   const area = detectArea(text);
   const context = refNumber ? contextMap.get(refNumber) : null;
@@ -247,17 +276,34 @@ function buildEntry(item, sectionTitle, contextMap) {
     doNext: buildDoNext(kind, area, context),
     contextTitle: context?.title || "",
     linkedIssueTitle: context?.linkedIssueTitle || "",
+    contextUrl: context?.url || "",
   };
 }
 
 async function fetchJson(url) {
-  const response = await fetch(url, { headers: HEADERS });
+  const response = await fetch(url, {
+    headers: HEADERS,
+    signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
+  });
   if (!response.ok) {
     const error = new Error(`Request failed: ${response.status}`);
     error.status = response.status;
     throw error;
   }
   return response.json();
+}
+
+async function fetchText(url) {
+  const response = await fetch(url, {
+    headers: HTML_HEADERS,
+    signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
+  });
+  if (!response.ok) {
+    const error = new Error(`Request failed: ${response.status}`);
+    error.status = response.status;
+    throw error;
+  }
+  return response.text();
 }
 
 async function fetchAllReleases() {
@@ -268,9 +314,11 @@ async function fetchAllReleases() {
     const response = await fetch(url, { headers: HEADERS });
     if (!response.ok) {
       const text = await response.text();
-      throw new Error(
+      const error = new Error(
         `GitHub API 请求失败 (${response.status}): ${text.slice(0, 200)}`
       );
+      error.status = response.status;
+      throw error;
     }
 
     const page = await response.json();
@@ -283,6 +331,84 @@ async function fetchAllReleases() {
   }
 
   return releases.filter((release) => !release.draft);
+}
+
+function decodeHtmlEntities(text) {
+  return String(text)
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'");
+}
+
+function stripHtml(text) {
+  return decodeHtmlEntities(
+    String(text)
+      .replace(/<br\s*\/?>/gi, "\n")
+      .replace(/<\/p>/gi, "\n")
+      .replace(/<[^>]+>/g, " ")
+      .replace(/\s+\n/g, "\n")
+      .replace(/\n\s+/g, "\n")
+      .replace(/[ \t]+/g, " ")
+      .trim()
+  );
+}
+
+async function fetchReleasesViaHtml() {
+  const html = await fetchText(`https://github.com/${REPO}/releases`);
+  const chunks = [...html.matchAll(/<section[^>]*>[\s\S]*?<\/section>/gi)];
+  const releases = [];
+
+  for (const chunkMatch of chunks) {
+    const chunk = chunkMatch[0];
+    const hrefMatch = chunk.match(/href="\/openclaw\/openclaw\/releases\/tag\/([^"#?]+)"/i);
+    if (!hrefMatch) continue;
+
+    const tagName = decodeURIComponent(hrefMatch[1]);
+    const titleMatch = chunk.match(/<a[^>]*href="\/openclaw\/openclaw\/releases\/tag\/[^"]+"[^>]*>([\s\S]*?)<\/a>/i);
+    const timeMatch = chunk.match(/<relative-time[^>]*datetime="([^"]+)"/i);
+    const bodyMatch = chunk.match(/<div[^>]*data-pjax="#repo-content-pjax-container"[\s\S]*?<div[^>]*class="markdown-body[^"]*"[^>]*>([\s\S]*?)<\/div>/i)
+      || chunk.match(/<div[^>]*class="markdown-body[^"]*"[^>]*>([\s\S]*?)<\/div>/i);
+
+    releases.push({
+      html_url: `https://github.com/${REPO}/releases/tag/${tagName}`,
+      tag_name: tagName,
+      name: stripHtml(titleMatch ? titleMatch[1] : tagName),
+      published_at: timeMatch ? timeMatch[1] : new Date().toISOString(),
+      prerelease: /pre-release|beta|alpha/i.test(chunk),
+      draft: false,
+      body: stripHtml(bodyMatch ? bodyMatch[1] : ""),
+    });
+  }
+
+  return releases;
+}
+
+async function fetchLatestReleaseViaHtml() {
+  const html = await fetchText(`https://github.com/${REPO}/releases/latest`);
+  const canonicalMatch = html.match(
+    /<link[^>]+rel="canonical"[^>]+href="https:\/\/github\.com\/openclaw\/openclaw\/releases\/tag\/([^"]+)"/i
+  );
+  const tagName = canonicalMatch ? decodeURIComponent(canonicalMatch[1]) : "latest";
+  const titleMatch =
+    html.match(/<meta property="og:title" content="([^"]+)"/i) ||
+    html.match(/<title>([^<]+)<\/title>/i);
+  const bodyMatch =
+    html.match(/<div[^>]*class="markdown-body[^"]*"[^>]*>([\s\S]*?)<\/div>/i) || [];
+  const timeMatch = html.match(/<relative-time[^>]*datetime="([^"]+)"/i);
+
+  return [
+    {
+      html_url: `https://github.com/${REPO}/releases/tag/${tagName}`,
+      tag_name: tagName,
+      name: stripHtml(titleMatch ? titleMatch[1] : tagName).replace(/\s*·\s*GitHub.*$/i, ""),
+      published_at: timeMatch ? timeMatch[1] : new Date().toISOString(),
+      prerelease: /pre-release|beta|alpha/i.test(html),
+      draft: false,
+      body: stripHtml(bodyMatch[1] || ""),
+    },
+  ];
 }
 
 async function loadJsonFile(filePath) {
@@ -354,26 +480,90 @@ async function fetchContextForNumber(number, cache) {
   return item;
 }
 
+async function fetchContextViaHtml(number, cache) {
+  if (cache.has(number)) return cache.get(number);
+
+  const candidates = [
+    `https://github.com/${REPO}/pull/${number}`,
+    `https://github.com/${REPO}/issues/${number}`,
+  ];
+
+  for (const url of candidates) {
+    try {
+      const html = await fetchText(url);
+      const titleMatch =
+        html.match(/<meta property="og:title" content="([^"]+)"/i) ||
+        html.match(/<title>([^<]+)<\/title>/i);
+      const descriptionMatch =
+        html.match(/<meta name="description" content="([^"]+)"/i) ||
+        html.match(/<meta property="og:description" content="([^"]+)"/i);
+
+      const item = {
+        type: url.includes("/pull/") ? "pull" : "issue",
+        number,
+        title: decodeHtmlEntities(titleMatch ? titleMatch[1] : ""),
+        body: decodeHtmlEntities(descriptionMatch ? descriptionMatch[1] : ""),
+        url,
+      };
+
+      cache.set(number, item);
+      return item;
+    } catch (error) {
+      if (error.status === 404) continue;
+    }
+  }
+
+  cache.set(number, null);
+  return null;
+}
+
 async function buildContextMap(releases) {
   const contextMap = await loadOfflineContext();
   const numbers = new Set();
+  const scopedReleases = releases.slice(0, CONTEXT_RELEASE_LIMIT);
 
-  for (const release of releases) {
+  for (const release of scopedReleases) {
     for (const section of parseMarkdown(release.body || "")) {
       for (const item of section.items) {
+        if (!shouldFetchContext(item, section.title)) continue;
         const number = extractRefNumber(item);
         if (number) numbers.add(number);
       }
     }
   }
 
-  try {
-    for (const number of numbers) {
-      await fetchContextForNumber(number, contextMap);
+  let failures = 0;
+  const numberList = [...numbers];
+
+  for (let i = 0; i < numberList.length; i += CONTEXT_CONCURRENCY) {
+    const batch = numberList.slice(i, i + CONTEXT_CONCURRENCY);
+    const results = await Promise.all(
+      batch.map(async (number) => {
+        try {
+          await fetchContextForNumber(number, contextMap);
+          return true;
+        } catch (error) {
+          if (error.status === 403) {
+            try {
+              await fetchContextViaHtml(number, contextMap);
+              return true;
+            } catch {}
+          }
+          return false;
+        }
+      })
+    );
+
+    failures += results.filter((ok) => !ok).length;
+  }
+
+  if (failures) {
+    if (!contextMap.size) {
+      throw new Error("Context API unavailable and no offline context data.");
     }
-  } catch (error) {
-    if (!contextMap.size) throw error;
-    console.warn("Context API unavailable. Falling back to offline context data.");
+    console.warn(
+      `Context API unavailable for ${failures} items. Falling back to cached/offline context where needed.`
+    );
   }
 
   return contextMap;
@@ -412,7 +602,9 @@ function renderEntry(entry) {
           <span class="entry-kind kind-${escapeHtml(entry.kind)}">${escapeHtml(
             entry.area
           )}</span>
-          ${entry.refNumber ? `<a class="entry-ref" href="https://github.com/${REPO}/pull/${entry.refNumber}" target="_blank" rel="noopener">#${entry.refNumber}</a>` : ""}
+          ${entry.refNumber ? `<a class="entry-ref" href="${escapeHtml(
+            entry.contextUrl || `https://github.com/${REPO}/pull/${entry.refNumber}`
+          )}" target="_blank" rel="noopener">#${entry.refNumber}</a>` : ""}
         </div>
         <p class="entry-summary">${escapeHtml(entry.summary)}</p>
         <div class="entry-meta">
@@ -806,11 +998,25 @@ async function buildSite() {
   try {
     releases = await fetchAllReleases();
   } catch (error) {
-    const offline = await loadOfflineReleases();
-    if (!offline) throw error;
-    console.warn("GitHub API unavailable. Using offline releases data for local preview.");
-    releases = offline;
+    if (error.status === 403) {
+      try {
+        releases = await fetchLatestReleaseViaHtml();
+        console.warn("GitHub API rate-limited. Using GitHub HTML fallback for releases.");
+      } catch {
+        const offline = await loadOfflineReleases();
+        if (!offline) throw error;
+        console.warn("GitHub API unavailable. Using offline releases data for local preview.");
+        releases = offline;
+      }
+    } else {
+      const offline = await loadOfflineReleases();
+      if (!offline) throw error;
+      console.warn("GitHub API unavailable. Using offline releases data for local preview.");
+      releases = offline;
+    }
   }
+
+  releases = releases.slice(0, RELEASE_LIMIT);
 
   const contextMap = await buildContextMap(releases);
   const summaries = releases.map((release) => summarizeRelease(release, contextMap));
