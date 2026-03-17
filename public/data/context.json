@@ -152,13 +152,6 @@
     "body": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞  - fix(agents): rephrase session reset prompt to avoid Azure content filter by xingsy97 · Pull Request #43403 · openclaw/openclaw",
     "url": "https://github.com/openclaw/openclaw/pull/43403"
   },
-  "43438": {
-    "type": "pull",
-    "number": 43438,
-    "title": "test(config): cover requiresOpenAiAnthropicToolPayload in compat schema fixture by xingsy97 · Pull Request #43438 · openclaw/openclaw",
-    "body": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞  - test(config): cover requiresOpenAiAnthropicToolPayload in compat schema fixture by xingsy97 · Pull Request #43438 · openclaw/openclaw",
-    "url": "https://github.com/openclaw/openclaw/pull/43438"
-  },
   "43762": {
     "type": "pull",
     "number": 43762,

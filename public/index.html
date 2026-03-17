@@ -30,7 +30,7 @@
           <span>Cloudflare Pages 免费部署</span>
           <span>支持每日自动同步</span>
           <span>预留 Google AdSense</span>
-          <span>最后生成：2026-03-17 10:52 UTC</span>
+          <span>最后生成：2026-03-17 11:57 UTC</span>
         </div>
       </header>
 
@@ -46,10 +46,10 @@
         <div>
           <div class="release-kicker">Release</div>
           <h2>openclaw 2026.3.13</h2>
-          <p class="release-headline">这版一共 58 条更新，重点集中在 通用功能、Android 端、搜索和筛选。</p>
+          <p class="release-headline">这版一共 56 条更新，重点集中在 通用功能、Android 端、搜索和筛选。</p>
           <div class="release-facts">
             <span>发布时间：2026-03-14</span>
-            <span>修复：44</span>
+            <span>修复：43</span>
             <span>新增：3</span>
             <span>升级：1</span>
           </div>
@@ -67,16 +67,16 @@
           <span class="entry-kind kind-fix">通用功能</span>
           <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/28347" target="_blank" rel="noopener">#28347</a>
         </div>
-        <p class="entry-summary">这条修复背后的上下文是“fix(compaction): use full session token count for post compaction sanity check by efe arv · Pull Request 28347 · openclaw/openclaw”。结合描述看，官方是在处理 通用功能 的一个实际故障点，目标是让这块更稳。</p>
+        <p class="entry-summary">修复了压缩完成后 token 计数校验容易算错的问题，避免压缩后状态判断不准，连带影响后续流程。</p>
         <div class="entry-meta">
-          <div><strong>这为什么重要：</strong>通用功能 更稳，少报错，少出现“明明设置了却不生效”的情况。</div>
+          <div><strong>这为什么重要：</strong>通用功能 这块会更稳，尤其是那些以前偶发、难复现、但一出问题就很烦的故障。</div>
           <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
         </div>
         <details class="entry-details">
           <summary>看原始上下文</summary>
           <div class="entry-context">
-            <div><strong>Release 原文：</strong>fix(compaction): use full-session token count for post-compaction sanity check by @efe-arv in #28347</div>
-            <div><strong>对应 PR/Issue：</strong>fix(compaction): use full-session token count for post-compaction sanity check by efe-arv · Pull Request #28347 · openclaw/openclaw</div>
+            <div><strong>Release 原文：</strong>fix(compaction): use full-session token count for post-compaction sanity check</div>
+            <div><strong>对应 PR/Issue：</strong>fix(compaction): use full session token count for post compaction sanity check by efe arv</div>
             
           </div>
         </details>
@@ -89,16 +89,16 @@
           <span class="entry-kind kind-fix">通用功能</span>
           <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/44639" target="_blank" rel="noopener">#44639</a>
         </div>
-        <p class="entry-summary">这条修复背后的上下文是“fix(telegram): thread media transport policy into SSRF by obviyus · Pull Request 44639 · openclaw/openclaw”。结合描述看，官方是在处理 通用功能 的一个实际故障点，目标是让这块更稳。</p>
+        <p class="entry-summary">补上了 Telegram 媒体下载时的传输策略，避免图片或文件进来后在抓取阶段直接失败。</p>
         <div class="entry-meta">
-          <div><strong>这为什么重要：</strong>通用功能 更稳，少报错，少出现“明明设置了却不生效”的情况。</div>
+          <div><strong>这为什么重要：</strong>通用功能 这块会更稳，尤其是那些以前偶发、难复现、但一出问题就很烦的故障。</div>
           <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
         </div>
         <details class="entry-details">
           <summary>看原始上下文</summary>
           <div class="entry-context">
-            <div><strong>Release 原文：</strong>fix(telegram): thread media transport policy into SSRF by @obviyus in #44639</div>
-            <div><strong>对应 PR/Issue：</strong>fix(telegram): thread media transport policy into SSRF by obviyus · Pull Request #44639 · openclaw/openclaw</div>
+            <div><strong>Release 原文：</strong>fix(telegram): thread media transport policy into SSRF</div>
+            <div><strong>对应 PR/Issue：</strong>fix(telegram): thread media transport policy into SSRF</div>
             
           </div>
         </details>
@@ -111,16 +111,16 @@
           <span class="entry-kind kind-fix">通用功能</span>
           <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/44397" target="_blank" rel="noopener">#44397</a>
         </div>
-        <p class="entry-summary">这条修复背后的上下文是“fix: handle Discord gateway metadata fetch failures by jalehman · Pull Request 44397 · openclaw/openclaw”。结合描述看，官方是在处理 通用功能 的一个实际故障点，目标是让这块更稳。</p>
+        <p class="entry-summary">补上了“handle Discord gateway metadata fetch 失败”这类异常情况的兜底处理，避免一次失败就把后续流程一起带崩。</p>
         <div class="entry-meta">
-          <div><strong>这为什么重要：</strong>通用功能 更稳，少报错，少出现“明明设置了却不生效”的情况。</div>
+          <div><strong>这为什么重要：</strong>通用功能 这块会更稳，尤其是那些以前偶发、难复现、但一出问题就很烦的故障。</div>
           <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
         </div>
         <details class="entry-details">
           <summary>看原始上下文</summary>
           <div class="entry-context">
-            <div><strong>Release 原文：</strong>fix: handle Discord gateway metadata fetch failures by @jalehman in #44397</div>
-            <div><strong>对应 PR/Issue：</strong>fix: handle Discord gateway metadata fetch failures by jalehman · Pull Request #44397 · openclaw/openclaw</div>
+            <div><strong>Release 原文：</strong>fix: handle Discord gateway metadata fetch failures</div>
+            <div><strong>对应 PR/Issue：</strong>fix: handle Discord gateway metadata fetch failures</div>
             
           </div>
         </details>
@@ -133,16 +133,16 @@
           <span class="entry-kind kind-fix">通用功能</span>
           <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/44773" target="_blank" rel="noopener">#44773</a>
         </div>
-        <p class="entry-summary">这条修复背后的上下文是“fix(session): preserve lastAccountId and lastThreadId on session reset by Lanfei · Pull Request 44773 · openclaw/openclaw”。结合描述看，官方是在处理 通用功能 的一个实际故障点，目标是让这块更稳。</p>
+        <p class="entry-summary">修复了重置会话时把最近账号和最近线程一起清掉的问题，现在重置后不会把这两个关键状态顺手抹掉。</p>
         <div class="entry-meta">
-          <div><strong>这为什么重要：</strong>通用功能 更稳，少报错，少出现“明明设置了却不生效”的情况。</div>
+          <div><strong>这为什么重要：</strong>通用功能 这块会更稳，尤其是那些以前偶发、难复现、但一出问题就很烦的故障。</div>
           <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
         </div>
         <details class="entry-details">
           <summary>看原始上下文</summary>
           <div class="entry-context">
-            <div><strong>Release 原文：</strong>fix(session): preserve lastAccountId and lastThreadId on session reset by @Lanfei in #44773</div>
-            <div><strong>对应 PR/Issue：</strong>fix(session): preserve `lastAccountId ` and `lastThreadId` on session reset by Lanfei · Pull Request #44773 · openclaw/openclaw</div>
+            <div><strong>Release 原文：</strong>fix(session): preserve lastAccountId and lastThreadId on session reset</div>
+            <div><strong>对应 PR/Issue：</strong>fix(session): preserve lastAccountId and lastThreadId on session reset</div>
             
           </div>
         </details>
@@ -155,38 +155,16 @@
           <span class="entry-kind kind-fix">Android 端</span>
           <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/43780" target="_blank" rel="noopener">#43780</a>
         </div>
-        <p class="entry-summary">这条修复背后的上下文是“Android: fix HttpURLConnection leak in TalkModeVoiceResolver by Kaneki x · Pull Request 43780 · openclaw/openclaw”。结合描述看，官方是在处理 Android 端 的一个实际故障点，目标是让这块更稳。</p>
+        <p class="entry-summary">修掉了 Android 里一个连接没及时释放的问题，长时间使用时更不容易慢慢堆出资源占用。</p>
         <div class="entry-meta">
-          <div><strong>这为什么重要：</strong>Android 端 更稳，少报错，少出现“明明设置了却不生效”的情况。</div>
+          <div><strong>这为什么重要：</strong>Android 端 这块会更稳，尤其是那些以前偶发、难复现、但一出问题就很烦的故障。</div>
           <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
         </div>
         <details class="entry-details">
           <summary>看原始上下文</summary>
           <div class="entry-context">
-            <div><strong>Release 原文：</strong>Android: fix HttpURLConnection leak in TalkModeVoiceResolver by @Kaneki-x in #43780</div>
-            <div><strong>对应 PR/Issue：</strong>Android: fix HttpURLConnection leak in TalkModeVoiceResolver by Kaneki-x · Pull Request #43780 · openclaw/openclaw</div>
-            
-          </div>
-        </details>
-      </div>
-    </li>
-  
-    <li class="entry">
-      <div class="entry-main">
-        <div class="entry-header">
-          <span class="entry-kind kind-fix">通用功能</span>
-          <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/43438" target="_blank" rel="noopener">#43438</a>
-        </div>
-        <p class="entry-summary">这条修复背后的上下文是“test(config): cover requiresOpenAiAnthropicToolPayload in compat schema fixture by xingsy97 · Pull Request 43438 · openclaw/openclaw”。结合描述看，官方是在处理 通用功能 的一个实际故障点，目标是让这块更稳。</p>
-        <div class="entry-meta">
-          <div><strong>这为什么重要：</strong>通用功能 更稳，少报错，少出现“明明设置了却不生效”的情况。</div>
-          <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
-        </div>
-        <details class="entry-details">
-          <summary>看原始上下文</summary>
-          <div class="entry-context">
-            <div><strong>Release 原文：</strong>test(config): cover requiresOpenAiAnthropicToolPayload in compat schema fixture by @xingsy97 in #43438</div>
-            <div><strong>对应 PR/Issue：</strong>test(config): cover requiresOpenAiAnthropicToolPayload in compat schema fixture by xingsy97 · Pull Request #43438 · openclaw/openclaw</div>
+            <div><strong>Release 原文：</strong>Android: fix HttpURLConnection leak in TalkModeVoiceResolver</div>
+            <div><strong>对应 PR/Issue：</strong>Android: fix HttpURLConnection leak in TalkModeVoiceResolver by Kaneki x</div>
             
           </div>
         </details>
@@ -199,16 +177,16 @@
           <span class="entry-kind kind-fix">搜索和筛选</span>
           <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/43403" target="_blank" rel="noopener">#43403</a>
         </div>
-        <p class="entry-summary">这条修复背后的上下文是“fix(agents): rephrase session reset prompt to avoid Azure content filter by xingsy97 · Pull Request 43403 · openclaw/openclaw”。结合描述看，官方是在处理 搜索和筛选 的一个实际故障点，目标是让这块更稳。</p>
+        <p class="entry-summary">修的是“fix(agents): rephrase session reset prompt to avoid Azure content filter”这个坑，目的就是提前绕开它，不让它在运行时炸出来。</p>
         <div class="entry-meta">
-          <div><strong>这为什么重要：</strong>搜索和筛选 更稳，少报错，少出现“明明设置了却不生效”的情况。</div>
+          <div><strong>这为什么重要：</strong>搜索和筛选 这块会更稳，尤其是那些以前偶发、难复现、但一出问题就很烦的故障。</div>
           <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
         </div>
         <details class="entry-details">
           <summary>看原始上下文</summary>
           <div class="entry-context">
-            <div><strong>Release 原文：</strong>fix(agents): rephrase session reset prompt to avoid Azure content filter by @xingsy97 in #43403</div>
-            <div><strong>对应 PR/Issue：</strong>fix(agents): rephrase session reset prompt to avoid Azure content filter by xingsy97 · Pull Request #43403 · openclaw/openclaw</div>
+            <div><strong>Release 原文：</strong>fix(agents): rephrase session reset prompt to avoid Azure content filter</div>
+            <div><strong>对应 PR/Issue：</strong>fix(agents): rephrase session reset prompt to avoid Azure content filter</div>
             
           </div>
         </details>
@@ -221,16 +199,38 @@
           <span class="entry-kind kind-fix">通用功能</span>
           <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/41171" target="_blank" rel="noopener">#41171</a>
         </div>
-        <p class="entry-summary">这条修复背后的上下文是“fix(config): add missing params field to agents.list[] validation schema by atian8179 · Pull Request 41171 · openclaw/openclaw”。结合描述看，官方是在处理 通用功能 的一个实际故障点，目标是让这块更稳。</p>
+        <p class="entry-summary">补上了原来漏掉的 params 字段，避免配置或校验时因为缺这个字段直接报错。</p>
         <div class="entry-meta">
-          <div><strong>这为什么重要：</strong>通用功能 更稳，少报错，少出现“明明设置了却不生效”的情况。</div>
+          <div><strong>这为什么重要：</strong>通用功能 这块会更稳，尤其是那些以前偶发、难复现、但一出问题就很烦的故障。</div>
           <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
         </div>
         <details class="entry-details">
           <summary>看原始上下文</summary>
           <div class="entry-context">
-            <div><strong>Release 原文：</strong>fix(config): add missing params field to agents.list[] validation schema by @atian8179 in #41171</div>
-            <div><strong>对应 PR/Issue：</strong>fix(config): add missing params field to agents.list[] validation schema by atian8179 · Pull Request #41171 · openclaw/openclaw</div>
+            <div><strong>Release 原文：</strong>fix(config): add missing params field to agents.list[] validation schema</div>
+            <div><strong>对应 PR/Issue：</strong>fix(config): add missing params field to agents.list[] validation schema</div>
+            
+          </div>
+        </details>
+      </div>
+    </li>
+  
+    <li class="entry">
+      <div class="entry-main">
+        <div class="entry-header">
+          <span class="entry-kind kind-fix">Android 端</span>
+          <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/45021" target="_blank" rel="noopener">#45021</a>
+        </div>
+        <p class="entry-summary">Android 端 这里原来有一个比较具体的故障点，这次就是直接对着这个问题下刀，把最容易出错的地方补上。</p>
+        <div class="entry-meta">
+          <div><strong>这为什么重要：</strong>Android 端 这块会更稳，尤其是那些以前偶发、难复现、但一出问题就很烦的故障。</div>
+          <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
+        </div>
+        <details class="entry-details">
+          <summary>看原始上下文</summary>
+          <div class="entry-context">
+            <div><strong>Release 原文：</strong>fix(android): use Google Code Scanner for onboarding QR</div>
+            <div><strong>对应 PR/Issue：</strong>fix(android): use Google Code Scanner for onboarding QR</div>
             
           </div>
         </details>
@@ -244,7 +244,7 @@
     <section class="release-section">
       <h3>What&#39;s Changed</h3>
       <details class="section-toggle">
-        <summary>展开查看这一组全部 58 条</summary>
+        <summary>展开查看这一组全部 56 条</summary>
         <ul class="entry-list">
           
     <li class="entry">
@@ -253,16 +253,16 @@
           <span class="entry-kind kind-fix">通用功能</span>
           <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/28347" target="_blank" rel="noopener">#28347</a>
         </div>
-        <p class="entry-summary">这条修复背后的上下文是“fix(compaction): use full session token count for post compaction sanity check by efe arv · Pull Request 28347 · openclaw/openclaw”。结合描述看，官方是在处理 通用功能 的一个实际故障点，目标是让这块更稳。</p>
+        <p class="entry-summary">修复了压缩完成后 token 计数校验容易算错的问题，避免压缩后状态判断不准，连带影响后续流程。</p>
         <div class="entry-meta">
-          <div><strong>这为什么重要：</strong>通用功能 更稳，少报错，少出现“明明设置了却不生效”的情况。</div>
+          <div><strong>这为什么重要：</strong>通用功能 这块会更稳，尤其是那些以前偶发、难复现、但一出问题就很烦的故障。</div>
           <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
         </div>
         <details class="entry-details">
           <summary>看原始上下文</summary>
           <div class="entry-context">
-            <div><strong>Release 原文：</strong>fix(compaction): use full-session token count for post-compaction sanity check by @efe-arv in #28347</div>
-            <div><strong>对应 PR/Issue：</strong>fix(compaction): use full-session token count for post-compaction sanity check by efe-arv · Pull Request #28347 · openclaw/openclaw</div>
+            <div><strong>Release 原文：</strong>fix(compaction): use full-session token count for post-compaction sanity check</div>
+            <div><strong>对应 PR/Issue：</strong>fix(compaction): use full session token count for post compaction sanity check by efe arv</div>
             
           </div>
         </details>
@@ -275,16 +275,16 @@
           <span class="entry-kind kind-fix">通用功能</span>
           <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/44639" target="_blank" rel="noopener">#44639</a>
         </div>
-        <p class="entry-summary">这条修复背后的上下文是“fix(telegram): thread media transport policy into SSRF by obviyus · Pull Request 44639 · openclaw/openclaw”。结合描述看，官方是在处理 通用功能 的一个实际故障点，目标是让这块更稳。</p>
+        <p class="entry-summary">补上了 Telegram 媒体下载时的传输策略，避免图片或文件进来后在抓取阶段直接失败。</p>
         <div class="entry-meta">
-          <div><strong>这为什么重要：</strong>通用功能 更稳，少报错，少出现“明明设置了却不生效”的情况。</div>
+          <div><strong>这为什么重要：</strong>通用功能 这块会更稳，尤其是那些以前偶发、难复现、但一出问题就很烦的故障。</div>
           <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
         </div>
         <details class="entry-details">
           <summary>看原始上下文</summary>
           <div class="entry-context">
-            <div><strong>Release 原文：</strong>fix(telegram): thread media transport policy into SSRF by @obviyus in #44639</div>
-            <div><strong>对应 PR/Issue：</strong>fix(telegram): thread media transport policy into SSRF by obviyus · Pull Request #44639 · openclaw/openclaw</div>
+            <div><strong>Release 原文：</strong>fix(telegram): thread media transport policy into SSRF</div>
+            <div><strong>对应 PR/Issue：</strong>fix(telegram): thread media transport policy into SSRF</div>
             
           </div>
         </details>
@@ -297,16 +297,16 @@
           <span class="entry-kind kind-fix">通用功能</span>
           <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/44397" target="_blank" rel="noopener">#44397</a>
         </div>
-        <p class="entry-summary">这条修复背后的上下文是“fix: handle Discord gateway metadata fetch failures by jalehman · Pull Request 44397 · openclaw/openclaw”。结合描述看，官方是在处理 通用功能 的一个实际故障点，目标是让这块更稳。</p>
+        <p class="entry-summary">补上了“handle Discord gateway metadata fetch 失败”这类异常情况的兜底处理，避免一次失败就把后续流程一起带崩。</p>
         <div class="entry-meta">
-          <div><strong>这为什么重要：</strong>通用功能 更稳，少报错，少出现“明明设置了却不生效”的情况。</div>
+          <div><strong>这为什么重要：</strong>通用功能 这块会更稳，尤其是那些以前偶发、难复现、但一出问题就很烦的故障。</div>
           <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
         </div>
         <details class="entry-details">
           <summary>看原始上下文</summary>
           <div class="entry-context">
-            <div><strong>Release 原文：</strong>fix: handle Discord gateway metadata fetch failures by @jalehman in #44397</div>
-            <div><strong>对应 PR/Issue：</strong>fix: handle Discord gateway metadata fetch failures by jalehman · Pull Request #44397 · openclaw/openclaw</div>
+            <div><strong>Release 原文：</strong>fix: handle Discord gateway metadata fetch failures</div>
+            <div><strong>对应 PR/Issue：</strong>fix: handle Discord gateway metadata fetch failures</div>
             
           </div>
         </details>
@@ -319,16 +319,16 @@
           <span class="entry-kind kind-fix">通用功能</span>
           <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/44773" target="_blank" rel="noopener">#44773</a>
         </div>
-        <p class="entry-summary">这条修复背后的上下文是“fix(session): preserve lastAccountId and lastThreadId on session reset by Lanfei · Pull Request 44773 · openclaw/openclaw”。结合描述看，官方是在处理 通用功能 的一个实际故障点，目标是让这块更稳。</p>
+        <p class="entry-summary">修复了重置会话时把最近账号和最近线程一起清掉的问题，现在重置后不会把这两个关键状态顺手抹掉。</p>
         <div class="entry-meta">
-          <div><strong>这为什么重要：</strong>通用功能 更稳，少报错，少出现“明明设置了却不生效”的情况。</div>
+          <div><strong>这为什么重要：</strong>通用功能 这块会更稳，尤其是那些以前偶发、难复现、但一出问题就很烦的故障。</div>
           <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
         </div>
         <details class="entry-details">
           <summary>看原始上下文</summary>
           <div class="entry-context">
-            <div><strong>Release 原文：</strong>fix(session): preserve lastAccountId and lastThreadId on session reset by @Lanfei in #44773</div>
-            <div><strong>对应 PR/Issue：</strong>fix(session): preserve `lastAccountId ` and `lastThreadId` on session reset by Lanfei · Pull Request #44773 · openclaw/openclaw</div>
+            <div><strong>Release 原文：</strong>fix(session): preserve lastAccountId and lastThreadId on session reset</div>
+            <div><strong>对应 PR/Issue：</strong>fix(session): preserve lastAccountId and lastThreadId on session reset</div>
             
           </div>
         </details>
@@ -341,7 +341,7 @@
           <span class="entry-kind kind-improve">通用功能</span>
           <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/44367" target="_blank" rel="noopener">#44367</a>
         </div>
-        <p class="entry-summary">这条不是大改版，而是把 通用功能 的用法理顺，减少绕路和找不到入口的情况。</p>
+        <p class="entry-summary">默认测试模型跟着往上更新了一档，说明官方已经把新版模型当成主路径来验证了。</p>
         <div class="entry-meta">
           <div><strong>这为什么重要：</strong>通用功能 会更顺手，理解成本会更低。</div>
           <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
@@ -349,7 +349,7 @@
         <details class="entry-details">
           <summary>看原始上下文</summary>
           <div class="entry-context">
-            <div><strong>Release 原文：</strong>Updated default model from openai-codex/gpt-5.3-codex to openai-codex/gpt-5.4 in tests. by @jrrcdev in #44367</div>
+            <div><strong>Release 原文：</strong>Updated default model from openai-codex/gpt-5.3-codex to openai-codex/gpt-5.4 in tests.</div>
             
             
           </div>
@@ -363,16 +363,16 @@
           <span class="entry-kind kind-fix">通用功能</span>
           <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/44666" target="_blank" rel="noopener">#44666</a>
         </div>
-        <p class="entry-summary">这条修复背后的上下文是“fix: address delivery dedupe review follow ups by frankekn · Pull Request 44666 · openclaw/openclaw”。结合描述看，官方是在处理 通用功能 的一个实际故障点，目标是让这块更稳。</p>
+        <p class="entry-summary">修的是重复回复/重复投递问题，避免同一条内容被系统多发一次。</p>
         <div class="entry-meta">
-          <div><strong>这为什么重要：</strong>通用功能 更稳，少报错，少出现“明明设置了却不生效”的情况。</div>
+          <div><strong>这为什么重要：</strong>通用功能 这块会更稳，尤其是那些以前偶发、难复现、但一出问题就很烦的故障。</div>
           <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
         </div>
         <details class="entry-details">
           <summary>看原始上下文</summary>
           <div class="entry-context">
-            <div><strong>Release 原文：</strong>fix: address delivery dedupe review follow-ups by @frankekn in #44666</div>
-            <div><strong>对应 PR/Issue：</strong>fix: address delivery dedupe review follow-ups by frankekn · Pull Request #44666 · openclaw/openclaw</div>
+            <div><strong>Release 原文：</strong>fix: address delivery dedupe review follow-ups</div>
+            <div><strong>对应 PR/Issue：</strong>fix: address delivery dedupe review follow ups</div>
             
           </div>
         </details>
@@ -393,7 +393,7 @@
         <details class="entry-details">
           <summary>看原始上下文</summary>
           <div class="entry-context">
-            <div><strong>Release 原文：</strong>CLI: align xhigh thinking help text by @frankekn in #44819</div>
+            <div><strong>Release 原文：</strong>CLI: align xhigh thinking help text</div>
             
             
           </div>
@@ -407,16 +407,16 @@
           <span class="entry-kind kind-fix">通用功能</span>
           <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/44843" target="_blank" rel="noopener">#44843</a>
         </div>
-        <p class="entry-summary">这条修复背后的上下文是“fix(agents): drop Anthropic thinking blocks on replay by frankekn · Pull Request 44843 · openclaw/openclaw”。结合描述看，官方是在处理 通用功能 的一个实际故障点，目标是让这块更稳。</p>
+        <p class="entry-summary">通用功能 这里原来有一个比较具体的故障点，这次就是直接对着这个问题下刀，把最容易出错的地方补上。</p>
         <div class="entry-meta">
-          <div><strong>这为什么重要：</strong>通用功能 更稳，少报错，少出现“明明设置了却不生效”的情况。</div>
+          <div><strong>这为什么重要：</strong>通用功能 这块会更稳，尤其是那些以前偶发、难复现、但一出问题就很烦的故障。</div>
           <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
         </div>
         <details class="entry-details">
           <summary>看原始上下文</summary>
           <div class="entry-context">
-            <div><strong>Release 原文：</strong>fix(agents): drop Anthropic thinking blocks on replay by @frankekn in #44843</div>
-            <div><strong>对应 PR/Issue：</strong>fix(agents): drop Anthropic thinking blocks on replay by frankekn · Pull Request #44843 · openclaw/openclaw</div>
+            <div><strong>Release 原文：</strong>fix(agents): drop Anthropic thinking blocks on replay</div>
+            <div><strong>对应 PR/Issue：</strong>fix(agents): drop Anthropic thinking blocks on replay</div>
             
           </div>
         </details>
@@ -437,7 +437,7 @@
         <details class="entry-details">
           <summary>看原始上下文</summary>
           <div class="entry-context">
-            <div><strong>Release 原文：</strong>feat(android): redesign chat settings UI by @obviyus in #44894</div>
+            <div><strong>Release 原文：</strong>feat(android): redesign chat settings UI</div>
             
             
           </div>
@@ -451,16 +451,16 @@
           <span class="entry-kind kind-fix">通用功能</span>
           <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/26054" target="_blank" rel="noopener">#26054</a>
         </div>
-        <p class="entry-summary">这条修复背后的上下文是“fix(agents): avoid injecting memory file twice on case insensitive mounts by Lanfei · Pull Request 26054 · openclaw/openclaw”。结合描述看，官方是在处理 通用功能 的一个实际故障点，目标是让这块更稳。</p>
+        <p class="entry-summary">修的是“injecting memory file twice on case insensitive mounts”这个坑，目的就是提前绕开它，不让它在运行时炸出来。</p>
         <div class="entry-meta">
-          <div><strong>这为什么重要：</strong>通用功能 更稳，少报错，少出现“明明设置了却不生效”的情况。</div>
+          <div><strong>这为什么重要：</strong>通用功能 这块会更稳，尤其是那些以前偶发、难复现、但一出问题就很烦的故障。</div>
           <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
         </div>
         <details class="entry-details">
           <summary>看原始上下文</summary>
           <div class="entry-context">
-            <div><strong>Release 原文：</strong>fix(agents): avoid injecting memory file twice on case-insensitive mounts by @Lanfei in #26054</div>
-            <div><strong>对应 PR/Issue：</strong>fix(agents): avoid injecting memory file twice on case-insensitive mounts by Lanfei · Pull Request #26054 · openclaw/openclaw</div>
+            <div><strong>Release 原文：</strong>fix(agents): avoid injecting memory file twice on case-insensitive mounts</div>
+            <div><strong>对应 PR/Issue：</strong>fix(agents): avoid injecting memory file twice on case insensitive mounts</div>
             
           </div>
         </details>
@@ -473,7 +473,7 @@
           <span class="entry-kind kind-feature">通用功能</span>
           <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/34119" target="_blank" rel="noopener">#34119</a>
         </div>
-        <p class="entry-summary">这条是在 通用功能 增加入口、说明或能力，目的就是让原来难做的事情更容易完成。</p>
+        <p class="entry-summary">给 Docker 运行环境补了时区支持，定时任务和日志时间会更贴近实际使用地区。</p>
         <div class="entry-meta">
           <div><strong>这为什么重要：</strong>通用功能 的路径会更完整，用户少猜一步。</div>
           <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
@@ -481,7 +481,7 @@
         <details class="entry-details">
           <summary>看原始上下文</summary>
           <div class="entry-context">
-            <div><strong>Release 原文：</strong>Docker: add OPENCLAW_TZ timezone support by @Lanfei in #34119</div>
+            <div><strong>Release 原文：</strong>Docker: add OPENCLAW_TZ timezone support</div>
             
             
           </div>
@@ -495,16 +495,16 @@
           <span class="entry-kind kind-fix">Android 端</span>
           <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/43780" target="_blank" rel="noopener">#43780</a>
         </div>
-        <p class="entry-summary">这条修复背后的上下文是“Android: fix HttpURLConnection leak in TalkModeVoiceResolver by Kaneki x · Pull Request 43780 · openclaw/openclaw”。结合描述看，官方是在处理 Android 端 的一个实际故障点，目标是让这块更稳。</p>
+        <p class="entry-summary">修掉了 Android 里一个连接没及时释放的问题，长时间使用时更不容易慢慢堆出资源占用。</p>
         <div class="entry-meta">
-          <div><strong>这为什么重要：</strong>Android 端 更稳，少报错，少出现“明明设置了却不生效”的情况。</div>
+          <div><strong>这为什么重要：</strong>Android 端 这块会更稳，尤其是那些以前偶发、难复现、但一出问题就很烦的故障。</div>
           <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
         </div>
         <details class="entry-details">
           <summary>看原始上下文</summary>
           <div class="entry-context">
-            <div><strong>Release 原文：</strong>Android: fix HttpURLConnection leak in TalkModeVoiceResolver by @Kaneki-x in #43780</div>
-            <div><strong>对应 PR/Issue：</strong>Android: fix HttpURLConnection leak in TalkModeVoiceResolver by Kaneki-x · Pull Request #43780 · openclaw/openclaw</div>
+            <div><strong>Release 原文：</strong>Android: fix HttpURLConnection leak in TalkModeVoiceResolver</div>
+            <div><strong>对应 PR/Issue：</strong>Android: fix HttpURLConnection leak in TalkModeVoiceResolver by Kaneki x</div>
             
           </div>
         </details>
@@ -517,38 +517,16 @@
           <span class="entry-kind kind-fix">通用功能</span>
           <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/44432" target="_blank" rel="noopener">#44432</a>
         </div>
-        <p class="entry-summary">这条修复背后的上下文是“fix(agents): respect explicit user compat overrides for non native openai completions by cheapestinference · Pull Request 44432 · openclaw/openclaw”。结合描述看，官方是在处理 通用功能 的一个实际故障点，目标是让这块更稳。</p>
+        <p class="entry-summary">通用功能 这里原来有一个比较具体的故障点，这次就是直接对着这个问题下刀，把最容易出错的地方补上。</p>
         <div class="entry-meta">
-          <div><strong>这为什么重要：</strong>通用功能 更稳，少报错，少出现“明明设置了却不生效”的情况。</div>
+          <div><strong>这为什么重要：</strong>通用功能 这块会更稳，尤其是那些以前偶发、难复现、但一出问题就很烦的故障。</div>
           <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
         </div>
         <details class="entry-details">
           <summary>看原始上下文</summary>
           <div class="entry-context">
-            <div><strong>Release 原文：</strong>fix(agents): respect explicit user compat overrides for non-native openai-completions by @cheapestinference in #44432</div>
-            <div><strong>对应 PR/Issue：</strong>fix(agents): respect explicit user compat overrides for non-native openai-completions by cheapestinference · Pull Request #44432 · openclaw/openclaw</div>
-            
-          </div>
-        </details>
-      </div>
-    </li>
-  
-    <li class="entry">
-      <div class="entry-main">
-        <div class="entry-header">
-          <span class="entry-kind kind-fix">通用功能</span>
-          <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/43438" target="_blank" rel="noopener">#43438</a>
-        </div>
-        <p class="entry-summary">这条修复背后的上下文是“test(config): cover requiresOpenAiAnthropicToolPayload in compat schema fixture by xingsy97 · Pull Request 43438 · openclaw/openclaw”。结合描述看，官方是在处理 通用功能 的一个实际故障点，目标是让这块更稳。</p>
-        <div class="entry-meta">
-          <div><strong>这为什么重要：</strong>通用功能 更稳，少报错，少出现“明明设置了却不生效”的情况。</div>
-          <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
-        </div>
-        <details class="entry-details">
-          <summary>看原始上下文</summary>
-          <div class="entry-context">
-            <div><strong>Release 原文：</strong>test(config): cover requiresOpenAiAnthropicToolPayload in compat schema fixture by @xingsy97 in #43438</div>
-            <div><strong>对应 PR/Issue：</strong>test(config): cover requiresOpenAiAnthropicToolPayload in compat schema fixture by xingsy97 · Pull Request #43438 · openclaw/openclaw</div>
+            <div><strong>Release 原文：</strong>fix(agents): respect explicit user compat overrides for non-native openai-completions</div>
+            <div><strong>对应 PR/Issue：</strong>fix(agents): respect explicit user compat overrides for non native openai completions</div>
             
           </div>
         </details>
@@ -561,16 +539,16 @@
           <span class="entry-kind kind-fix">搜索和筛选</span>
           <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/43403" target="_blank" rel="noopener">#43403</a>
         </div>
-        <p class="entry-summary">这条修复背后的上下文是“fix(agents): rephrase session reset prompt to avoid Azure content filter by xingsy97 · Pull Request 43403 · openclaw/openclaw”。结合描述看，官方是在处理 搜索和筛选 的一个实际故障点，目标是让这块更稳。</p>
+        <p class="entry-summary">修的是“fix(agents): rephrase session reset prompt to avoid Azure content filter”这个坑，目的就是提前绕开它，不让它在运行时炸出来。</p>
         <div class="entry-meta">
-          <div><strong>这为什么重要：</strong>搜索和筛选 更稳，少报错，少出现“明明设置了却不生效”的情况。</div>
+          <div><strong>这为什么重要：</strong>搜索和筛选 这块会更稳，尤其是那些以前偶发、难复现、但一出问题就很烦的故障。</div>
           <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
         </div>
         <details class="entry-details">
           <summary>看原始上下文</summary>
           <div class="entry-context">
-            <div><strong>Release 原文：</strong>fix(agents): rephrase session reset prompt to avoid Azure content filter by @xingsy97 in #43403</div>
-            <div><strong>对应 PR/Issue：</strong>fix(agents): rephrase session reset prompt to avoid Azure content filter by xingsy97 · Pull Request #43403 · openclaw/openclaw</div>
+            <div><strong>Release 原文：</strong>fix(agents): rephrase session reset prompt to avoid Azure content filter</div>
+            <div><strong>对应 PR/Issue：</strong>fix(agents): rephrase session reset prompt to avoid Azure content filter</div>
             
           </div>
         </details>
@@ -583,16 +561,16 @@
           <span class="entry-kind kind-fix">通用功能</span>
           <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/41171" target="_blank" rel="noopener">#41171</a>
         </div>
-        <p class="entry-summary">这条修复背后的上下文是“fix(config): add missing params field to agents.list[] validation schema by atian8179 · Pull Request 41171 · openclaw/openclaw”。结合描述看，官方是在处理 通用功能 的一个实际故障点，目标是让这块更稳。</p>
+        <p class="entry-summary">补上了原来漏掉的 params 字段，避免配置或校验时因为缺这个字段直接报错。</p>
         <div class="entry-meta">
-          <div><strong>这为什么重要：</strong>通用功能 更稳，少报错，少出现“明明设置了却不生效”的情况。</div>
+          <div><strong>这为什么重要：</strong>通用功能 这块会更稳，尤其是那些以前偶发、难复现、但一出问题就很烦的故障。</div>
           <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
         </div>
         <details class="entry-details">
           <summary>看原始上下文</summary>
           <div class="entry-context">
-            <div><strong>Release 原文：</strong>fix(config): add missing params field to agents.list[] validation schema by @atian8179 in #41171</div>
-            <div><strong>对应 PR/Issue：</strong>fix(config): add missing params field to agents.list[] validation schema by atian8179 · Pull Request #41171 · openclaw/openclaw</div>
+            <div><strong>Release 原文：</strong>fix(config): add missing params field to agents.list[] validation schema</div>
+            <div><strong>对应 PR/Issue：</strong>fix(config): add missing params field to agents.list[] validation schema</div>
             
           </div>
         </details>
@@ -605,16 +583,16 @@
           <span class="entry-kind kind-fix">Android 端</span>
           <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/45021" target="_blank" rel="noopener">#45021</a>
         </div>
-        <p class="entry-summary">这条修复背后的上下文是“fix(android): use Google Code Scanner for onboarding QR by obviyus · Pull Request 45021 · openclaw/openclaw”。结合描述看，官方是在处理 Android 端 的一个实际故障点，目标是让这块更稳。</p>
+        <p class="entry-summary">Android 端 这里原来有一个比较具体的故障点，这次就是直接对着这个问题下刀，把最容易出错的地方补上。</p>
         <div class="entry-meta">
-          <div><strong>这为什么重要：</strong>Android 端 更稳，少报错，少出现“明明设置了却不生效”的情况。</div>
+          <div><strong>这为什么重要：</strong>Android 端 这块会更稳，尤其是那些以前偶发、难复现、但一出问题就很烦的故障。</div>
           <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
         </div>
         <details class="entry-details">
           <summary>看原始上下文</summary>
           <div class="entry-context">
-            <div><strong>Release 原文：</strong>fix(android): use Google Code Scanner for onboarding QR by @obviyus in #45021</div>
-            <div><strong>对应 PR/Issue：</strong>fix(android): use Google Code Scanner for onboarding QR by obviyus · Pull Request #45021 · openclaw/openclaw</div>
+            <div><strong>Release 原文：</strong>fix(android): use Google Code Scanner for onboarding QR</div>
+            <div><strong>对应 PR/Issue：</strong>fix(android): use Google Code Scanner for onboarding QR</div>
             
           </div>
         </details>
@@ -627,16 +605,16 @@
           <span class="entry-kind kind-fix">通用功能</span>
           <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/42583" target="_blank" rel="noopener">#42583</a>
         </div>
-        <p class="entry-summary">这条修复背后的上下文是“fix: restore web fetch firecrawl config in runtime zod schema by stim64045 spec · Pull Request 42583 · openclaw/openclaw”。结合描述看，官方是在处理 通用功能 的一个实际故障点，目标是让这块更稳。</p>
+        <p class="entry-summary">把之前丢掉或失效的“web fetch firecrawl config in runtime zod schema by stim64045 spec”恢复回来，避免升级后这块行为突然不对。</p>
         <div class="entry-meta">
-          <div><strong>这为什么重要：</strong>通用功能 更稳，少报错，少出现“明明设置了却不生效”的情况。</div>
+          <div><strong>这为什么重要：</strong>通用功能 这块会更稳，尤其是那些以前偶发、难复现、但一出问题就很烦的故障。</div>
           <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
         </div>
         <details class="entry-details">
           <summary>看原始上下文</summary>
           <div class="entry-context">
-            <div><strong>Release 原文：</strong>fix: restore web fetch firecrawl config in runtime zod schema by @stim64045-spec in #42583</div>
-            <div><strong>对应 PR/Issue：</strong>fix: restore web fetch firecrawl config in runtime zod schema by stim64045-spec · Pull Request #42583 · openclaw/openclaw</div>
+            <div><strong>Release 原文：</strong>fix: restore web fetch firecrawl config in runtime zod schema</div>
+            <div><strong>对应 PR/Issue：</strong>fix: restore web fetch firecrawl config in runtime zod schema by stim64045 spec</div>
             
           </div>
         </details>
@@ -649,16 +627,16 @@
           <span class="entry-kind kind-fix">通用功能</span>
           <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/27199" target="_blank" rel="noopener">#27199</a>
         </div>
-        <p class="entry-summary">这条修复背后的上下文是“fix(signal): add groups config to Signal channel schema by unisone · Pull Request 27199 · openclaw/openclaw”。结合描述看，官方是在处理 通用功能 的一个实际故障点，目标是让这块更稳。</p>
+        <p class="entry-summary">通用功能 这里原来有一个比较具体的故障点，这次就是直接对着这个问题下刀，把最容易出错的地方补上。</p>
         <div class="entry-meta">
-          <div><strong>这为什么重要：</strong>通用功能 更稳，少报错，少出现“明明设置了却不生效”的情况。</div>
+          <div><strong>这为什么重要：</strong>通用功能 这块会更稳，尤其是那些以前偶发、难复现、但一出问题就很烦的故障。</div>
           <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
         </div>
         <details class="entry-details">
           <summary>看原始上下文</summary>
           <div class="entry-context">
-            <div><strong>Release 原文：</strong>fix(signal): add groups config to Signal channel schema by @unisone in #27199</div>
-            <div><strong>对应 PR/Issue：</strong>fix(signal): add groups config to Signal channel schema by unisone · Pull Request #27199 · openclaw/openclaw</div>
+            <div><strong>Release 原文：</strong>fix(signal): add groups config to Signal channel schema</div>
+            <div><strong>对应 PR/Issue：</strong>fix(signal): add groups config to Signal channel schema</div>
             
           </div>
         </details>
@@ -671,7 +649,7 @@
           <span class="entry-kind kind-feature">通用功能</span>
           <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/45054" target="_blank" rel="noopener">#45054</a>
         </div>
-        <p class="entry-summary">这条是在 通用功能 增加入口、说明或能力，目的就是让原来难做的事情更容易完成。</p>
+        <p class="entry-summary">iOS 新增了欢迎引导页，第一次进入时会更容易知道下一步该怎么开始。</p>
         <div class="entry-meta">
           <div><strong>这为什么重要：</strong>通用功能 的路径会更完整，用户少猜一步。</div>
           <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
@@ -679,7 +657,7 @@
         <details class="entry-details">
           <summary>看原始上下文</summary>
           <div class="entry-context">
-            <div><strong>Release 原文：</strong>feat(ios): add onboarding welcome pager by @ngutman in #45054</div>
+            <div><strong>Release 原文：</strong>feat(ios): add onboarding welcome pager</div>
             
             
           </div>
@@ -693,16 +671,16 @@
           <span class="entry-kind kind-fix">通用功能</span>
           <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/35615" target="_blank" rel="noopener">#35615</a>
         </div>
-        <p class="entry-summary">这条修复背后的上下文是“fix(discovery): add missing domain to wideArea Zod config schema by ingyukoh · Pull Request 35615 · openclaw/openclaw”。结合描述看，官方是在处理 通用功能 的一个实际故障点，目标是让这块更稳。</p>
+        <p class="entry-summary">这次是把原来漏掉的“domain to wideArea Zod config schema”补齐，避免因为少这一项导致配置不完整。</p>
         <div class="entry-meta">
-          <div><strong>这为什么重要：</strong>通用功能 更稳，少报错，少出现“明明设置了却不生效”的情况。</div>
+          <div><strong>这为什么重要：</strong>通用功能 这块会更稳，尤其是那些以前偶发、难复现、但一出问题就很烦的故障。</div>
           <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
         </div>
         <details class="entry-details">
           <summary>看原始上下文</summary>
           <div class="entry-context">
-            <div><strong>Release 原文：</strong>fix(discovery): add missing domain to wideArea Zod config schema by @ingyukoh in #35615</div>
-            <div><strong>对应 PR/Issue：</strong>fix(discovery): add missing domain to wideArea Zod config schema by ingyukoh · Pull Request #35615 · openclaw/openclaw</div>
+            <div><strong>Release 原文：</strong>fix(discovery): add missing domain to wideArea Zod config schema</div>
+            <div><strong>对应 PR/Issue：</strong>fix(discovery): add missing domain to wideArea Zod config schema</div>
             
           </div>
         </details>
@@ -715,16 +693,16 @@
           <span class="entry-kind kind-fix">通用功能</span>
           <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/45088" target="_blank" rel="noopener">#45088</a>
         </div>
-        <p class="entry-summary">这条修复背后的上下文是“fix(ui): keep shared auth on insecure control ui connects by velvet shark · Pull Request 45088 · openclaw/openclaw”。结合描述看，官方是在处理 通用功能 的一个实际故障点，目标是让这块更稳。</p>
+        <p class="entry-summary">通用功能 这里原来有一个比较具体的故障点，这次就是直接对着这个问题下刀，把最容易出错的地方补上。</p>
         <div class="entry-meta">
-          <div><strong>这为什么重要：</strong>通用功能 更稳，少报错，少出现“明明设置了却不生效”的情况。</div>
+          <div><strong>这为什么重要：</strong>通用功能 这块会更稳，尤其是那些以前偶发、难复现、但一出问题就很烦的故障。</div>
           <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
         </div>
         <details class="entry-details">
           <summary>看原始上下文</summary>
           <div class="entry-context">
-            <div><strong>Release 原文：</strong>fix(ui): keep shared auth on insecure control-ui connects by @velvet-shark in #45088</div>
-            <div><strong>对应 PR/Issue：</strong>fix(ui): keep shared auth on insecure control-ui connects by velvet-shark · Pull Request #45088 · openclaw/openclaw</div>
+            <div><strong>Release 原文：</strong>fix(ui): keep shared auth on insecure control-ui connects</div>
+            <div><strong>对应 PR/Issue：</strong>fix(ui): keep shared auth on insecure control ui connects by velvet shark</div>
             
           </div>
         </details>
@@ -737,16 +715,16 @@
           <span class="entry-kind kind-fix">通用功能</span>
           <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/10456" target="_blank" rel="noopener">#10456</a>
         </div>
-        <p class="entry-summary">这条修复背后的上下文是“fix: preserve persona and language continuity in compaction summaries by keepitmello · Pull Request 10456 · openclaw/openclaw”。结合描述看，官方是在处理 通用功能 的一个实际故障点，目标是让这块更稳。</p>
+        <p class="entry-summary">修复了压缩总结后人设和语言风格容易跑掉的问题，让前后回复更连贯。</p>
         <div class="entry-meta">
-          <div><strong>这为什么重要：</strong>通用功能 更稳，少报错，少出现“明明设置了却不生效”的情况。</div>
+          <div><strong>这为什么重要：</strong>通用功能 这块会更稳，尤其是那些以前偶发、难复现、但一出问题就很烦的故障。</div>
           <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
         </div>
         <details class="entry-details">
           <summary>看原始上下文</summary>
           <div class="entry-context">
-            <div><strong>Release 原文：</strong>fix: preserve persona and language continuity in compaction summaries by @keepitmello in #10456</div>
-            <div><strong>对应 PR/Issue：</strong>fix: preserve persona and language continuity in compaction summaries by keepitmello · Pull Request #10456 · openclaw/openclaw</div>
+            <div><strong>Release 原文：</strong>fix: preserve persona and language continuity in compaction summaries</div>
+            <div><strong>对应 PR/Issue：</strong>fix: preserve persona and language continuity in compaction summaries</div>
             
           </div>
         </details>
@@ -767,7 +745,7 @@
         <details class="entry-details">
           <summary>看原始上下文</summary>
           <div class="entry-context">
-            <div><strong>Release 原文：</strong>ui: mobile navigation drawer &amp; theme variant refinements by @BunsDev in #45107</div>
+            <div><strong>Release 原文：</strong>ui: mobile navigation drawer &amp; theme variant refinements</div>
             
             
           </div>
@@ -781,16 +759,16 @@
           <span class="entry-kind kind-fix">通用功能</span>
           <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/40176" target="_blank" rel="noopener">#40176</a>
         </div>
-        <p class="entry-summary">这条修复背后的上下文是“fix: resolve target agent workspace for cross agent subagent spawns by moshehbenavraham · Pull Request 40176 · openclaw/openclaw”。结合描述看，官方是在处理 通用功能 的一个实际故障点，目标是让这块更稳。</p>
+        <p class="entry-summary">通用功能 这里原来有一个比较具体的故障点，这次就是直接对着这个问题下刀，把最容易出错的地方补上。</p>
         <div class="entry-meta">
-          <div><strong>这为什么重要：</strong>通用功能 更稳，少报错，少出现“明明设置了却不生效”的情况。</div>
+          <div><strong>这为什么重要：</strong>通用功能 这块会更稳，尤其是那些以前偶发、难复现、但一出问题就很烦的故障。</div>
           <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
         </div>
         <details class="entry-details">
           <summary>看原始上下文</summary>
           <div class="entry-context">
-            <div><strong>Release 原文：</strong>fix: resolve target agent workspace for cross-agent subagent spawns by @moshehbenavraham in #40176</div>
-            <div><strong>对应 PR/Issue：</strong>fix: resolve target agent workspace for cross-agent subagent spawns by moshehbenavraham · Pull Request #40176 · openclaw/openclaw</div>
+            <div><strong>Release 原文：</strong>fix: resolve target agent workspace for cross-agent subagent spawns</div>
+            <div><strong>对应 PR/Issue：</strong>fix: resolve target agent workspace for cross agent subagent spawns</div>
             
           </div>
         </details>
@@ -803,16 +781,16 @@
           <span class="entry-kind kind-fix">通用功能</span>
           <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/45330" target="_blank" rel="noopener">#45330</a>
         </div>
-        <p class="entry-summary">这条修复背后的上下文是“fix(ollama): hide native reasoning only output by frankekn · Pull Request 45330 · openclaw/openclaw”。结合描述看，官方是在处理 通用功能 的一个实际故障点，目标是让这块更稳。</p>
+        <p class="entry-summary">通用功能 这里原来有一个比较具体的故障点，这次就是直接对着这个问题下刀，把最容易出错的地方补上。</p>
         <div class="entry-meta">
-          <div><strong>这为什么重要：</strong>通用功能 更稳，少报错，少出现“明明设置了却不生效”的情况。</div>
+          <div><strong>这为什么重要：</strong>通用功能 这块会更稳，尤其是那些以前偶发、难复现、但一出问题就很烦的故障。</div>
           <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
         </div>
         <details class="entry-details">
           <summary>看原始上下文</summary>
           <div class="entry-context">
-            <div><strong>Release 原文：</strong>fix(ollama): hide native reasoning-only output by @frankekn in #45330</div>
-            <div><strong>对应 PR/Issue：</strong>fix(ollama): hide native reasoning-only output by frankekn · Pull Request #45330 · openclaw/openclaw</div>
+            <div><strong>Release 原文：</strong>fix(ollama): hide native reasoning-only output</div>
+            <div><strong>对应 PR/Issue：</strong>fix(ollama): hide native reasoning only output</div>
             
           </div>
         </details>
@@ -825,16 +803,16 @@
           <span class="entry-kind kind-fix">通用功能</span>
           <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/44989" target="_blank" rel="noopener">#44989</a>
         </div>
-        <p class="entry-summary">这条修复背后的上下文是“Fix incorrect rendering of brave costs in docs by keelanfh · Pull Request 44989 · openclaw/openclaw”。结合描述看，官方是在处理 通用功能 的一个实际故障点，目标是让这块更稳。</p>
+        <p class="entry-summary">通用功能 这里原来有一个比较具体的故障点，这次就是直接对着这个问题下刀，把最容易出错的地方补上。</p>
         <div class="entry-meta">
-          <div><strong>这为什么重要：</strong>通用功能 更稳，少报错，少出现“明明设置了却不生效”的情况。</div>
+          <div><strong>这为什么重要：</strong>通用功能 这块会更稳，尤其是那些以前偶发、难复现、但一出问题就很烦的故障。</div>
           <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
         </div>
         <details class="entry-details">
           <summary>看原始上下文</summary>
           <div class="entry-context">
-            <div><strong>Release 原文：</strong>Fix incorrect rendering of brave costs in docs by @keelanfh in #44989</div>
-            <div><strong>对应 PR/Issue：</strong>Fix incorrect rendering of brave costs in docs by keelanfh · Pull Request #44989 · openclaw/openclaw</div>
+            <div><strong>Release 原文：</strong>Fix incorrect rendering of brave costs in docs</div>
+            <div><strong>对应 PR/Issue：</strong>Fix incorrect rendering of brave costs in docs</div>
             
           </div>
         </details>
@@ -855,7 +833,7 @@
         <details class="entry-details">
           <summary>看原始上下文</summary>
           <div class="entry-context">
-            <div><strong>Release 原文：</strong>security(docker): prevent gateway token leak in Docker build context by @xingsy97 in #44956</div>
+            <div><strong>Release 原文：</strong>security(docker): prevent gateway token leak in Docker build context</div>
             
             
           </div>
@@ -869,16 +847,16 @@
           <span class="entry-kind kind-fix">聊天设置</span>
           <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/44856" target="_blank" rel="noopener">#44856</a>
         </div>
-        <p class="entry-summary">这条修复背后的上下文是“fix(ui): restore chat new messages class on scroll pill button by Astro Han · Pull Request 44856 · openclaw/openclaw”。结合描述看，官方是在处理 聊天设置 的一个实际故障点，目标是让这块更稳。</p>
+        <p class="entry-summary">把之前丢掉或失效的“fix(ui): restore chat new messages class on scroll pill button by Astro Han”恢复回来，避免升级后这块行为突然不对。</p>
         <div class="entry-meta">
-          <div><strong>这为什么重要：</strong>聊天设置 更稳，少报错，少出现“明明设置了却不生效”的情况。</div>
+          <div><strong>这为什么重要：</strong>聊天设置 这块会更稳，尤其是那些以前偶发、难复现、但一出问题就很烦的故障。</div>
           <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
         </div>
         <details class="entry-details">
           <summary>看原始上下文</summary>
           <div class="entry-context">
-            <div><strong>Release 原文：</strong>fix(ui): restore chat-new-messages class on scroll pill button by @Astro-Han in #44856</div>
-            <div><strong>对应 PR/Issue：</strong>fix(ui): restore chat-new-messages class on scroll pill button by Astro-Han · Pull Request #44856 · openclaw/openclaw</div>
+            <div><strong>Release 原文：</strong>fix(ui): restore chat-new-messages class on scroll pill button</div>
+            <div><strong>对应 PR/Issue：</strong>fix(ui): restore chat new messages class on scroll pill button by Astro Han</div>
             
           </div>
         </details>
@@ -891,16 +869,16 @@
           <span class="entry-kind kind-fix">通用功能</span>
           <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/44842" target="_blank" rel="noopener">#44842</a>
         </div>
-        <p class="entry-summary">这条修复背后的上下文是“fix(windows): suppress visible console windows during restart and process cleanup by MoerAI · Pull Request 44842 · openclaw/openclaw”。结合描述看，官方是在处理 通用功能 的一个实际故障点，目标是让这块更稳。</p>
+        <p class="entry-summary">通用功能 这里原来有一个比较具体的故障点，这次就是直接对着这个问题下刀，把最容易出错的地方补上。</p>
         <div class="entry-meta">
-          <div><strong>这为什么重要：</strong>通用功能 更稳，少报错，少出现“明明设置了却不生效”的情况。</div>
+          <div><strong>这为什么重要：</strong>通用功能 这块会更稳，尤其是那些以前偶发、难复现、但一出问题就很烦的故障。</div>
           <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
         </div>
         <details class="entry-details">
           <summary>看原始上下文</summary>
           <div class="entry-context">
-            <div><strong>Release 原文：</strong>fix(windows): suppress visible console windows during restart and process cleanup by @MoerAI in #44842</div>
-            <div><strong>对应 PR/Issue：</strong>fix(windows): suppress visible console windows during restart and process cleanup by MoerAI · Pull Request #44842 · openclaw/openclaw</div>
+            <div><strong>Release 原文：</strong>fix(windows): suppress visible console windows during restart and process cleanup</div>
+            <div><strong>对应 PR/Issue：</strong>fix(windows): suppress visible console windows during restart and process cleanup</div>
             
           </div>
         </details>
@@ -913,7 +891,7 @@
           <span class="entry-kind kind-feature">Slack</span>
           <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/44607" target="_blank" rel="noopener">#44607</a>
         </div>
-        <p class="entry-summary">这条是在 Slack 增加入口、说明或能力，目的就是让原来难做的事情更容易完成。</p>
+        <p class="entry-summary">Slack 这里补了一块以前没有的能力或入口，用起来会少绕一点。</p>
         <div class="entry-meta">
           <div><strong>这为什么重要：</strong>Slack 的路径会更完整，用户少猜一步。</div>
           <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
@@ -921,7 +899,7 @@
         <details class="entry-details">
           <summary>看原始上下文</summary>
           <div class="entry-context">
-            <div><strong>Release 原文：</strong>Slack: add opt-in interactive reply directives by @vincentkoc in #44607</div>
+            <div><strong>Release 原文：</strong>Slack: add opt-in interactive reply directives</div>
             
             
           </div>
@@ -935,16 +913,16 @@
           <span class="entry-kind kind-fix">通用功能</span>
           <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/45459" target="_blank" rel="noopener">#45459</a>
         </div>
-        <p class="entry-summary">这条修复背后的上下文是“fix(cron): prevent isolated cron nested lane deadlocks by vincentkoc · Pull Request 45459 · openclaw/openclaw”。结合描述看，官方是在处理 通用功能 的一个实际故障点，目标是让这块更稳。</p>
+        <p class="entry-summary">通用功能 这里原来有一个比较具体的故障点，这次就是直接对着这个问题下刀，把最容易出错的地方补上。</p>
         <div class="entry-meta">
-          <div><strong>这为什么重要：</strong>通用功能 更稳，少报错，少出现“明明设置了却不生效”的情况。</div>
+          <div><strong>这为什么重要：</strong>通用功能 这块会更稳，尤其是那些以前偶发、难复现、但一出问题就很烦的故障。</div>
           <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
         </div>
         <details class="entry-details">
           <summary>看原始上下文</summary>
           <div class="entry-context">
-            <div><strong>Release 原文：</strong>fix(cron): prevent isolated cron nested lane deadlocks by @vincentkoc in #45459</div>
-            <div><strong>对应 PR/Issue：</strong>fix(cron): prevent isolated cron nested lane deadlocks by vincentkoc · Pull Request #45459 · openclaw/openclaw</div>
+            <div><strong>Release 原文：</strong>fix(cron): prevent isolated cron nested lane deadlocks</div>
+            <div><strong>对应 PR/Issue：</strong>fix(cron): prevent isolated cron nested lane deadlocks</div>
             
           </div>
         </details>
@@ -957,16 +935,16 @@
           <span class="entry-kind kind-fix">通用功能</span>
           <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/45452" target="_blank" rel="noopener">#45452</a>
         </div>
-        <p class="entry-summary">这条修复背后的上下文是“Fix updater refresh cwd for service reinstall by vincentkoc · Pull Request 45452 · openclaw/openclaw”。结合描述看，官方是在处理 通用功能 的一个实际故障点，目标是让这块更稳。</p>
+        <p class="entry-summary">通用功能 这里原来有一个比较具体的故障点，这次就是直接对着这个问题下刀，把最容易出错的地方补上。</p>
         <div class="entry-meta">
-          <div><strong>这为什么重要：</strong>通用功能 更稳，少报错，少出现“明明设置了却不生效”的情况。</div>
+          <div><strong>这为什么重要：</strong>通用功能 这块会更稳，尤其是那些以前偶发、难复现、但一出问题就很烦的故障。</div>
           <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
         </div>
         <details class="entry-details">
           <summary>看原始上下文</summary>
           <div class="entry-context">
-            <div><strong>Release 原文：</strong>Fix updater refresh cwd for service reinstall by @vincentkoc in #45452</div>
-            <div><strong>对应 PR/Issue：</strong>Fix updater refresh cwd for service reinstall by vincentkoc · Pull Request #45452 · openclaw/openclaw</div>
+            <div><strong>Release 原文：</strong>Fix updater refresh cwd for service reinstall</div>
+            <div><strong>对应 PR/Issue：</strong>Fix updater refresh cwd for service reinstall</div>
             
           </div>
         </details>
@@ -987,7 +965,7 @@
         <details class="entry-details">
           <summary>看原始上下文</summary>
           <div class="entry-context">
-            <div><strong>Release 原文：</strong>[codex] Polish sidebar status, agent skills, and chat rendering by @BunsDev in #45451</div>
+            <div><strong>Release 原文：</strong>[codex] Polish sidebar status, agent skills, and chat rendering</div>
             
             
           </div>
@@ -1001,16 +979,16 @@
           <span class="entry-kind kind-fix">通用功能</span>
           <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/45426" target="_blank" rel="noopener">#45426</a>
         </div>
-        <p class="entry-summary">这条修复背后的上下文是“perf(build): deduplicate plugin sdk chunks to fix ~2x memory regression by TarasShyn · Pull Request 45426 · openclaw/openclaw”。结合描述看，官方是在处理 通用功能 的一个实际故障点，目标是让这块更稳。</p>
+        <p class="entry-summary">修的是重复回复/重复投递问题，避免同一条内容被系统多发一次。</p>
         <div class="entry-meta">
-          <div><strong>这为什么重要：</strong>通用功能 更稳，少报错，少出现“明明设置了却不生效”的情况。</div>
+          <div><strong>这为什么重要：</strong>通用功能 这块会更稳，尤其是那些以前偶发、难复现、但一出问题就很烦的故障。</div>
           <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
         </div>
         <details class="entry-details">
           <summary>看原始上下文</summary>
           <div class="entry-context">
-            <div><strong>Release 原文：</strong>perf(build): deduplicate plugin-sdk chunks to fix ~2x memory regression by @TarasShyn in #45426</div>
-            <div><strong>对应 PR/Issue：</strong>perf(build): deduplicate plugin-sdk chunks to fix ~2x memory regression by TarasShyn · Pull Request #45426 · openclaw/openclaw</div>
+            <div><strong>Release 原文：</strong>perf(build): deduplicate plugin-sdk chunks to fix ~2x memory regression</div>
+            <div><strong>对应 PR/Issue：</strong>perf(build): deduplicate plugin sdk chunks to fix ~2x memory regression</div>
             
           </div>
         </details>
@@ -1023,16 +1001,16 @@
           <span class="entry-kind kind-fix">通用功能</span>
           <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/45486" target="_blank" rel="noopener">#45486</a>
         </div>
-        <p class="entry-summary">这条修复背后的上下文是“Guard updater service refresh against missing invocation cwd by vincentkoc · Pull Request 45486 · openclaw/openclaw”。结合描述看，官方是在处理 通用功能 的一个实际故障点，目标是让这块更稳。</p>
+        <p class="entry-summary">通用功能 这里原来有一个比较具体的故障点，这次就是直接对着这个问题下刀，把最容易出错的地方补上。</p>
         <div class="entry-meta">
-          <div><strong>这为什么重要：</strong>通用功能 更稳，少报错，少出现“明明设置了却不生效”的情况。</div>
+          <div><strong>这为什么重要：</strong>通用功能 这块会更稳，尤其是那些以前偶发、难复现、但一出问题就很烦的故障。</div>
           <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
         </div>
         <details class="entry-details">
           <summary>看原始上下文</summary>
           <div class="entry-context">
-            <div><strong>Release 原文：</strong>Guard updater service refresh against missing invocation cwd by @vincentkoc in #45486</div>
-            <div><strong>对应 PR/Issue：</strong>Guard updater service refresh against missing invocation cwd by vincentkoc · Pull Request #45486 · openclaw/openclaw</div>
+            <div><strong>Release 原文：</strong>Guard updater service refresh against missing invocation cwd</div>
+            <div><strong>对应 PR/Issue：</strong>Guard updater service refresh against missing invocation cwd</div>
             
           </div>
         </details>
@@ -1045,38 +1023,16 @@
           <span class="entry-kind kind-fix">通用功能</span>
           <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/45457" target="_blank" rel="noopener">#45457</a>
         </div>
-        <p class="entry-summary">这条修复背后的上下文是“fix(browser): normalize batch act dispatch for selector and batch support by vincentkoc · Pull Request 45457 · openclaw/openclaw”。结合描述看，官方是在处理 通用功能 的一个实际故障点，目标是让这块更稳。</p>
+        <p class="entry-summary">通用功能 这里原来有一个比较具体的故障点，这次就是直接对着这个问题下刀，把最容易出错的地方补上。</p>
         <div class="entry-meta">
-          <div><strong>这为什么重要：</strong>通用功能 更稳，少报错，少出现“明明设置了却不生效”的情况。</div>
+          <div><strong>这为什么重要：</strong>通用功能 这块会更稳，尤其是那些以前偶发、难复现、但一出问题就很烦的故障。</div>
           <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
         </div>
         <details class="entry-details">
           <summary>看原始上下文</summary>
           <div class="entry-context">
-            <div><strong>Release 原文：</strong>fix(browser): normalize batch act dispatch for selector and batch support by @vincentkoc in #45457</div>
-            <div><strong>对应 PR/Issue：</strong>fix(browser): normalize batch act dispatch for selector and batch support by vincentkoc · Pull Request #45457 · openclaw/openclaw</div>
-            
-          </div>
-        </details>
-      </div>
-    </li>
-  
-    <li class="entry">
-      <div class="entry-main">
-        <div class="entry-header">
-          <span class="entry-kind kind-change">Android 端</span>
-          <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/23051" target="_blank" rel="noopener">#23051</a>
-        </div>
-        <p class="entry-summary">这是一次 Android 端 相关调整，核心是让现有流程更清楚。</p>
-        <div class="entry-meta">
-          <div><strong>这为什么重要：</strong>Android 端 会更顺手，理解成本会更低。</div>
-          <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
-        </div>
-        <details class="entry-details">
-          <summary>看原始上下文</summary>
-          <div class="entry-context">
-            <div><strong>Release 原文：</strong>docs(android): note that app is not publicly released yet by @eengad in #23051</div>
-            
+            <div><strong>Release 原文：</strong>fix(browser): normalize batch act dispatch for selector and batch support</div>
+            <div><strong>对应 PR/Issue：</strong>fix(browser): normalize batch act dispatch for selector and batch support</div>
             
           </div>
         </details>
@@ -1089,16 +1045,16 @@
           <span class="entry-kind kind-fix">通用功能</span>
           <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/45506" target="_blank" rel="noopener">#45506</a>
         </div>
-        <p class="entry-summary">这条修复背后的上下文是“fix(browser): follow up batch failure and limit handling by vincentkoc · Pull Request 45506 · openclaw/openclaw”。结合描述看，官方是在处理 通用功能 的一个实际故障点，目标是让这块更稳。</p>
+        <p class="entry-summary">通用功能 这里原来有一个比较具体的故障点，这次就是直接对着这个问题下刀，把最容易出错的地方补上。</p>
         <div class="entry-meta">
-          <div><strong>这为什么重要：</strong>通用功能 更稳，少报错，少出现“明明设置了却不生效”的情况。</div>
+          <div><strong>这为什么重要：</strong>通用功能 这块会更稳，尤其是那些以前偶发、难复现、但一出问题就很烦的故障。</div>
           <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
         </div>
         <details class="entry-details">
           <summary>看原始上下文</summary>
           <div class="entry-context">
-            <div><strong>Release 原文：</strong>fix(browser): follow up batch failure and limit handling by @vincentkoc in #45506</div>
-            <div><strong>对应 PR/Issue：</strong>fix(browser): follow up batch failure and limit handling by vincentkoc · Pull Request #45506 · openclaw/openclaw</div>
+            <div><strong>Release 原文：</strong>fix(browser): follow up batch failure and limit handling</div>
+            <div><strong>对应 PR/Issue：</strong>fix(browser): follow up batch failure and limit handling</div>
             
           </div>
         </details>
@@ -1119,7 +1075,7 @@
         <details class="entry-details">
           <summary>看原始上下文</summary>
           <div class="entry-context">
-            <div><strong>Release 原文：</strong>docker: add apt-get upgrade to all Dockerfiles by @jacobtomlinson in #45384</div>
+            <div><strong>Release 原文：</strong>docker: add apt-get upgrade to all Dockerfiles</div>
             
             
           </div>
@@ -1133,16 +1089,16 @@
           <span class="entry-kind kind-fix">通用功能</span>
           <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/45520" target="_blank" rel="noopener">#45520</a>
         </div>
-        <p class="entry-summary">这条修复背后的上下文是“fix(config): avoid Anthropic startup crash by BunsDev · Pull Request 45520 · openclaw/openclaw”。结合描述看，官方是在处理 通用功能 的一个实际故障点，目标是让这块更稳。</p>
+        <p class="entry-summary">修的是“Anthropic startup crash”这个坑，目的就是提前绕开它，不让它在运行时炸出来。</p>
         <div class="entry-meta">
-          <div><strong>这为什么重要：</strong>通用功能 更稳，少报错，少出现“明明设置了却不生效”的情况。</div>
+          <div><strong>这为什么重要：</strong>通用功能 这块会更稳，尤其是那些以前偶发、难复现、但一出问题就很烦的故障。</div>
           <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
         </div>
         <details class="entry-details">
           <summary>看原始上下文</summary>
           <div class="entry-context">
-            <div><strong>Release 原文：</strong>fix(config): avoid Anthropic startup crash by @BunsDev in #45520</div>
-            <div><strong>对应 PR/Issue：</strong>fix(config): avoid Anthropic startup crash by BunsDev · Pull Request #45520 · openclaw/openclaw</div>
+            <div><strong>Release 原文：</strong>fix(config): avoid Anthropic startup crash</div>
+            <div><strong>对应 PR/Issue：</strong>fix(config): avoid Anthropic startup crash</div>
             
           </div>
         </details>
@@ -1155,16 +1111,16 @@
           <span class="entry-kind kind-fix">聊天设置</span>
           <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/45533" target="_blank" rel="noopener">#45533</a>
         </div>
-        <p class="entry-summary">这条修复背后的上下文是“UI: fix chat context notice icon sizing by BunsDev · Pull Request 45533 · openclaw/openclaw”。结合描述看，官方是在处理 聊天设置 的一个实际故障点，目标是让这块更稳。</p>
+        <p class="entry-summary">聊天设置 这里原来有一个比较具体的故障点，这次就是直接对着这个问题下刀，把最容易出错的地方补上。</p>
         <div class="entry-meta">
-          <div><strong>这为什么重要：</strong>聊天设置 更稳，少报错，少出现“明明设置了却不生效”的情况。</div>
+          <div><strong>这为什么重要：</strong>聊天设置 这块会更稳，尤其是那些以前偶发、难复现、但一出问题就很烦的故障。</div>
           <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
         </div>
         <details class="entry-details">
           <summary>看原始上下文</summary>
           <div class="entry-context">
-            <div><strong>Release 原文：</strong>UI: fix chat context notice icon sizing by @BunsDev in #45533</div>
-            <div><strong>对应 PR/Issue：</strong>UI: fix chat context notice icon sizing by BunsDev · Pull Request #45533 · openclaw/openclaw</div>
+            <div><strong>Release 原文：</strong>UI: fix chat context notice icon sizing</div>
+            <div><strong>对应 PR/Issue：</strong>UI: fix chat context notice icon sizing</div>
             
           </div>
         </details>
@@ -1177,16 +1133,16 @@
           <span class="entry-kind kind-fix">聊天设置</span>
           <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/45541" target="_blank" rel="noopener">#45541</a>
         </div>
-        <p class="entry-summary">这条修复背后的上下文是“fix(ui): stop dashboard chat history reload storm by BunsDev · Pull Request 45541 · openclaw/openclaw”。结合描述看，官方是在处理 聊天设置 的一个实际故障点，目标是让这块更稳。</p>
+        <p class="entry-summary">聊天设置 这里原来有一个比较具体的故障点，这次就是直接对着这个问题下刀，把最容易出错的地方补上。</p>
         <div class="entry-meta">
-          <div><strong>这为什么重要：</strong>聊天设置 更稳，少报错，少出现“明明设置了却不生效”的情况。</div>
+          <div><strong>这为什么重要：</strong>聊天设置 这块会更稳，尤其是那些以前偶发、难复现、但一出问题就很烦的故障。</div>
           <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
         </div>
         <details class="entry-details">
           <summary>看原始上下文</summary>
           <div class="entry-context">
-            <div><strong>Release 原文：</strong>fix(ui): stop dashboard chat history reload storm by @BunsDev in #45541</div>
-            <div><strong>对应 PR/Issue：</strong>fix(ui): stop dashboard chat history reload storm by BunsDev · Pull Request #45541 · openclaw/openclaw</div>
+            <div><strong>Release 原文：</strong>fix(ui): stop dashboard chat history reload storm</div>
+            <div><strong>对应 PR/Issue：</strong>fix(ui): stop dashboard chat history reload storm</div>
             
           </div>
         </details>
@@ -1199,16 +1155,16 @@
           <span class="entry-kind kind-fix">通用功能</span>
           <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/45327" target="_blank" rel="noopener">#45327</a>
         </div>
-        <p class="entry-summary">这条修复背后的上下文是“fix: retry Telegram inbound media downloads over IPv4 fallback by frankekn · Pull Request 45327 · openclaw/openclaw”。结合描述看，官方是在处理 通用功能 的一个实际故障点，目标是让这块更稳。</p>
+        <p class="entry-summary">给原来的下载/请求流程补了回退重试路线，主路不通时会自动换一条更稳的路再试一次。</p>
         <div class="entry-meta">
-          <div><strong>这为什么重要：</strong>通用功能 更稳，少报错，少出现“明明设置了却不生效”的情况。</div>
+          <div><strong>这为什么重要：</strong>通用功能 这块会更稳，尤其是那些以前偶发、难复现、但一出问题就很烦的故障。</div>
           <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
         </div>
         <details class="entry-details">
           <summary>看原始上下文</summary>
           <div class="entry-context">
-            <div><strong>Release 原文：</strong>fix: retry Telegram inbound media downloads over IPv4 fallback by @frankekn in #45327</div>
-            <div><strong>对应 PR/Issue：</strong>fix: retry Telegram inbound media downloads over IPv4 fallback by frankekn · Pull Request #45327 · openclaw/openclaw</div>
+            <div><strong>Release 原文：</strong>fix: retry Telegram inbound media downloads over IPv4 fallback</div>
+            <div><strong>对应 PR/Issue：</strong>fix: retry Telegram inbound media downloads over IPv4 fallback</div>
             
           </div>
         </details>
@@ -1221,16 +1177,16 @@
           <span class="entry-kind kind-fix">通用功能</span>
           <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/33912" target="_blank" rel="noopener">#33912</a>
         </div>
-        <p class="entry-summary">这条修复背后的上下文是“[Regression] Feishu 文件发送中文文件名乱码 (v2026.3.2) · Issue 33912 · openclaw/openclaw”。结合描述看，官方是在处理 通用功能 的一个实际故障点，目标是让这块更稳。</p>
+        <p class="entry-summary">通用功能 这里原来有一个比较具体的故障点，这次就是直接对着这个问题下刀，把最容易出错的地方补上。</p>
         <div class="entry-meta">
-          <div><strong>这为什么重要：</strong>通用功能 更稳，少报错，少出现“明明设置了却不生效”的情况。</div>
+          <div><strong>这为什么重要：</strong>通用功能 这块会更稳，尤其是那些以前偶发、难复现、但一出问题就很烦的故障。</div>
           <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
         </div>
         <details class="entry-details">
           <summary>看原始上下文</summary>
           <div class="entry-context">
-            <div><strong>Release 原文：</strong>fix(feishu): preserve non-ASCII filenames in file uploads ( #33912 ) by @fabiaodemianyang in #34262</div>
-            <div><strong>对应 PR/Issue：</strong>[Regression] Feishu 文件发送中文文件名乱码 (v2026.3.2) · Issue #33912 · openclaw/openclaw</div>
+            <div><strong>Release 原文：</strong>fix(feishu): preserve non-ASCII filenames in file uploads ( #33912 )</div>
+            <div><strong>对应 PR/Issue：</strong>[Regression] Feishu 文件发送中文文件名乱码 (v2026.3.2)</div>
             
           </div>
         </details>
@@ -1251,7 +1207,7 @@
         <details class="entry-details">
           <summary>看原始上下文</summary>
           <div class="entry-context">
-            <div><strong>Release 原文：</strong>macOS: respect exec-approvals.json settings in gateway prompter by @sliekens in #13707</div>
+            <div><strong>Release 原文：</strong>macOS: respect exec-approvals.json settings in gateway prompter</div>
             
             
           </div>
@@ -1265,16 +1221,16 @@
           <span class="entry-kind kind-fix">聊天设置</span>
           <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/45559" target="_blank" rel="noopener">#45559</a>
         </div>
-        <p class="entry-summary">这条修复背后的上下文是“fix(ui): keep oversized chat replies readable by BunsDev · Pull Request 45559 · openclaw/openclaw”。结合描述看，官方是在处理 聊天设置 的一个实际故障点，目标是让这块更稳。</p>
+        <p class="entry-summary">聊天设置 这里原来有一个比较具体的故障点，这次就是直接对着这个问题下刀，把最容易出错的地方补上。</p>
         <div class="entry-meta">
-          <div><strong>这为什么重要：</strong>聊天设置 更稳，少报错，少出现“明明设置了却不生效”的情况。</div>
+          <div><strong>这为什么重要：</strong>聊天设置 这块会更稳，尤其是那些以前偶发、难复现、但一出问题就很烦的故障。</div>
           <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
         </div>
         <details class="entry-details">
           <summary>看原始上下文</summary>
           <div class="entry-context">
-            <div><strong>Release 原文：</strong>fix(ui): keep oversized chat replies readable by @BunsDev in #45559</div>
-            <div><strong>对应 PR/Issue：</strong>fix(ui): keep oversized chat replies readable by BunsDev · Pull Request #45559 · openclaw/openclaw</div>
+            <div><strong>Release 原文：</strong>fix(ui): keep oversized chat replies readable</div>
+            <div><strong>对应 PR/Issue：</strong>fix(ui): keep oversized chat replies readable</div>
             
           </div>
         </details>
@@ -1287,16 +1243,16 @@
           <span class="entry-kind kind-fix">通用功能</span>
           <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/45512" target="_blank" rel="noopener">#45512</a>
         </div>
-        <p class="entry-summary">这条修复背后的上下文是“fix(gateway/ui): restore control ui auth bypass and classify connect failures by sallyom · Pull Request 45512 · openclaw/openclaw”。结合描述看，官方是在处理 通用功能 的一个实际故障点，目标是让这块更稳。</p>
+        <p class="entry-summary">把之前丢掉或失效的“fix(gateway/ui): restore control ui auth bypass and classify connect failures”恢复回来，避免升级后这块行为突然不对。</p>
         <div class="entry-meta">
-          <div><strong>这为什么重要：</strong>通用功能 更稳，少报错，少出现“明明设置了却不生效”的情况。</div>
+          <div><strong>这为什么重要：</strong>通用功能 这块会更稳，尤其是那些以前偶发、难复现、但一出问题就很烦的故障。</div>
           <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
         </div>
         <details class="entry-details">
           <summary>看原始上下文</summary>
           <div class="entry-context">
-            <div><strong>Release 原文：</strong>fix(gateway/ui): restore control-ui auth bypass and classify connect failures by @sallyom in #45512</div>
-            <div><strong>对应 PR/Issue：</strong>fix(gateway/ui): restore control-ui auth bypass and classify connect failures by sallyom · Pull Request #45512 · openclaw/openclaw</div>
+            <div><strong>Release 原文：</strong>fix(gateway/ui): restore control-ui auth bypass and classify connect failures</div>
+            <div><strong>对应 PR/Issue：</strong>fix(gateway/ui): restore control ui auth bypass and classify connect failures</div>
             
           </div>
         </details>
@@ -1309,16 +1265,16 @@
           <span class="entry-kind kind-fix">通用功能</span>
           <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/13798" target="_blank" rel="noopener">#13798</a>
         </div>
-        <p class="entry-summary">这条修复背后的上下文是“fix(macos): prevent PortGuard from killing Docker Desktop in remote mode by teslamint · Pull Request 13798 · openclaw/openclaw”。结合描述看，官方是在处理 通用功能 的一个实际故障点，目标是让这块更稳。</p>
+        <p class="entry-summary">通用功能 这里原来有一个比较具体的故障点，这次就是直接对着这个问题下刀，把最容易出错的地方补上。</p>
         <div class="entry-meta">
-          <div><strong>这为什么重要：</strong>通用功能 更稳，少报错，少出现“明明设置了却不生效”的情况。</div>
+          <div><strong>这为什么重要：</strong>通用功能 这块会更稳，尤其是那些以前偶发、难复现、但一出问题就很烦的故障。</div>
           <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
         </div>
         <details class="entry-details">
           <summary>看原始上下文</summary>
           <div class="entry-context">
-            <div><strong>Release 原文：</strong>fix(macos): prevent PortGuard from killing Docker Desktop in remote mode by @teslamint in #13798</div>
-            <div><strong>对应 PR/Issue：</strong>fix(macos): prevent PortGuard from killing Docker Desktop in remote mode by teslamint · Pull Request #13798 · openclaw/openclaw</div>
+            <div><strong>Release 原文：</strong>fix(macos): prevent PortGuard from killing Docker Desktop in remote mode</div>
+            <div><strong>对应 PR/Issue：</strong>fix(macos): prevent PortGuard from killing Docker Desktop in remote mode</div>
             
           </div>
         </details>
@@ -1331,16 +1287,16 @@
           <span class="entry-kind kind-fix">聊天设置</span>
           <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/36645" target="_blank" rel="noopener">#36645</a>
         </div>
-        <p class="entry-summary">这条修复背后的上下文是“fix(sessions): create transcript file on chat.inject when missing by 2233admin · Pull Request 36645 · openclaw/openclaw”。结合描述看，官方是在处理 聊天设置 的一个实际故障点，目标是让这块更稳。</p>
+        <p class="entry-summary">原来缺少 transcript file on chat.inject 时可能直接失败，现在会先自动补出来，再继续后面的流程。</p>
         <div class="entry-meta">
-          <div><strong>这为什么重要：</strong>聊天设置 更稳，少报错，少出现“明明设置了却不生效”的情况。</div>
+          <div><strong>这为什么重要：</strong>聊天设置 这块会更稳，尤其是那些以前偶发、难复现、但一出问题就很烦的故障。</div>
           <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
         </div>
         <details class="entry-details">
           <summary>看原始上下文</summary>
           <div class="entry-context">
-            <div><strong>Release 原文：</strong>fix(sessions): create transcript file on chat.inject when missing by @2233admin in #36645</div>
-            <div><strong>对应 PR/Issue：</strong>fix(sessions): create transcript file on chat.inject when missing by 2233admin · Pull Request #36645 · openclaw/openclaw</div>
+            <div><strong>Release 原文：</strong>fix(sessions): create transcript file on chat.inject when missing</div>
+            <div><strong>对应 PR/Issue：</strong>fix(sessions): create transcript file on chat.inject when missing</div>
             
           </div>
         </details>
@@ -1361,7 +1317,7 @@
         <details class="entry-details">
           <summary>看原始上下文</summary>
           <div class="entry-context">
-            <div><strong>Release 原文：</strong>Plugins: fail fast on channel and binding collisions by @vincentkoc in #45628</div>
+            <div><strong>Release 原文：</strong>Plugins: fail fast on channel and binding collisions</div>
             
             
           </div>
@@ -1375,16 +1331,16 @@
           <span class="entry-kind kind-fix">通用功能</span>
           <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/45640" target="_blank" rel="noopener">#45640</a>
         </div>
-        <p class="entry-summary">这条修复背后的上下文是“fix(macos): align minimum Node.js version with runtime guard (22.16.0) by ImLukeF · Pull Request 45640 · openclaw/openclaw”。结合描述看，官方是在处理 通用功能 的一个实际故障点，目标是让这块更稳。</p>
+        <p class="entry-summary">通用功能 这里原来有一个比较具体的故障点，这次就是直接对着这个问题下刀，把最容易出错的地方补上。</p>
         <div class="entry-meta">
-          <div><strong>这为什么重要：</strong>通用功能 更稳，少报错，少出现“明明设置了却不生效”的情况。</div>
+          <div><strong>这为什么重要：</strong>通用功能 这块会更稳，尤其是那些以前偶发、难复现、但一出问题就很烦的故障。</div>
           <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
         </div>
         <details class="entry-details">
           <summary>看原始上下文</summary>
           <div class="entry-context">
-            <div><strong>Release 原文：</strong>fix(macos): align minimum Node.js version with runtime guard (22.16.0) by @ImLukeF in #45640</div>
-            <div><strong>对应 PR/Issue：</strong>fix(macos): align minimum Node.js version with runtime guard (22.16.0) by ImLukeF · Pull Request #45640 · openclaw/openclaw</div>
+            <div><strong>Release 原文：</strong>fix(macos): align minimum Node.js version with runtime guard (22.16.0)</div>
+            <div><strong>对应 PR/Issue：</strong>fix(macos): align minimum Node.js version with runtime guard (22.16.0)</div>
             
           </div>
         </details>
@@ -1397,16 +1353,16 @@
           <span class="entry-kind kind-fix">接口和后台</span>
           <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/45631" target="_blank" rel="noopener">#45631</a>
         </div>
-        <p class="entry-summary">这条修复背后的上下文是“fix(agents): preserve blank local custom provider API keys after onboarding by frankekn · Pull Request 45631 · openclaw/openclaw”。结合描述看，官方是在处理 接口和后台 的一个实际故障点，目标是让这块更稳。</p>
+        <p class="entry-summary">接口和后台 这里原来有一个比较具体的故障点，这次就是直接对着这个问题下刀，把最容易出错的地方补上。</p>
         <div class="entry-meta">
-          <div><strong>这为什么重要：</strong>接口和后台 更稳，少报错，少出现“明明设置了却不生效”的情况。</div>
+          <div><strong>这为什么重要：</strong>接口和后台 这块会更稳，尤其是那些以前偶发、难复现、但一出问题就很烦的故障。</div>
           <div><strong>你要不要管：</strong>如果你管 接口和后台 配置，更新后最好顺手检查一遍相关页面或对接流程。</div>
         </div>
         <details class="entry-details">
           <summary>看原始上下文</summary>
           <div class="entry-context">
-            <div><strong>Release 原文：</strong>fix(agents): preserve blank local custom-provider API keys after onboarding by @frankekn in #45631</div>
-            <div><strong>对应 PR/Issue：</strong>fix(agents): preserve blank local custom-provider API keys after onboarding by frankekn · Pull Request #45631 · openclaw/openclaw</div>
+            <div><strong>Release 原文：</strong>fix(agents): preserve blank local custom-provider API keys after onboarding</div>
+            <div><strong>对应 PR/Issue：</strong>fix(agents): preserve blank local custom provider API keys after onboarding</div>
             
           </div>
         </details>
@@ -1419,16 +1375,16 @@
           <span class="entry-kind kind-fix">通用功能</span>
           <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/45682" target="_blank" rel="noopener">#45682</a>
         </div>
-        <p class="entry-summary">这条修复背后的上下文是“fix(browser): harden existing session driver validation and session lifecycle by odysseus0 · Pull Request 45682 · openclaw/openclaw”。结合描述看，官方是在处理 通用功能 的一个实际故障点，目标是让这块更稳。</p>
+        <p class="entry-summary">通用功能 这里原来有一个比较具体的故障点，这次就是直接对着这个问题下刀，把最容易出错的地方补上。</p>
         <div class="entry-meta">
-          <div><strong>这为什么重要：</strong>通用功能 更稳，少报错，少出现“明明设置了却不生效”的情况。</div>
+          <div><strong>这为什么重要：</strong>通用功能 这块会更稳，尤其是那些以前偶发、难复现、但一出问题就很烦的故障。</div>
           <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
         </div>
         <details class="entry-details">
           <summary>看原始上下文</summary>
           <div class="entry-context">
-            <div><strong>Release 原文：</strong>fix(browser): harden existing-session driver validation and session lifecycle by @odysseus0 in #45682</div>
-            <div><strong>对应 PR/Issue：</strong>fix(browser): harden existing-session driver validation and session lifecycle by odysseus0 · Pull Request #45682 · openclaw/openclaw</div>
+            <div><strong>Release 原文：</strong>fix(browser): harden existing-session driver validation and session lifecycle</div>
+            <div><strong>对应 PR/Issue：</strong>fix(browser): harden existing session driver validation and session lifecycle</div>
             
           </div>
         </details>
@@ -1441,16 +1397,16 @@
           <span class="entry-kind kind-fix">通用功能</span>
           <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/43762" target="_blank" rel="noopener">#43762</a>
         </div>
-        <p class="entry-summary">这条修复背后的上下文是“fix(feishu): add early event level dedup to prevent duplicate replies by yunweibang · Pull Request 43762 · openclaw/openclaw”。结合描述看，官方是在处理 通用功能 的一个实际故障点，目标是让这块更稳。</p>
+        <p class="entry-summary">修的是重复回复/重复投递问题，避免同一条内容被系统多发一次。</p>
         <div class="entry-meta">
-          <div><strong>这为什么重要：</strong>通用功能 更稳，少报错，少出现“明明设置了却不生效”的情况。</div>
+          <div><strong>这为什么重要：</strong>通用功能 这块会更稳，尤其是那些以前偶发、难复现、但一出问题就很烦的故障。</div>
           <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
         </div>
         <details class="entry-details">
           <summary>看原始上下文</summary>
           <div class="entry-context">
-            <div><strong>Release 原文：</strong>fix(feishu): add early event-level dedup to prevent duplicate replies by @yunweibang in #43762</div>
-            <div><strong>对应 PR/Issue：</strong>fix(feishu): add early event-level dedup to prevent duplicate replies by yunweibang · Pull Request #43762 · openclaw/openclaw</div>
+            <div><strong>Release 原文：</strong>fix(feishu): add early event-level dedup to prevent duplicate replies</div>
+            <div><strong>对应 PR/Issue：</strong>fix(feishu): add early event level dedup to prevent duplicate replies</div>
             
           </div>
         </details>
@@ -1463,16 +1419,16 @@
           <span class="entry-kind kind-fix">Google 授权</span>
           <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/42435" target="_blank" rel="noopener">#42435</a>
         </div>
-        <p class="entry-summary">这条修复背后的上下文是“fix(models): apply Gemini model id normalization to google vertex provider by scoootscooob · Pull Request 42435 · openclaw/openclaw”。结合描述看，官方是在处理 Google 授权 的一个实际故障点，目标是让这块更稳。</p>
+        <p class="entry-summary">Google 授权 这里原来有一个比较具体的故障点，这次就是直接对着这个问题下刀，把最容易出错的地方补上。</p>
         <div class="entry-meta">
-          <div><strong>这为什么重要：</strong>Google 授权 更稳，少报错，少出现“明明设置了却不生效”的情况。</div>
+          <div><strong>这为什么重要：</strong>Google 授权 这块会更稳，尤其是那些以前偶发、难复现、但一出问题就很烦的故障。</div>
           <div><strong>你要不要管：</strong>如果你管 Google 授权 配置，更新后最好顺手检查一遍相关页面或对接流程。</div>
         </div>
         <details class="entry-details">
           <summary>看原始上下文</summary>
           <div class="entry-context">
-            <div><strong>Release 原文：</strong>fix(models): apply Gemini model-id normalization to google-vertex provider by @scoootscooob in #42435</div>
-            <div><strong>对应 PR/Issue：</strong>fix(models): apply Gemini model-id normalization to google-vertex provider by scoootscooob · Pull Request #42435 · openclaw/openclaw</div>
+            <div><strong>Release 原文：</strong>fix(models): apply Gemini model-id normalization to google-vertex provider</div>
+            <div><strong>对应 PR/Issue：</strong>fix(models): apply Gemini model id normalization to google vertex provider</div>
             
           </div>
         </details>
@@ -1493,7 +1449,7 @@
         <details class="entry-details">
           <summary>看原始上下文</summary>
           <div class="entry-context">
-            <div><strong>Release 原文：</strong>Gateway: treat scope-limited probe RPC as degraded reachability by @joshavant in #45622</div>
+            <div><strong>Release 原文：</strong>Gateway: treat scope-limited probe RPC as degraded reachability</div>
             
             
           </div>
@@ -1507,16 +1463,16 @@
           <span class="entry-kind kind-fix">通用功能</span>
           <a class="entry-ref" href="https://github.com/openclaw/openclaw/pull/45689" target="_blank" rel="noopener">#45689</a>
         </div>
-        <p class="entry-summary">这条修复背后的上下文是“fix(gateway): bound unanswered client requests by Takhoffman · Pull Request 45689 · openclaw/openclaw”。结合描述看，官方是在处理 通用功能 的一个实际故障点，目标是让这块更稳。</p>
+        <p class="entry-summary">把一直没人回应的客户端请求加上边界，避免这些悬空请求长期挂着、慢慢拖垮系统。</p>
         <div class="entry-meta">
-          <div><strong>这为什么重要：</strong>通用功能 更稳，少报错，少出现“明明设置了却不生效”的情况。</div>
+          <div><strong>这为什么重要：</strong>通用功能 这块会更稳，尤其是那些以前偶发、难复现、但一出问题就很烦的故障。</div>
           <div><strong>你要不要管：</strong>大多数用户不用额外操作，更新后直接生效。</div>
         </div>
         <details class="entry-details">
           <summary>看原始上下文</summary>
           <div class="entry-context">
-            <div><strong>Release 原文：</strong>fix(gateway): bound unanswered client requests by @Takhoffman in #45689</div>
-            <div><strong>对应 PR/Issue：</strong>fix(gateway): bound unanswered client requests by Takhoffman · Pull Request #45689 · openclaw/openclaw</div>
+            <div><strong>Release 原文：</strong>fix(gateway): bound unanswered client requests</div>
+            <div><strong>对应 PR/Issue：</strong>fix(gateway): bound unanswered client requests</div>
             
           </div>
         </details>

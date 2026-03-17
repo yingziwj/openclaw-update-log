@@ -114,7 +114,7 @@ function parseMarkdown(body) {
       continue;
     }
 
-     if (hasHeadings && !seenHeading) {
+    if (hasHeadings && !seenHeading) {
       continue;
     }
 
@@ -169,8 +169,15 @@ function shouldFetchContext(item, sectionTitle) {
   const text = normalizeText(item);
   const kind = detectKind(text, sectionTitle);
   if (kind === "upgrade") return false;
-  if (/^(docs?|test|tests|refactor|chore|ci|build):/i.test(text)) return false;
+  if (/^(docs?|test|tests|refactor|chore|ci|build)(\([^)]+\))?:/i.test(text)) {
+    return false;
+  }
   return kind === "fix";
+}
+
+function shouldDisplayItem(item) {
+  const text = normalizeText(item);
+  return !/^(docs?|test|tests|refactor|chore|ci)(\([^)]+\))?:/i.test(text);
 }
 
 function extractRefNumber(item) {
@@ -187,6 +194,7 @@ function extractRefNumber(item) {
 function removeTrailingRefs(text) {
   return text
     .replace(/\s+by\s+@[\w-]+\s+in\s+https:\/\/github\.com\/[^\s]+$/i, "")
+    .replace(/\s+by\s+@[\w-]+\s+in\s+#\d+\s*$/i, "")
     .replace(/\s*\(#\d+\)\s*$/i, "")
     .trim();
 }
@@ -229,42 +237,162 @@ function buildFallbackSummary(item, kind, area) {
   return `这是一次 ${area} 相关调整，核心是让现有流程更清楚。`;
 }
 
-function buildContextSummary(item, kind, area, context) {
-  if (!context) return buildFallbackSummary(item, kind, area);
+function sanitizeContextTitle(text) {
+  return cleanBody(text || "")
+    .replace(/\s+by\s+[\w-]+\s+·\s+Pull Request\s+#?\d+\s+·\s+openclaw\/openclaw/gi, "")
+    .replace(/\s+·\s+Issue\s+#?\d+\s+·\s+openclaw\/openclaw/gi, "")
+    .replace(/\s+·\s+Pull Request\s+#?\d+\s+·\s+openclaw\/openclaw/gi, "")
+    .replace(/\s+·\s+openclaw\/openclaw/gi, "")
+    .trim();
+}
 
-  const title = cleanBody(context.title || "");
-  const body = truncate(cleanBody(context.body || ""), 240);
-  const issueTitle = cleanBody(context.linkedIssueTitle || "");
-  const issueBody = truncate(cleanBody(context.linkedIssueBody || ""), 180);
+function quoteList(text) {
+  return text
+    .split(/ and |, /i)
+    .map((part) => part.trim())
+    .filter(Boolean)
+    .slice(0, 2)
+    .join(" 和 ");
+}
 
-  if (kind === "fix" && issueTitle) {
-    return `原来 ${area} 这里有人反馈“${issueTitle}”。这次对应的修复说明是“${title || normalizeText(item)}”，也就是把那个具体问题补上，避免用户继续踩坑。`;
+function buildSpecificFixSummary(title, issueTitle, area) {
+  const lower = title.toLowerCase();
+
+  if (/post compaction.*token count|token count.*sanity check/.test(lower)) {
+    return "修复了压缩完成后 token 计数校验容易算错的问题，避免压缩后状态判断不准，连带影响后续流程。";
   }
+
+  if (/thread media transport policy into ssrf/.test(lower)) {
+    return "补上了 Telegram 媒体下载时的传输策略，避免图片或文件进来后在抓取阶段直接失败。";
+  }
+
+  if (/preserve .* on session reset/.test(lower)) {
+    return "修复了重置会话时把最近账号和最近线程一起清掉的问题，现在重置后不会把这两个关键状态顺手抹掉。";
+  }
+
+  if (/httpurlconnection leak/.test(lower)) {
+    return "修掉了 Android 里一个连接没及时释放的问题，长时间使用时更不容易慢慢堆出资源占用。";
+  }
+
+  if (/handle .* failures/.test(lower)) {
+    const target = title.replace(/^fix:?\s*/i, "").replace(/failures?$/i, "失败");
+    return `补上了“${target}”这类异常情况的兜底处理，避免一次失败就把后续流程一起带崩。`;
+  }
+
+  if (/preserve .* continuity/.test(lower)) {
+    return "修复了压缩总结后人设和语言风格容易跑掉的问题，让前后回复更连贯。";
+  }
+
+  if (/retry .* fallback/.test(lower)) {
+    return "给原来的下载/请求流程补了回退重试路线，主路不通时会自动换一条更稳的路再试一次。";
+  }
+
+  if (/add missing .* field/.test(lower)) {
+    const field = title.match(/add missing (.+?) field/i)?.[1] || "字段";
+    return `补上了原来漏掉的 ${field} 字段，避免配置或校验时因为缺这个字段直接报错。`;
+  }
+
+  if (/create .* when missing/.test(lower)) {
+    const target = title.match(/create (.+?) when missing/i)?.[1] || "文件";
+    return `原来缺少 ${target} 时可能直接失败，现在会先自动补出来，再继续后面的流程。`;
+  }
+
+  if (/restore /.test(lower)) {
+    const target = title.replace(/^fix:?\s*restore\s*/i, "");
+    return `把之前丢掉或失效的“${target}”恢复回来，避免升级后这块行为突然不对。`;
+  }
+
+  if (/avoid /.test(lower)) {
+    const target = title.replace(/^fix\([^)]+\):\s*avoid\s*/i, "").replace(/^fix:?\s*avoid\s*/i, "");
+    return `修的是“${target}”这个坑，目的就是提前绕开它，不让它在运行时炸出来。`;
+  }
+
+  if (/add missing /.test(lower)) {
+    const target = title.replace(/^fix\([^)]+\):\s*add missing\s*/i, "").replace(/^fix:?\s*add missing\s*/i, "");
+    return `这次是把原来漏掉的“${target}”补齐，避免因为少这一项导致配置不完整。`;
+  }
+
+  if (/bound unanswered client requests/.test(lower)) {
+    return "把一直没人回应的客户端请求加上边界，避免这些悬空请求长期挂着、慢慢拖垮系统。";
+  }
+
+  if (/duplicate replies|dedup/.test(lower)) {
+    return "修的是重复回复/重复投递问题，避免同一条内容被系统多发一次。";
+  }
+
+  if (issueTitle) {
+    return `这次修的是“${issueTitle}”这个具体问题，目标不是泛泛优化，而是把用户已经遇到的故障点补掉。`;
+  }
+
+  return `${area} 这里原来有一个比较具体的故障点，这次就是直接对着这个问题下刀，把最容易出错的地方补上。`;
+}
+
+function buildSpecificFeatureSummary(title, area) {
+  const lower = title.toLowerCase();
+
+  if (/redesign chat settings ui/.test(lower)) {
+    return "Android 端把聊天设置页重新整理了一遍，重点不是换皮，而是把入口和分组做得更顺手。";
+  }
+
+  if (/welcome pager/.test(lower)) {
+    return "iOS 新增了欢迎引导页，第一次进入时会更容易知道下一步该怎么开始。";
+  }
+
+  if (/timezone support/.test(lower)) {
+    return "给 Docker 运行环境补了时区支持，定时任务和日志时间会更贴近实际使用地区。";
+  }
+
+  return `${area} 这里补了一块以前没有的能力或入口，用起来会少绕一点。`;
+}
+
+function buildSpecificImproveSummary(title, area) {
+  const lower = title.toLowerCase();
+
+  if (/updated default model/.test(lower)) {
+    return "默认测试模型跟着往上更新了一档，说明官方已经把新版模型当成主路径来验证了。";
+  }
+
+  if (/polish|refinements|align /.test(lower)) {
+    return `${area} 做的是细节整理，不是功能重写，但能减少用的时候那种别扭感。`;
+  }
+
+  return `${area} 这次主要是在理顺细节，让使用过程更顺。`;
+}
+
+function buildContextSummary(item, kind, area, context) {
+  const title = sanitizeContextTitle(context?.title || item);
+  const issueTitle = sanitizeContextTitle(context?.linkedIssueTitle || "");
 
   if (kind === "fix") {
-    return `这条修复背后的上下文是“${title || normalizeText(item)}”。结合描述看，官方是在处理 ${area} 的一个实际故障点，目标是让这块更稳。`;
+    return buildSpecificFixSummary(title, issueTitle, area);
   }
 
-  if (kind === "feature" && title) {
-    return `这条新增不是凭空冒出来的，结合提交上下文“${title}”来看，官方是在给 ${area} 补一个更完整的使用路径。`;
+  if (kind === "feature") {
+    return buildSpecificFeatureSummary(title, area);
   }
 
-  if (kind === "improve" && body) {
-    return `这条优化结合上下文看，重点不是炫技，而是把 ${area} 的流程重新梳顺。原始说明里提到：${body}`;
+  if (kind === "improve") {
+    return buildSpecificImproveSummary(title, area);
   }
 
-  return buildFallbackSummary(item, kind, area);
+  return buildFallbackSummary(title, kind, area);
 }
 
 function buildWhyItMatters(kind, area, context) {
-  if (context?.linkedIssueTitle) {
-    return `因为已经有人在真实使用里遇到这个问题，所以这次不是“顺手优化”，而是在补真实痛点。`;
+  const issueTitle = sanitizeContextTitle(context?.linkedIssueTitle || "");
+  const title = sanitizeContextTitle(context?.title || "");
+
+  if (issueTitle) {
+    return `它对应的是已经有人报出来的真实问题，不是空泛优化，所以修完通常能直接减少同类故障。`;
+  }
+  if (kind === "feature" && /settings|welcome|timezone/i.test(title)) {
+    return "这类改动通常最能直接改善上手成本，用户会更容易找到入口或少踩设置坑。";
   }
   if (kind === "feature") {
     return `${area} 的路径会更完整，用户少猜一步。`;
   }
   if (kind === "fix") {
-    return `${area} 更稳，少报错，少出现“明明设置了却不生效”的情况。`;
+    return `${area} 这块会更稳，尤其是那些以前偶发、难复现、但一出问题就很烦的故障。`;
   }
   if (kind === "upgrade") {
     return `表面上不明显，但底层兼容性和稳定性通常会更好。`;
@@ -289,6 +417,8 @@ function buildEntry(item, sectionTitle, contextMap) {
   const kind = detectKind(text, sectionTitle);
   const area = detectArea(text);
   const context = refNumber ? contextMap.get(refNumber) : null;
+  const contextTitle = sanitizeContextTitle(context?.title || "");
+  const linkedIssueTitle = sanitizeContextTitle(context?.linkedIssueTitle || "");
 
   return {
     refNumber,
@@ -299,8 +429,8 @@ function buildEntry(item, sectionTitle, contextMap) {
     summary: buildContextSummary(text, kind, area, context),
     whyItMatters: buildWhyItMatters(kind, area, context),
     doNext: buildDoNext(kind, area, context),
-    contextTitle: context?.title || "",
-    linkedIssueTitle: context?.linkedIssueTitle || "",
+    contextTitle,
+    linkedIssueTitle,
     contextUrl: context?.url || "",
   };
 }
@@ -626,8 +756,10 @@ async function buildContextMap(releases) {
 function summarizeRelease(release, contextMap) {
   const sections = parseMarkdown(release.body || "").map((section) => ({
     title: section.title,
-    entries: section.items.map((item) => buildEntry(item, section.title, contextMap)),
-  }));
+    entries: section.items
+      .filter((item) => shouldDisplayItem(item))
+      .map((item) => buildEntry(item, section.title, contextMap)),
+  })).filter((section) => section.entries.length);
 
   const allEntries = sections.flatMap((section) => section.entries);
   const total = allEntries.length;
