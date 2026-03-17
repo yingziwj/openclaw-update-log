@@ -77,10 +77,28 @@ function truncate(text, max = 220) {
   return text.length > max ? `${text.slice(0, max - 1)}...` : text;
 }
 
+function isSkippableLine(line) {
+  return (
+    !line ||
+    /^important:?$/i.test(line) ||
+    /^new contributors$/i.test(line) ||
+    /^full changelog/i.test(line) ||
+    /^@[a-z0-9_-]+\s+made their first contribution/i.test(line) ||
+    /^this recovery release uses /i.test(line) ||
+    /^this release exists to recover /i.test(line) ||
+    /^the corresponding npm version is still /i.test(line) ||
+    /^the -1 suffix is for /i.test(line) ||
+    /^(docs?|test|tests|chore|ci|refactor):/i.test(line) ||
+    /^small addition to /i.test(line)
+  );
+}
+
 function parseMarkdown(body) {
   const lines = (body || "").replace(/\r\n/g, "\n").split("\n");
   const sections = [];
   let current = { title: "更新内容", items: [] };
+  const hasHeadings = lines.some((line) => /^#{2,3}\s+/.test(line));
+  let seenHeading = false;
 
   const pushCurrent = () => {
     if (current.items.length) sections.push(current);
@@ -89,18 +107,24 @@ function parseMarkdown(body) {
   for (const line of lines) {
     const heading = line.match(/^#{2,3}\s+(.*)$/);
     if (heading) {
+      seenHeading = true;
       pushCurrent();
       current = { title: heading[1].trim(), items: [] };
       continue;
     }
 
-    const item = line.match(/^\s*([-*]|\d+\.)\s+(.*)$/);
-    if (item) {
-      current.items.push(item[2].trim());
+     if (hasHeadings && !seenHeading) {
       continue;
     }
 
-    if (line.trim()) current.items.push(line.trim());
+    const item = line.match(/^\s*([-*]|\d+\.)\s+(.*)$/);
+    if (item) {
+      const value = item[2].trim();
+      if (!isSkippableLine(value)) current.items.push(value);
+      continue;
+    }
+
+    if (line.trim() && !isSkippableLine(line.trim())) current.items.push(line.trim());
   }
 
   pushCurrent();
@@ -355,6 +379,21 @@ function stripHtml(text) {
   );
 }
 
+function htmlToReleaseMarkdown(text) {
+  return decodeHtmlEntities(
+    String(text || "")
+      .replace(/<h[1-6][^>]*>([\s\S]*?)<\/h[1-6]>/gi, (_, title) => `\n## ${stripHtml(title)}\n`)
+      .replace(/<li[^>]*>([\s\S]*?)<\/li>/gi, (_, item) => `\n* ${stripHtml(item)}`)
+      .replace(/<br\s*\/?>/gi, "\n")
+      .replace(/<\/p>/gi, "\n")
+      .replace(/<p[^>]*>/gi, "")
+      .replace(/<[^>]+>/g, " ")
+      .replace(/[ \t]+\n/g, "\n")
+      .replace(/\n{3,}/g, "\n\n")
+      .trim()
+  );
+}
+
 async function fetchReleasesViaHtml() {
   const html = await fetchText(`https://github.com/${REPO}/releases`);
   const chunks = [...html.matchAll(/<section[^>]*>[\s\S]*?<\/section>/gi)];
@@ -397,16 +436,30 @@ async function fetchLatestReleaseViaHtml() {
   const bodyMatch =
     html.match(/<div[^>]*class="markdown-body[^"]*"[^>]*>([\s\S]*?)<\/div>/i) || [];
   const timeMatch = html.match(/<relative-time[^>]*datetime="([^"]+)"/i);
+  let body = htmlToReleaseMarkdown(bodyMatch[1] || "");
+
+  if (body.includes("## What's Changed")) {
+    body = body.slice(body.indexOf("## What's Changed"));
+  }
+
+  body = body
+    .replace(/^## What's Changed\s*/i, "## What's Changed\n")
+    .replace(/\n## New Contributors[\s\S]*$/i, "")
+    .replace(/\nFull Changelog[\s\S]*$/i, "")
+    .trim();
 
   return [
     {
       html_url: `https://github.com/${REPO}/releases/tag/${tagName}`,
       tag_name: tagName,
-      name: stripHtml(titleMatch ? titleMatch[1] : tagName).replace(/\s*·\s*GitHub.*$/i, ""),
+      name: stripHtml(titleMatch ? titleMatch[1] : tagName)
+        .replace(/^Release\s+/i, "")
+        .replace(/\s*·\s*GitHub.*$/i, "")
+        .replace(/\s*·\s*openclaw\/openclaw.*$/i, ""),
       published_at: timeMatch ? timeMatch[1] : new Date().toISOString(),
       prerelease: /pre-release|beta|alpha/i.test(html),
       draft: false,
-      body: stripHtml(bodyMatch[1] || ""),
+      body,
     },
   ];
 }
